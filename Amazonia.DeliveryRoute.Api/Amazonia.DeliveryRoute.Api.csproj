@@ -30,7 +30,6 @@
 	<PropertyGroup>
 		<RunAOTCompilation>true</RunAOTCompilation>
 		<WasmStripILAfterAOT>true</WasmStripILAfterAOT>
-		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<ServerGarbageCollection>true</ServerGarbageCollection>
 	</PropertyGroup>
 

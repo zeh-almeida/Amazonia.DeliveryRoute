@@ -10,14 +10,15 @@
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5057"
     },
-    "Docker": {
-      "commandName": "Docker",
+    "WSL": {
+      "commandName": "WSL2",
       "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/todos",
+      "launchUrl": "http://localhost:5057/todos",
       "environmentVariables": {
-        "ASPNETCORE_HTTP_PORTS": "8080"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://localhost:5057"
       },
-      "publishAllPorts": true
+      "distributionName": ""
     }
   },
   "$schema": "http://json.schemastore.org/launchsettings.json"

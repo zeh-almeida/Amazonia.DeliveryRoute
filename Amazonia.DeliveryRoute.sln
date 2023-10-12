@@ -5,6 +5,13 @@ VisualStudioVersion = 17.8.34205.153
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Amazonia.DeliveryRoute.Api", "Amazonia.DeliveryRoute.Api\Amazonia.DeliveryRoute.Api.csproj", "{758CA326-34C5-4A6A-AFC3-DBE1E41F95DB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00 - Commons", "00 - Commons", "{7812A46E-DAE3-4F3B-878A-09C33DF58C8B}"
+	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
