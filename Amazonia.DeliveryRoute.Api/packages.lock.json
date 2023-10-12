@@ -20,8 +20,16 @@
         "resolved": "1.19.5",
         "contentHash": "Kaa1rBZdJFq5A0qgAcl6Bmk/UqLXTq9acEqxUlPEBA8oscmakLfkvuSXfG7Wa9t1/keaT85EuuDNgOo+Z9VYOQ=="
       },
+      "CommunityToolkit.Diagnostics": {
+        "type": "Transitive",
+        "resolved": "8.2.1",
+        "contentHash": "s8URwNarXZZLDtVf9B1AvdKMYg4tNFEuikjrMJYlwgAdSoQT0Y7W8mCYA2o2H+dKiCRVLJUXBdxflk/+QS9QBg=="
+      },
       "amazonia.deliveryroute.commons": {
-        "type": "Project"
+        "type": "Project",
+        "dependencies": {
+          "CommunityToolkit.Diagnostics": "[8.2.1, )"
+        }
       }
     }
   }

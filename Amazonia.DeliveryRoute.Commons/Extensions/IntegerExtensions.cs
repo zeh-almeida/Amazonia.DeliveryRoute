@@ -18,22 +18,23 @@ public static class IntegerExtensions
     /// </summary>
     /// <param name="value">Value to convert from</param>
     /// <returns>Alpha index of the value</returns>
+    /// <see href="https://stackoverflow.com/questions/181596/how-to-convert-a-column-number-e-g-127-into-an-excel-column-e-g-aa"/>
     public static string AsColumnName(this int value)
     {
+        const byte baseValue = 'Z' - 'A' + 1;
         var columnName = string.Empty;
 
         // Copies value in order not to change the parameter
         // avoids unexpected behavior
-        var index = value + 1;
+        var index = value;
 
-        while (index > 0)
+        do
         {
-            var modulo = (index - 1) % AlphabetLength;
-
             // 'A' is the first letter so count must start from there
-            columnName = Convert.ToChar('A' + modulo) + columnName;
-            index = (index - modulo) / AlphabetLength;
-        }
+            // In ASCII the letter 'A' is not zero, it is actually 65
+            columnName = Convert.ToChar('A' + (index % baseValue)) + columnName;
+            index = (index / baseValue) - 1;
+        } while (index >= 0);
 
         return columnName;
     }

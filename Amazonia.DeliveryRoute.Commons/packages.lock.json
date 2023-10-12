@@ -2,6 +2,12 @@
   "version": 1,
   "dependencies": {
     "net8.0": {
+      "CommunityToolkit.Diagnostics": {
+        "type": "Direct",
+        "requested": "[8.2.1, )",
+        "resolved": "8.2.1",
+        "contentHash": "s8URwNarXZZLDtVf9B1AvdKMYg4tNFEuikjrMJYlwgAdSoQT0Y7W8mCYA2o2H+dKiCRVLJUXBdxflk/+QS9QBg=="
+      },
       "Microsoft.DotNet.ILCompiler": {
         "type": "Direct",
         "requested": "[8.0.0-rc.2.23479.6, )",

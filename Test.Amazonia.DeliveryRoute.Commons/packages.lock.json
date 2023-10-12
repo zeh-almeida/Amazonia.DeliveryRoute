@@ -35,6 +35,11 @@
         "resolved": "2.4.5",
         "contentHash": "OwHamvBdUKgqsXfBzWiCW/O98BTx81UKzx2bieIOQI7CZFE5NEQZGi8PBQGIKawDW96xeRffiNf20SjfC0x9hw=="
       },
+      "CommunityToolkit.Diagnostics": {
+        "type": "Transitive",
+        "resolved": "8.2.1",
+        "contentHash": "s8URwNarXZZLDtVf9B1AvdKMYg4tNFEuikjrMJYlwgAdSoQT0Y7W8mCYA2o2H+dKiCRVLJUXBdxflk/+QS9QBg=="
+      },
       "Microsoft.CodeCoverage": {
         "type": "Transitive",
         "resolved": "17.6.0",
@@ -1017,7 +1022,10 @@
         }
       },
       "amazonia.deliveryroute.commons": {
-        "type": "Project"
+        "type": "Project",
+        "dependencies": {
+          "CommunityToolkit.Diagnostics": "[8.2.1, )"
+        }
       }
     }
   }

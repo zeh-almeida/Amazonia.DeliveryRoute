@@ -34,6 +34,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.2.1" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Update="Amazonia.DeliveryRoute.Commons.xml">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
