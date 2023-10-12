@@ -5,9 +5,10 @@ namespace Test.Amazonia.DeliveryRoute.Commons.Extensions;
 public sealed record IntegerExtensionsTest
 {
     [Theory]
-    [InlineData(1, "A")]
-    [InlineData(27, "AA")]
-    [InlineData(16384, "XFD")]
+    [InlineData(0, "A")]
+    [InlineData(25, "Z")]
+    [InlineData(26, "AA")]
+    [InlineData(16383, "XFD")]
     public void AsColumnName_Succeeds(int value, string expected)
     {
         var result = value.AsColumnName();

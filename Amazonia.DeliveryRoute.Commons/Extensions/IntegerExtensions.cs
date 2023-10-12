@@ -24,7 +24,7 @@ public static class IntegerExtensions
 
         // Copies value in order not to change the parameter
         // avoids unexpected behavior
-        var index = value;
+        var index = value + 1;
 
         while (index > 0)
         {
