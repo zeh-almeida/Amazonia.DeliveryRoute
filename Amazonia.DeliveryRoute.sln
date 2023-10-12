@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00 - Commons", "00 - Common
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Amazonia.DeliveryRoute.Commons", "Amazonia.DeliveryRoute.Commons\Amazonia.DeliveryRoute.Commons.csproj", "{93B59A65-62E6-4754-8E1D-733798D666B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Amazonia.DeliveryRoute.Commons", "Test.Amazonia.DeliveryRoute.Commons\Test.Amazonia.DeliveryRoute.Commons.csproj", "{58D48248-8530-4568-8615-C3F20D7CA7FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +30,10 @@ Global
 		{93B59A65-62E6-4754-8E1D-733798D666B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93B59A65-62E6-4754-8E1D-733798D666B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93B59A65-62E6-4754-8E1D-733798D666B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58D48248-8530-4568-8615-C3F20D7CA7FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58D48248-8530-4568-8615-C3F20D7CA7FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58D48248-8530-4568-8615-C3F20D7CA7FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58D48248-8530-4568-8615-C3F20D7CA7FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

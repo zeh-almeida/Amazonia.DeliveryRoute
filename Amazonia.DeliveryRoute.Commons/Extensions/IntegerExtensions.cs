@@ -1,16 +1,19 @@
 ﻿namespace Amazonia.DeliveryRoute.Commons.Extensions;
 
+/// <summary>
+/// Provides useful extensions to the Int32 type
+/// </summary>
 public static class IntegerExtensions
 {
     #region Constants
     /// <summary>
     /// Number of letters, from A - Z
     /// </summary>
-    public const int AlphabeticCount = 26;
+    public const int AlphabetLength = 26;
     #endregion
 
     /// <summary>
-    /// Converts a number to a alpha-representation
+    /// Converts a number to upper-case alpha-representation
     /// where A = 0, B = 1, etc.
     /// </summary>
     /// <param name="value">Value to convert from</param>
@@ -25,11 +28,11 @@ public static class IntegerExtensions
 
         while (index > 0)
         {
-            var modulo = (index - 1) % AlphabeticCount;
+            var modulo = (index - 1) % AlphabetLength;
 
             // 'A' is the first letter so count must start from there
             columnName = Convert.ToChar('A' + modulo) + columnName;
-            index = (index - modulo) / AlphabeticCount;
+            index = (index - modulo) / AlphabetLength;
         }
 
         return columnName;
