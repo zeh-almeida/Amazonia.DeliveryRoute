@@ -14,4 +14,11 @@ public sealed record IntegerExtensionsTest
         var result = value.AsColumnName();
         Assert.Equal(expected, result);
     }
+
+    [Fact]
+    public void AsColumnName_NegativeValue_Fails()
+    {
+        const int value = -1;
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => value.AsColumnName());
+    }
 }

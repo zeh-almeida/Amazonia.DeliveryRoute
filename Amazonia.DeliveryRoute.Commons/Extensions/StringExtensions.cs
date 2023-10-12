@@ -1,17 +1,23 @@
 ﻿using CommunityToolkit.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Amazonia.DeliveryRoute.Commons.Extensions;
 
 /// <summary>
 /// Provides useful extensions to the String type
 /// </summary>
-public static class StringExtensions
+public static partial class StringExtensions
 {
     #region Constants
     /// <summary>
     /// Number of letters, from A - Z
     /// </summary>
-    public const int AlphabetLength = 26;
+    private const int AlphabetLength = 26;
+
+    /// <summary>
+    /// Validation pattern used to convert strings into column indexes
+    /// </summary>
+    public const string ValidationPattern = @"^[a-zA-Z]*$";
     #endregion
 
     /// <summary>
@@ -24,6 +30,12 @@ public static class StringExtensions
     public static int AsColumnIndex(this string value)
     {
         Guard.IsNotNullOrWhiteSpace(value);
+        var matched = InputRegex().IsMatch(value);
+
+        if (!matched)
+        {
+            throw new ArgumentException($"'{value}' does not match the validation pattern", nameof(value));
+        }
 
         var index = 0;
         var chars = value.ToUpperInvariant().ToCharArray();
@@ -38,4 +50,11 @@ public static class StringExtensions
         // A = 0 so we must decrease by one
         return index - 1;
     }
+
+    [GeneratedRegex(
+    ValidationPattern,
+    RegexOptions.CultureInvariant
+    | RegexOptions.Compiled
+    | RegexOptions.Singleline)]
+    private static partial Regex InputRegex();
 }

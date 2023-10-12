@@ -1,4 +1,6 @@
-﻿namespace Amazonia.DeliveryRoute.Commons.Extensions;
+﻿using CommunityToolkit.Diagnostics;
+
+namespace Amazonia.DeliveryRoute.Commons.Extensions;
 
 /// <summary>
 /// Provides useful extensions to the Int32 type
@@ -9,7 +11,12 @@ public static class IntegerExtensions
     /// <summary>
     /// Number of letters, from A - Z
     /// </summary>
-    public const int AlphabetLength = 26;
+    private const int AlphabetLength = 26;
+
+    /// <summary>
+    /// Minimum acceptable value for <see cref="AsColumnName(int)"/> extension
+    /// </summary>
+    private const int MinimumValue = 0;
     #endregion
 
     /// <summary>
@@ -21,6 +28,8 @@ public static class IntegerExtensions
     /// <see href="https://stackoverflow.com/questions/181596/how-to-convert-a-column-number-e-g-127-into-an-excel-column-e-g-aa"/>
     public static string AsColumnName(this int value)
     {
+        Guard.IsGreaterThanOrEqualTo(value, MinimumValue);
+
         const byte baseValue = 'Z' - 'A' + 1;
         var columnName = string.Empty;
 
