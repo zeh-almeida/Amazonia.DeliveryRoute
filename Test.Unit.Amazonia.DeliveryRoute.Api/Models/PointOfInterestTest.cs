@@ -1,4 +1,5 @@
 ﻿using Amazonia.DeliveryRoute.Api.Models;
+using Amazonia.DeliveryRoute.Commons.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace Test.Unit.Amazonia.DeliveryRoute.Api.Models;
@@ -50,7 +51,7 @@ public sealed record PointOfInterestTest
 
     #region Equality
     [Fact]
-    public void Equals_Null_False()
+    public void Equals_NullPointOfInterest_False()
     {
         var itemA = new PointOfInterest
         {
@@ -58,11 +59,11 @@ public sealed record PointOfInterestTest
             Position = ValidPosition,
         };
 
-        Assert.False(itemA.Equals(null));
+        Assert.False(itemA.Equals(null as PointOfInterest));
     }
 
     [Fact]
-    public void Equals_DifferentType_False()
+    public void Equals_NullGridItem_False()
     {
         var itemA = new PointOfInterest
         {
@@ -70,7 +71,49 @@ public sealed record PointOfInterestTest
             Position = ValidPosition,
         };
 
-        Assert.False(itemA.Equals(0));
+        Assert.False(itemA.Equals(null as GridItem));
+    }
+
+    [Fact]
+    public void Equals_UnknownType_False()
+    {
+        var itemA = new PointOfInterest
+        {
+            InterestType = InterestType.ObjectPickup,
+            Position = ValidPosition,
+        };
+
+        Assert.False(object.Equals(itemA, 0));
+    }
+
+    [Fact]
+    public void Equals_NullUnknownType_False()
+    {
+        var itemA = new PointOfInterest
+        {
+            InterestType = InterestType.ObjectPickup,
+            Position = ValidPosition,
+        };
+
+        object? itemB = null;
+        Assert.False(object.Equals(itemA, itemB));
+    }
+
+    [Fact]
+    public void Equals_GridItem_True()
+    {
+        var itemA = new PointOfInterest
+        {
+            InterestType = InterestType.ObjectPickup,
+            Position = ValidPosition,
+        };
+
+        var item = new GridItem
+        {
+            Position = ValidPosition
+        };
+
+        Assert.True(object.Equals(itemA, item));
     }
 
     [Fact]
@@ -88,7 +131,7 @@ public sealed record PointOfInterestTest
             Position = ValidPosition,
         };
 
-        Assert.True(itemA.Equals(itemB));
+        Assert.True(object.Equals(itemA, itemB));
     }
 
     [Fact]
@@ -112,7 +155,7 @@ public sealed record PointOfInterestTest
     [InlineData("A", 2, "A", 1, 1)]
     [InlineData("B", 1, "A", 1, 1)]
     [InlineData("A", 1, "B", 1, -1)]
-    public void CompareTo_Executes(
+    public void CompareTo_PointOfInterest_Executes(
         string xItemA, int yItemA,
         string xItemB, int yItemB,
         int expected)
@@ -138,6 +181,65 @@ public sealed record PointOfInterestTest
         };
 
         Assert.Equal(expected, itemA.CompareTo(itemB));
+    }
+
+    [Fact]
+    public void CompareTo_NullPointOfInterest_Executes()
+    {
+        var itemA = new PointOfInterest
+        {
+            InterestType = InterestType.OriginPosition,
+            Position = ValidPosition,
+        };
+
+        PointOfInterest? itemB = null;
+        Assert.True(itemA.CompareTo(itemB) > 0);
+    }
+
+    [Theory]
+    [InlineData("A", 1, "A", 1, 0)]
+    [InlineData("A", 1, "A", 2, -1)]
+    [InlineData("A", 2, "A", 1, 1)]
+    [InlineData("B", 1, "A", 1, 1)]
+    [InlineData("A", 1, "B", 1, -1)]
+    public void CompareTo_GridItem_Executes(
+        string xItemA, int yItemA,
+        string xItemB, int yItemB,
+        int expected)
+    {
+        var itemA = new PointOfInterest
+        {
+            InterestType = InterestType.OriginPosition,
+            Position = new Position
+            {
+                X = xItemA,
+                Y = yItemA
+            },
+        };
+
+        var itemB = new GridItem
+        {
+            Position = new Position
+            {
+                X = xItemB,
+                Y = yItemB
+            },
+        };
+
+        Assert.Equal(expected, itemA.CompareTo(itemB));
+    }
+
+    [Fact]
+    public void CompareTo_NullGridItem_Executes()
+    {
+        var itemA = new PointOfInterest
+        {
+            InterestType = InterestType.OriginPosition,
+            Position = ValidPosition,
+        };
+
+        GridItem? itemB = null;
+        Assert.True(itemA.CompareTo(itemB) > 0);
     }
     #endregion
 

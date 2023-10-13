@@ -1,7 +1,7 @@
 ﻿using Amazonia.DeliveryRoute.Commons.Extensions;
 using System.ComponentModel.DataAnnotations;
 
-namespace Amazonia.DeliveryRoute.Api.Models;
+namespace Amazonia.DeliveryRoute.Commons.Models;
 
 /// <summary>
 /// Definition of a Position in the Delivery board for Amazonia

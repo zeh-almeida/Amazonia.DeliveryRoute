@@ -1,4 +1,4 @@
-﻿using Amazonia.DeliveryRoute.Api.Models;
+﻿using Amazonia.DeliveryRoute.Commons.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace Test.Unit.Amazonia.DeliveryRoute.Commons.Models;
