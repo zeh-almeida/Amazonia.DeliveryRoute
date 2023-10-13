@@ -12,12 +12,12 @@ public sealed record Position
     /// <summary>
     /// Maximum value for <see cref="Position.Y"/>
     /// </summary>
-    public const int MaxY = 7;
+    public const int MaxY = 8;
 
     /// <summary>
     /// Minimum value for <see cref="Position.Y"/>
     /// </summary>
-    public const int MinY = 0;
+    public const int MinY = 1;
     #endregion
 
     #region Properties
