@@ -89,6 +89,46 @@ public sealed record PositionTest
     }
     #endregion
 
+    #region Comparisons
+    [Theory]
+    [InlineData("A", 1, "A", 1, 0)]
+    [InlineData("A", 1, "A", 2, -1)]
+    [InlineData("A", 2, "A", 1, 1)]
+    [InlineData("B", 1, "A", 1, 1)]
+    [InlineData("A", 1, "B", 1, -1)]
+    public void CompareTo_Executes(
+        string xItemA, int yItemA,
+        string xItemB, int yItemB,
+        int expected)
+    {
+        var itemA = new Position
+        {
+            X = xItemA,
+            Y = yItemA
+        };
+
+        var itemB = new Position
+        {
+            X = xItemB,
+            Y = yItemB
+        };
+
+        Assert.Equal(expected, itemA.CompareTo(itemB));
+    }
+
+    [Fact]
+    public void CompareTo_Null_AlwaysPositive()
+    {
+        var itemA = new Position
+        {
+            X = ValidX,
+            Y = ValidY
+        };
+
+        Assert.True(itemA.CompareTo(null) > 0);
+    }
+    #endregion
+
     private static List<ValidationResult> ValidateModel(object model)
     {
         var validationResults = new List<ValidationResult>();

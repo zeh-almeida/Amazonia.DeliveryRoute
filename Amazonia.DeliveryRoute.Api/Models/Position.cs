@@ -7,6 +7,7 @@ namespace Amazonia.DeliveryRoute.Api.Models;
 /// Definition of a Position in the Delivery board for Amazonia
 /// </summary>
 public sealed record Position
+    : IComparable<Position>
 {
     #region Constants
     /// <summary>
@@ -39,5 +40,34 @@ public sealed record Position
     [Required]
     [Range(MinY, MaxY)]
     public required int Y { get; set; }
+    #endregion
+
+    #region Comparable
+    /// <inheritdoc/>
+    public int CompareTo(Position? other)
+    {
+        if (other is null)
+        {
+            return 1;
+        }
+
+        if (this.X.Equals(other.X)
+            && this.Y.Equals(other.Y))
+        {
+            return 0;
+        }
+
+        if (this.X.CompareTo(other.X) < 0)
+        {
+            return -1;
+        }
+
+        if (this.Y.CompareTo(other.Y) < 0)
+        {
+            return -1;
+        }
+
+        return 1;
+    }
     #endregion
 }
