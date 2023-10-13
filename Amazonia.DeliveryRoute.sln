@@ -9,12 +9,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00 - Commons", "00 - Common
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
 		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Amazonia.DeliveryRoute.Commons", "Amazonia.DeliveryRoute.Commons\Amazonia.DeliveryRoute.Commons.csproj", "{93B59A65-62E6-4754-8E1D-733798D666B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amazonia.DeliveryRoute.Commons", "Amazonia.DeliveryRoute.Commons\Amazonia.DeliveryRoute.Commons.csproj", "{93B59A65-62E6-4754-8E1D-733798D666B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Amazonia.DeliveryRoute.Commons", "Test.Amazonia.DeliveryRoute.Commons\Test.Amazonia.DeliveryRoute.Commons.csproj", "{58D48248-8530-4568-8615-C3F20D7CA7FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Unit.Amazonia.DeliveryRoute.Commons", "Test.Unit.Amazonia.DeliveryRoute.Commons\Test.Unit.Amazonia.DeliveryRoute.Commons.csproj", "{58D48248-8530-4568-8615-C3F20D7CA7FE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Unit.Amazonia.DeliveryRoute.Api", "Test.Unit.Amazonia.DeliveryRoute.Api\Test.Unit.Amazonia.DeliveryRoute.Api.csproj", "{475BB1DE-8F0A-4D61-9A9B-891CB132BB11}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,6 +38,10 @@ Global
 		{58D48248-8530-4568-8615-C3F20D7CA7FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58D48248-8530-4568-8615-C3F20D7CA7FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58D48248-8530-4568-8615-C3F20D7CA7FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{475BB1DE-8F0A-4D61-9A9B-891CB132BB11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{475BB1DE-8F0A-4D61-9A9B-891CB132BB11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{475BB1DE-8F0A-4D61-9A9B-891CB132BB11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{475BB1DE-8F0A-4D61-9A9B-891CB132BB11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

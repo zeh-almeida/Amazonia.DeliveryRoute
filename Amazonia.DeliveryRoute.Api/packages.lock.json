@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "dependencies": {
     "net8.0": {
       "Microsoft.DotNet.ILCompiler": {
@@ -20,16 +20,41 @@
         "resolved": "1.19.5",
         "contentHash": "Kaa1rBZdJFq5A0qgAcl6Bmk/UqLXTq9acEqxUlPEBA8oscmakLfkvuSXfG7Wa9t1/keaT85EuuDNgOo+Z9VYOQ=="
       },
-      "CommunityToolkit.Diagnostics": {
-        "type": "Transitive",
-        "resolved": "8.2.1",
-        "contentHash": "s8URwNarXZZLDtVf9B1AvdKMYg4tNFEuikjrMJYlwgAdSoQT0Y7W8mCYA2o2H+dKiCRVLJUXBdxflk/+QS9QBg=="
+      "Roslynator.Analyzers": {
+        "type": "Direct",
+        "requested": "[4.5.0, )",
+        "resolved": "4.5.0",
+        "contentHash": "C0ks0LQ/5S8zEEcb16Ntqm9DaFyOVTIGnvwTNs4asKIozoiyiHiVivpJH2zRmpN0/N0HEW/qdi9sp0bjHTQxRw=="
+      },
+      "Roslynator.CodeAnalysis.Analyzers": {
+        "type": "Direct",
+        "requested": "[4.5.0, )",
+        "resolved": "4.5.0",
+        "contentHash": "adLK7IzErdrweLT/Avv+xlC1JEpoxX+kyUshNCKQf0qxNug9xQzrLQg2NsN1SoSg3kn5O5WQXG2pp+TGESmx0g=="
+      },
+      "Roslynator.Formatting.Analyzers": {
+        "type": "Direct",
+        "requested": "[4.5.0, )",
+        "resolved": "4.5.0",
+        "contentHash": "VkcKBoxTWSv5u3NqQKTOCBqZUAumGVzE/HbMqPt7hloosJvN0WBWVlK2Z2sKbGqSj5v0FWidzS5lPM/CvrwFhQ=="
+      },
+      "SecurityCodeScan.VS2019": {
+        "type": "Direct",
+        "requested": "[5.6.7, )",
+        "resolved": "5.6.7",
+        "contentHash": "WIE9RJswdSc2j+rLz2gW6U+gMUjMHzY2j7C/CL8/R2olXNM/+twarfMnWqm+rZodDBvaYDApJyxM8mVYf9FGrQ=="
       },
       "amazonia.deliveryroute.commons": {
         "type": "Project",
         "dependencies": {
           "CommunityToolkit.Diagnostics": "[8.2.1, )"
         }
+      },
+      "CommunityToolkit.Diagnostics": {
+        "type": "CentralTransitive",
+        "requested": "[8.2.1, )",
+        "resolved": "8.2.1",
+        "contentHash": "s8URwNarXZZLDtVf9B1AvdKMYg4tNFEuikjrMJYlwgAdSoQT0Y7W8mCYA2o2H+dKiCRVLJUXBdxflk/+QS9QBg=="
       }
     }
   }
