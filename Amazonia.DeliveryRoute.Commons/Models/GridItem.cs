@@ -43,7 +43,7 @@ public sealed class GridItem
     /// <inheritdoc/>
     public bool Equals(GridItem? other)
     {
-        return object.Equals(this, other);
+        return this.Position.Equals(other?.Position);
     }
 
     /// <inheritdoc/>
@@ -92,7 +92,7 @@ public sealed class GridItem
     public bool IsNeighbor(GridItem other)
     {
         Guard.IsNotNull(other);
-        return this.Neighbors.Any(n => n.ItemB.Equals(other));
+        return this.Neighbors.Any(n => n.RelatedTo(other));
     }
 
     /// <summary>
@@ -103,7 +103,17 @@ public sealed class GridItem
     public GridItem? FindNeighbor(Position position)
     {
         Guard.IsNotNull(position);
-        return this.Neighbors.FirstOrDefault(n => n.ItemB.Position.Equals(position))?.ItemB;
+
+        foreach (var item in this.Neighbors)
+        {
+            var target = item.CoversPosition(position);
+            if (target is not null)
+            {
+                return target;
+            }
+        }
+
+        return null;
     }
 
     /// <summary>

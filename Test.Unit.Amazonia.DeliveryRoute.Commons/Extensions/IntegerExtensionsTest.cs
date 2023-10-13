@@ -1,6 +1,6 @@
 ﻿using Amazonia.DeliveryRoute.Commons.Extensions;
 
-namespace Test.Amazonia.DeliveryRoute.Commons.Extensions;
+namespace Test.Unit.Amazonia.DeliveryRoute.Commons.Extensions;
 
 public sealed record IntegerExtensionsTest
 {

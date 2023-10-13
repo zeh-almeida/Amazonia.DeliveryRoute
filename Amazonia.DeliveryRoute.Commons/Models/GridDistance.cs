@@ -63,6 +63,29 @@ public sealed class GridDistance
         Guard.IsNotNull(item);
 
         return object.Equals(this.ItemA, item)
-            && object.Equals(this.ItemB, item);
+            || object.Equals(this.ItemB, item);
+    }
+
+    /// <summary>
+    /// Returns the GridItem at the position for this relationship.
+    /// If the position is unknown, returns null.
+    /// </summary>
+    /// <param name="position">Position to check for</param>
+    /// <returns>GridItem at the position for this relationship, null otherwise</returns>
+    public GridItem? CoversPosition(Position position)
+    {
+        Guard.IsNotNull(position);
+
+        if (this.ItemA.Position.Equals(position))
+        {
+            return this.ItemA;
+        }
+
+        if (this.ItemB.Position.Equals(position))
+        {
+            return this.ItemB;
+        }
+
+        return null;
     }
 }
