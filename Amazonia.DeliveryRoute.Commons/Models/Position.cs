@@ -62,12 +62,13 @@ public sealed record Position
             return -1;
         }
 
-        if (this.Y.CompareTo(other.Y) < 0)
-        {
-            return -1;
-        }
-
-        return 1;
+        return this.Y.CompareTo(other.Y) < 0 ? -1 : 1;
     }
     #endregion
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        return $"{this.X}{this.Y}";
+    }
 }

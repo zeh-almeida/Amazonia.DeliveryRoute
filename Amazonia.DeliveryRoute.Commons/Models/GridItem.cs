@@ -61,6 +61,12 @@ public sealed class GridItem
     }
     #endregion
 
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        return $"({this.Position}: [{string.Join(", ", this.Neighbors)}])";
+    }
+
     /// <summary>
     /// Adds a new neighbor to this Item.
     /// If the neighbor already exists, it is not updated.

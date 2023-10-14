@@ -58,6 +58,12 @@ public sealed class GridDistance
     }
     #endregion
 
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        return $"({this.ItemA} - {this.ItemB} | {this.Value})";
+    }
+
     /// <summary>
     /// Checks if this distance is related to the desired item
     /// </summary>
@@ -86,11 +92,6 @@ public sealed class GridDistance
             return this.ItemA;
         }
 
-        if (this.ItemB.Position.Equals(position))
-        {
-            return this.ItemB;
-        }
-
-        return null;
+        return this.ItemB.Position.Equals(position) ? this.ItemB : null;
     }
 }

@@ -1039,6 +1039,7 @@
         "type": "Project",
         "dependencies": {
           "Amazonia.DeliveryRoute.Commons": "[1.0.0, )",
+          "Amazonia.DeliveryRoute.GridMap": "[1.0.0, )",
           "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "[1.19.5, )"
         }
       },
@@ -1046,6 +1047,12 @@
         "type": "Project",
         "dependencies": {
           "CommunityToolkit.Diagnostics": "[8.2.1, )"
+        }
+      },
+      "amazonia.deliveryroute.gridmap": {
+        "type": "Project",
+        "dependencies": {
+          "Amazonia.DeliveryRoute.Commons": "[1.0.0, )"
         }
       },
       "CommunityToolkit.Diagnostics": {

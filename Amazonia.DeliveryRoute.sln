@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Unit.Amazonia.Delivery
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Unit.Amazonia.DeliveryRoute.Api", "Test.Unit.Amazonia.DeliveryRoute.Api\Test.Unit.Amazonia.DeliveryRoute.Api.csproj", "{475BB1DE-8F0A-4D61-9A9B-891CB132BB11}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Amazonia.DeliveryRoute.GridMap", "Amazonia.DeliveryRoute.GridMap\Amazonia.DeliveryRoute.GridMap.csproj", "{BD3E6771-0496-41CD-BF4F-57B772EDB13D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{475BB1DE-8F0A-4D61-9A9B-891CB132BB11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{475BB1DE-8F0A-4D61-9A9B-891CB132BB11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{475BB1DE-8F0A-4D61-9A9B-891CB132BB11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD3E6771-0496-41CD-BF4F-57B772EDB13D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD3E6771-0496-41CD-BF4F-57B772EDB13D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD3E6771-0496-41CD-BF4F-57B772EDB13D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD3E6771-0496-41CD-BF4F-57B772EDB13D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

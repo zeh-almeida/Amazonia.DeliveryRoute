@@ -1,11 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
+		<OutputType>Library</OutputType>
 		<TargetFramework>net8.0</TargetFramework>
 
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 
-		<Deterministic>true</Deterministic>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<AnalysisLevel>latest</AnalysisLevel>
@@ -17,7 +17,7 @@
 		<Authors>Zeh</Authors>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<InvariantGlobalization>true</InvariantGlobalization>
-		<description>Amazonia Delivery Route API</description>
+		<description>Amazonia Delivery Route GridMap</description>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -31,18 +31,7 @@
 	<PropertyGroup>
 		<RunAOTCompilation>true</RunAOTCompilation>
 		<WasmStripILAfterAOT>true</WasmStripILAfterAOT>
-		<ServerGarbageCollection>true</ServerGarbageCollection>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<None Update="Amazonia.DeliveryRoute.Api.xml">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Roslynator.Analyzers">
@@ -64,7 +53,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Amazonia.DeliveryRoute.Commons\Amazonia.DeliveryRoute.Commons.csproj" />
-	  <ProjectReference Include="..\Amazonia.DeliveryRoute.GridMap\Amazonia.DeliveryRoute.GridMap.csproj" />
+		<None Update="Amazonia.DeliveryRoute.GridMap.xml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Amazonia.DeliveryRoute.Commons\Amazonia.DeliveryRoute.Commons.csproj" />
 	</ItemGroup>
 </Project>

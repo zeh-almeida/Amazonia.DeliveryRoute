@@ -17,7 +17,7 @@ public static partial class StringExtensions
     /// <summary>
     /// Validation pattern used to convert strings into column indexes
     /// </summary>
-    public const string ValidationPattern = @"^[a-zA-Z]*$";
+    public const string ValidationPattern = "^[a-zA-Z]*$";
     #endregion
 
     /// <summary>
