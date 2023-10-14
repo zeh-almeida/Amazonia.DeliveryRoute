@@ -9,14 +9,13 @@ using System.Text.RegularExpressions;
 
 namespace Amazonia.DeliveryRoute.GridMap;
 
+/// <summary>
+/// Implements <see cref="IGridService"/> in order to build the Grid
+/// </summary>
 public sealed partial record GridService
     : IDisposable,
     IGridService
 {
-    #region Constants
-    private string Target = "1/10404696-fd43-4481-a7ed-f9369073252f";
-    #endregion
-
     #region Properties
     private HttpClient HttpClient { get; }
 
@@ -30,6 +29,12 @@ public sealed partial record GridService
     #endregion
 
     #region Constructors
+    /// <summary>
+    /// Instantiates a new GridService
+    /// </summary>
+    /// <param name="options">Options for API endpoint address</param>
+    /// <param name="logger">Log for service operations</param>
+    /// <param name="httpClient">Client to make API calls</param>
     public GridService(
         IOptions<GridMapOptions> options,
         ILogger<IGridService> logger,
@@ -59,6 +64,7 @@ public sealed partial record GridService
         }
     }
 
+    /// <inheritdoc/>
     public void Dispose()
     {
         this.Dispose(disposing: true);
@@ -66,6 +72,8 @@ public sealed partial record GridService
     }
     #endregion
 
+    /// <inheritdoc/>
+    /// <remarks>calls an external HTTP API in order to build the Grid</remarks>
     public async Task<Grid> BuildGridAsync(CancellationToken cancellationToken = default)
     {
         this.CurrentToken = cancellationToken;
@@ -107,6 +115,11 @@ public sealed partial record GridService
         return gridItem;
     }
 
+    /// <summary>
+    /// Parses a string into a valid <see cref="Position"/>
+    /// </summary>
+    /// <param name="value">string to convert from</param>
+    /// <returns>parsed position</returns>
     private static Position ParsePosition(string value)
     {
         var parts = PositionRegex().Match(value);
