@@ -1,4 +1,5 @@
 ﻿using Amazonia.DeliveryRoute.Commons.Models;
+using Xunit.Abstractions;
 
 namespace Test.Unit.Amazonia.DeliveryRoute.Commons.Models;
 
@@ -127,6 +128,19 @@ public sealed record GridItemTest
         Assert.True(itemA.CompareTo(itemB) > 0);
     }
     #endregion
+
+    [Fact]
+    public void ToString_IsCorrect()
+    {
+        const string expected = "(A1: [])";
+
+        var item = new GridItem
+        {
+            Position = ValidPosition,
+        };
+
+        Assert.Equal(expected, item.ToString());
+    }
 
     #region Neighbors
     [Fact]

@@ -129,6 +129,20 @@ public sealed record PositionTest
     }
     #endregion
 
+    [Fact]
+    public void ToString_IsCorrect()
+    {
+        const string expected = "A1";
+
+        var item = new Position
+        {
+            X = ValidX,
+            Y = ValidY,
+        };
+
+        Assert.Equal(expected, item.ToString());
+    }
+
     private static List<ValidationResult> ValidateModel(object model)
     {
         var validationResults = new List<ValidationResult>();

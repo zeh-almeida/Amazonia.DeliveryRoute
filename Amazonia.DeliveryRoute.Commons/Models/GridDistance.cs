@@ -61,7 +61,7 @@ public sealed class GridDistance
     /// <inheritdoc/>
     public override string ToString()
     {
-        return $"({this.ItemA} - {this.ItemB} | {this.Value})";
+        return $"({this.ItemA.Position} - {this.ItemB.Position} | {this.Value:0.0####})";
     }
 
     /// <summary>

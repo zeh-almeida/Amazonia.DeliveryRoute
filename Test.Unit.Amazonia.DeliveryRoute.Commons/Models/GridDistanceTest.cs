@@ -168,6 +168,21 @@ public sealed record GridDistanceTest
     }
     #endregion
 
+    [Fact]
+    public void ToString_IsCorrect()
+    {
+        const string expected = "(A1 - A2 | 1.0)";
+
+        var itemDistance = new GridDistance
+        {
+            ItemA = ItemA,
+            ItemB = ItemB,
+            Value = ValidDistance,
+        };
+
+        Assert.Equal(expected, itemDistance.ToString());
+    }
+
     #region RelatedTo
     [Fact]
     public void RelatedTo_ItemA_IsTrue()
