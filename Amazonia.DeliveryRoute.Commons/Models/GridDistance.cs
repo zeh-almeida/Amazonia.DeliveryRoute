@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Diagnostics;
+using System.ComponentModel.DataAnnotations;
 
 namespace Amazonia.DeliveryRoute.Commons.Models;
 
@@ -19,16 +20,20 @@ public sealed class GridDistance
     /// <summary>
     /// Left neighbor
     /// </summary>
+    [Required]
     public required GridItem ItemA { get; set; }
 
     /// <summary>
     /// Right neighbor
     /// </summary>
+    [Required]
     public required GridItem ItemB { get; set; }
 
     /// <summary>
     /// Distance between the neighbors
     /// </summary>
+    [Required]
+    [Range(1, double.MaxValue)]
     public required decimal Value { get; set; }
     #endregion
 

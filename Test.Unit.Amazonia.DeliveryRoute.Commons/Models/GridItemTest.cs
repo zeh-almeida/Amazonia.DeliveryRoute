@@ -1,5 +1,4 @@
 ﻿using Amazonia.DeliveryRoute.Commons.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace Test.Unit.Amazonia.DeliveryRoute.Commons.Models;
 
@@ -223,13 +222,4 @@ public sealed record GridItemTest
         Assert.Null(itemB.FindNeighbor(unknownPosition));
     }
     #endregion
-
-    private static List<ValidationResult> ValidateModel(object model)
-    {
-        var validationResults = new List<ValidationResult>();
-        var ctx = new ValidationContext(model, null, null);
-
-        _ = Validator.TryValidateObject(model, ctx, validationResults, true);
-        return validationResults;
-    }
 }
