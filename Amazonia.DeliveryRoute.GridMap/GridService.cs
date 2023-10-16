@@ -78,21 +78,32 @@ public sealed partial record GridService
 
     /// <inheritdoc/>
     /// <remarks>calls an external HTTP API in order to build the Grid</remarks>
-    public async Task<Grid> BuildGridAsync(CancellationToken cancellationToken = default)
+    public Task<Grid> BuildGridAsync(CancellationToken cancellationToken = default)
     {
         this.CurrentToken = cancellationToken;
         this.CurrentToken.ThrowIfCancellationRequested();
 
-        return await this.AcquireData();
+        return this.AcquireData();
     }
 
     private async Task<Grid> AcquireData()
     {
-        var data = await this.HttpClient.GetFromJsonAsync<JsonObject>(
+        var data = await this.CallApi();
+        return this.ParseJsonIntoGrid(data);
+    }
+
+    private async Task<JsonObject> CallApi()
+    {
+        var data = await this.HttpClient.GetFromJsonAsync(
             this.Options.GridSourceApiUri,
             JsonContext.Default.JsonObject,
             cancellationToken: this.CurrentToken);
 
+        return data!;
+    }
+
+    private Grid ParseJsonIntoGrid(JsonObject data)
+    {
         var grid = new Grid();
 
         foreach (var item in data)
