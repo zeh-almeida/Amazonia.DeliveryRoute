@@ -3,8 +3,10 @@ using Amazonia.DeliveryRoute.GridMap.Models;
 using CommunityToolkit.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Json;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 namespace Amazonia.DeliveryRoute.GridMap;
@@ -51,6 +53,7 @@ public sealed partial record GridService
     #endregion
 
     #region IDisposable
+    [ExcludeFromCodeCoverage]
     private void Dispose(bool disposing)
     {
         if (!this.IsDisposed)
@@ -65,6 +68,7 @@ public sealed partial record GridService
     }
 
     /// <inheritdoc/>
+    [ExcludeFromCodeCoverage]
     public void Dispose()
     {
         this.Dispose(disposing: true);
@@ -86,6 +90,7 @@ public sealed partial record GridService
     {
         var data = await this.HttpClient.GetFromJsonAsync<JsonObject>(
             this.Options.GridSourceApiUri,
+            JsonContext.Default.JsonObject,
             cancellationToken: this.CurrentToken);
 
         var grid = new Grid();
@@ -138,3 +143,10 @@ public sealed partial record GridService
     | RegexOptions.Singleline)]
     private static partial Regex PositionRegex();
 }
+
+/// <summary>
+/// Implements <see cref="JsonSerializerContext"/> for <see cref="JsonObject"/> to be used in AOT context
+/// </summary>
+[JsonSerializable(typeof(JsonObject), GenerationMode = JsonSourceGenerationMode.Metadata)]
+public partial class JsonContext : JsonSerializerContext
+{ }
