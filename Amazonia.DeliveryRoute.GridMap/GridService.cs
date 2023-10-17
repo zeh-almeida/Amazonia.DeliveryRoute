@@ -94,17 +94,34 @@ public sealed partial record GridService
 
     private async Task<JsonObject> CallApi()
     {
-        var data = await this.HttpClient.GetFromJsonAsync(
+        JsonObject? result = null;
+
+        try
+        {
+            result = await this.HttpClient.GetFromJsonAsync(
             this.Options.GridSourceApiUri,
             JsonContext.Default.JsonObject,
             cancellationToken: this.CurrentToken);
+        }
+        catch (HttpRequestException ex)
+        {
+            // Create an empty JSON object in order to have an empty grid.
+            // Error gets logged in order to be searchable later.
+            this.Logger.LogError(ex, "Error calling the Grid API");
+            result = [];
+        }
 
-        return data!;
+        return result!;
     }
 
     private Grid ParseJsonIntoGrid(JsonObject data)
     {
         var grid = new Grid();
+
+        if (0.Equals(data.Count))
+        {
+            return grid;
+        }
 
         foreach (var item in data)
         {
