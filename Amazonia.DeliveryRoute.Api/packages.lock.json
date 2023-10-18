@@ -56,6 +56,12 @@
           "Amazonia.DeliveryRoute.Commons": "[1.0.0, )"
         }
       },
+      "amazonia.deliveryroute.routecalculation": {
+        "type": "Project",
+        "dependencies": {
+          "Amazonia.DeliveryRoute.Commons": "[1.0.0, )"
+        }
+      },
       "CommunityToolkit.Diagnostics": {
         "type": "CentralTransitive",
         "requested": "[8.2.1, )",
