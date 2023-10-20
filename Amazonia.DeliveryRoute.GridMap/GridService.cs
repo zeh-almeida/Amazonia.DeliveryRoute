@@ -125,26 +125,27 @@ public sealed partial record GridService
 
         foreach (var item in data)
         {
-            var gridItem = ParseDataItem(grid, item.Key);
+            var gridItem = ParseDataItem(item.Key);
 
-            foreach (var neighbor in item.Value.AsObject())
+            foreach (var neighbor in item.Value!.AsObject())
             {
-                var neighborItem = ParseDataItem(grid, item.Key);
-                gridItem.AddNeighbor(neighborItem, neighbor.Value.GetValue<decimal>());
+                var neighborItem = ParseDataItem(neighbor.Key);
+                gridItem.AddNeighbor(neighborItem, neighbor.Value!.GetValue<decimal>());
             }
+
+            _ = grid.AddItem(gridItem);
         }
 
         return grid;
     }
 
-    private static GridItem ParseDataItem(Grid grid, string value)
+    private static GridItem ParseDataItem(string value)
     {
         var gridItem = new GridItem
         {
             Position = ParsePosition(value),
         };
 
-        _ = grid.AddItem(gridItem);
         return gridItem;
     }
 
