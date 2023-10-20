@@ -61,6 +61,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Amazonia.DeliveryRoute.GridMap\Amazonia.DeliveryRoute.RouteCalculation.csproj" />
+		<ProjectReference Include="..\Amazonia.DeliveryRoute.RouteCalculation\Amazonia.DeliveryRoute.RouteCalculation.csproj" />
 	</ItemGroup>
 </Project>
