@@ -18,16 +18,10 @@ public sealed class GridDistance
 
     #region Properties
     /// <summary>
-    /// Left neighbor
-    /// </summary>
-    [Required]
-    public required GridItem ItemA { get; set; }
-
-    /// <summary>
     /// Right neighbor
     /// </summary>
     [Required]
-    public required GridItem ItemB { get; set; }
+    public required GridItem Other { get; set; }
 
     /// <summary>
     /// Distance between the neighbors
@@ -47,21 +41,20 @@ public sealed class GridDistance
     /// <inheritdoc/>
     public bool Equals(GridDistance? other)
     {
-        return object.Equals(this.ItemA, other?.ItemA)
-            && object.Equals(this.ItemB, other?.ItemB);
+        return Equals(this.Other, other?.Other);
     }
 
     /// <inheritdoc/>
     public override int GetHashCode()
     {
-        return HashCode.Combine(this.ItemA, this.ItemB);
+        return HashCode.Combine(this.Other);
     }
     #endregion
 
     /// <inheritdoc/>
     public override string ToString()
     {
-        return $"({this.ItemA.Position} - {this.ItemB.Position} | {this.Value:0.0####})";
+        return $"({this.Other.Position} | {this.Value:0.0####})";
     }
 
     /// <summary>
@@ -72,9 +65,7 @@ public sealed class GridDistance
     public bool RelatedTo(GridItem item)
     {
         Guard.IsNotNull(item);
-
-        return object.Equals(this.ItemA, item)
-            || object.Equals(this.ItemB, item);
+        return Equals(this.Other, item);
     }
 
     /// <summary>
@@ -86,12 +77,6 @@ public sealed class GridDistance
     public GridItem? CoversPosition(Position position)
     {
         Guard.IsNotNull(position);
-
-        if (this.ItemA.Position.Equals(position))
-        {
-            return this.ItemA;
-        }
-
-        return this.ItemB.Position.Equals(position) ? this.ItemB : null;
+        return this.Other.Position.Equals(position) ? this.Other : null;
     }
 }

@@ -111,6 +111,7 @@ public sealed record GridTest
     }
     #endregion
 
+    #region Enumeration
     [Fact]
     public void AsEnumerable_ReturnsItems()
     {
@@ -128,6 +129,61 @@ public sealed record GridTest
         Assert.NotNull(items);
         Assert.Contains(itemA, items);
     }
+
+    [Fact]
+    public void Count_NoItems_ReturnsZero()
+    {
+        var itemA = new GridItem
+        {
+            Position = ValidPosition,
+        };
+
+        var subject = new Grid();
+        Assert.Equal(0, subject.Count());
+
+        var added = subject.AddItem(itemA);
+
+        Assert.True(added);
+        Assert.Equal(1, subject.Count());
+    }
+
+    [Fact]
+    public void Count_WithItems_ReturnsCount()
+    {
+        var itemA = new GridItem
+        {
+            Position = ValidPosition,
+        };
+
+        var subject = new Grid();
+        var added = subject.AddItem(itemA);
+
+        Assert.True(added);
+        Assert.Equal(1, subject.Count());
+    }
+
+    [Fact]
+    public void IsEmpty_NoItems_ReturnsTrue()
+    {
+        var subject = new Grid();
+        Assert.True(subject.IsEmpty());
+    }
+
+    [Fact]
+    public void IsEmpty_WithItems_ReturnsFalse()
+    {
+        var itemA = new GridItem
+        {
+            Position = ValidPosition,
+        };
+
+        var subject = new Grid();
+        var added = subject.AddItem(itemA);
+
+        Assert.True(added);
+        Assert.False(subject.IsEmpty());
+    }
+    #endregion
 
     [Fact]
     public void ToString_IsCorrect()

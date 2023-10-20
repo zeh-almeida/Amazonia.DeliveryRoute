@@ -68,4 +68,22 @@ public sealed record Grid
     {
         return this.Items;
     }
+
+    /// <summary>
+    /// Amount of items in the grid
+    /// </summary>
+    /// <returns>Amount of items in the grid</returns>
+    public int Count()
+    {
+        return this.Items.Count;
+    }
+
+    /// <summary>
+    /// Checks if the grid has any items
+    /// </summary>
+    /// <returns>True if grid has no items, false otherwise</returns>
+    public bool IsEmpty()
+    {
+        return !this.Items.Any();
+    }
 }

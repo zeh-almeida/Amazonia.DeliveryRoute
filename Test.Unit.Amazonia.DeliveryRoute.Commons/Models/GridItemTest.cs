@@ -162,10 +162,39 @@ public sealed record GridItemTest
         itemA.AddNeighbor(itemB, ValidDistance);
 
         Assert.NotEmpty(itemA.AllNeighbors());
-        Assert.NotEmpty(itemB.AllNeighbors());
-
         Assert.True(itemA.IsNeighbor(itemB));
-        Assert.True(itemB.IsNeighbor(itemA));
+    }
+
+    [Fact]
+    public void AddNeighbor_Duplicate_KeepsOldDistance()
+    {
+        var itemA = new GridItem
+        {
+            Position = ValidPosition,
+        };
+
+        var itemB = new GridItem
+        {
+            Position = new Position
+            {
+                X = ValidX,
+                Y = ValidY + 1
+            },
+        };
+
+        itemA.AddNeighbor(itemB, ValidDistance);
+
+        Assert.NotEmpty(itemA.AllNeighbors());
+        Assert.True(itemA.IsNeighbor(itemB));
+
+        var oldDistance = itemA.AllNeighbors().First();
+        var newDistance = ValidDistance + 1;
+
+        itemA.AddNeighbor(itemB, newDistance);
+        var currentDistance = itemA.AllNeighbors().First();
+
+        Assert.Equal(oldDistance.Value, currentDistance.Value);
+        Assert.NotEqual(newDistance, currentDistance.Value);
     }
 
     [Fact]
@@ -190,7 +219,6 @@ public sealed record GridItemTest
         itemA.AddNeighbor(itemB, ValidDistance);
 
         Assert.NotNull(itemA.FindNeighbor(otherPosition));
-        Assert.NotNull(itemB.FindNeighbor(ValidPosition));
     }
 
     [Fact]

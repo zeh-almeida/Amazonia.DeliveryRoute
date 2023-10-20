@@ -40,8 +40,7 @@ public sealed record GridDistanceTest
     {
         var itemDistance = new GridDistance
         {
-            ItemA = ItemA,
-            ItemB = ItemB,
+            Other = ItemB,
             Value = ValidDistance,
         };
 
@@ -53,8 +52,7 @@ public sealed record GridDistanceTest
     {
         var itemDistance = new GridDistance
         {
-            ItemA = ItemA,
-            ItemB = ItemB,
+            Other = ItemB,
             Value = ValidDistance,
         };
 
@@ -66,8 +64,7 @@ public sealed record GridDistanceTest
     {
         var itemDistanceA = new GridDistance
         {
-            ItemA = ItemA,
-            ItemB = ItemB,
+            Other = ItemB,
             Value = ValidDistance,
         };
 
@@ -76,7 +73,7 @@ public sealed record GridDistanceTest
     }
 
     [Fact]
-    public void Equals_DifferentItemA_IsFalse()
+    public void Equals_DifferentItem_IsFalse()
     {
         var differentGridItem = new GridItem
         {
@@ -89,44 +86,13 @@ public sealed record GridDistanceTest
 
         var itemDistanceA = new GridDistance
         {
-            ItemA = ItemA,
-            ItemB = ItemB,
+            Other = ItemB,
             Value = ValidDistance,
         };
 
         var itemDistanceB = new GridDistance
         {
-            ItemA = differentGridItem,
-            ItemB = ItemB,
-            Value = ValidDistance,
-        };
-
-        Assert.False(object.Equals(itemDistanceA, itemDistanceB));
-    }
-
-    [Fact]
-    public void Equals_DifferentItemB_IsFalse()
-    {
-        var differentGridItem = new GridItem
-        {
-            Position = new Position
-            {
-                X = ValidX,
-                Y = ValidY + 2,
-            },
-        };
-
-        var itemDistanceA = new GridDistance
-        {
-            ItemA = ItemA,
-            ItemB = ItemB,
-            Value = ValidDistance,
-        };
-
-        var itemDistanceB = new GridDistance
-        {
-            ItemA = ItemA,
-            ItemB = differentGridItem,
+            Other = differentGridItem,
             Value = ValidDistance,
         };
 
@@ -138,15 +104,13 @@ public sealed record GridDistanceTest
     {
         var itemDistanceA = new GridDistance
         {
-            ItemA = ItemA,
-            ItemB = ItemB,
+            Other = ItemB,
             Value = ValidDistance,
         };
 
         var itemDistanceB = new GridDistance
         {
-            ItemA = ItemA,
-            ItemB = ItemB,
+            Other = ItemB,
             Value = ValidDistance + 1,
         };
 
@@ -158,12 +122,11 @@ public sealed record GridDistanceTest
     {
         var itemDistance = new GridDistance
         {
-            ItemA = ItemA,
-            ItemB = ItemB,
+            Other = ItemB,
             Value = ValidDistance,
         };
 
-        var expected = HashCode.Combine(ItemA, ItemB);
+        var expected = HashCode.Combine(ItemB);
         Assert.Equal(expected, itemDistance.GetHashCode());
     }
     #endregion
@@ -171,12 +134,11 @@ public sealed record GridDistanceTest
     [Fact]
     public void ToString_IsCorrect()
     {
-        const string expected = "(A1 - A2 | 1.0)";
+        const string expected = "(A2 | 1.0)";
 
         var itemDistance = new GridDistance
         {
-            ItemA = ItemA,
-            ItemB = ItemB,
+            Other = ItemB,
             Value = ValidDistance,
         };
 
@@ -184,26 +146,13 @@ public sealed record GridDistanceTest
     }
 
     #region RelatedTo
+
     [Fact]
-    public void RelatedTo_ItemA_IsTrue()
+    public void RelatedTo_Item_IsTrue()
     {
         var itemDistance = new GridDistance
         {
-            ItemA = ItemA,
-            ItemB = ItemB,
-            Value = ValidDistance,
-        };
-
-        Assert.True(itemDistance.RelatedTo(ItemA));
-    }
-
-    [Fact]
-    public void RelatedTo_ItemB_IsTrue()
-    {
-        var itemDistance = new GridDistance
-        {
-            ItemA = ItemA,
-            ItemB = ItemB,
+            Other = ItemB,
             Value = ValidDistance,
         };
 
@@ -211,12 +160,11 @@ public sealed record GridDistanceTest
     }
 
     [Fact]
-    public void RelatedTo_ItemC_IsFalse()
+    public void RelatedTo_UnknownItem_IsFalse()
     {
         var itemDistance = new GridDistance
         {
-            ItemA = ItemA,
-            ItemB = ItemB,
+            Other = ItemB,
             Value = ValidDistance,
         };
 
@@ -235,42 +183,26 @@ public sealed record GridDistanceTest
 
     #region CoversPosition
     [Fact]
-    public void CoversPosition_ItemA_IsTrue()
+    public void CoversPosition_Item_IsTrue()
     {
         var itemDistance = new GridDistance
         {
-            ItemA = ItemA,
-            ItemB = ItemB,
-            Value = ValidDistance,
-        };
-
-        var result = itemDistance.CoversPosition(ValidPositionA);
-        Assert.NotNull(result);
-        Assert.Equal(ItemA, result);
-    }
-
-    [Fact]
-    public void CoversPosition_ItemB_IsTrue()
-    {
-        var itemDistance = new GridDistance
-        {
-            ItemA = ItemA,
-            ItemB = ItemB,
+            Other = ItemB,
             Value = ValidDistance,
         };
 
         var result = itemDistance.CoversPosition(ValidPositionB);
+
         Assert.NotNull(result);
         Assert.Equal(ItemB, result);
     }
 
     [Fact]
-    public void CoversPosition_ItemC_IsNull()
+    public void CoversPosition_UnknownItem_IsNull()
     {
         var itemDistance = new GridDistance
         {
-            ItemA = ItemA,
-            ItemB = ItemB,
+            Other = ItemB,
             Value = ValidDistance,
         };
 

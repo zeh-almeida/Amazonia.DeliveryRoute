@@ -64,7 +64,8 @@ public sealed class GridItem
     /// <inheritdoc/>
     public override string ToString()
     {
-        return $"({this.Position}: [{string.Join(", ", this.Neighbors)}])";
+        var neighbors = this.Neighbors.Select(x => x.Other.Position);
+        return $"({this.Position}: [{string.Join(", ", neighbors)}])";
     }
 
     /// <summary>
@@ -79,15 +80,18 @@ public sealed class GridItem
         Guard.IsNotNull(other);
         Guard.IsGreaterThan(distance, GridDistance.MinimalDistance);
 
+        if (this.Neighbors.Any(x => x.Other.Equals(other)))
+        {
+            return;
+        }
+
         var value = new GridDistance
         {
-            ItemA = this,
-            ItemB = other,
+            Other = other,
             Value = distance,
         };
 
         _ = this.Neighbors.Add(value);
-        _ = other.Neighbors.Add(value);
     }
 
     /// <summary>
@@ -102,7 +106,7 @@ public sealed class GridItem
     }
 
     /// <summary>
-    /// Finds a neighbor based on their position
+    /// Finds a neighbor based on their position and returns their value
     /// </summary>
     /// <param name="position">position of the desired neighbor</param>
     /// <returns>Neighbor at the desired position or null if not found</returns>
@@ -126,8 +130,8 @@ public sealed class GridItem
     /// Returns a copy of all neighbors for this Item
     /// </summary>
     /// <returns>All neighbors for this Item</returns>
-    public IEnumerable<GridItem> AllNeighbors()
+    public IEnumerable<GridDistance> AllNeighbors()
     {
-        return this.Neighbors.Select(n => n.ItemB);
+        return this.Neighbors.AsEnumerable();
     }
 }
