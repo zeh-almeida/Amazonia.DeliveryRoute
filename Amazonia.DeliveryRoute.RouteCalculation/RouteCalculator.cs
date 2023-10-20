@@ -10,15 +10,15 @@ namespace Amazonia.DeliveryRoute.RouteCalculation;
 public sealed record RouteCalculator : IRouteCalculator
 {
     #region Properties
-    private HashSet<Vertice<GridItem>> Calculated { get; set; }
-
-    private PriorityQueue<Vertice<GridItem>, decimal> WorkingSet { get; set; }
+    private List<Vertice<GridItem>> WorkingSet { get; set; }
 
     private Grid? CurrentGrid { get; set; }
 
-    private Position? Start { get; set; }
+    private GridItem? Start { get; set; }
 
-    private Position? Destination { get; set; }
+    private GridItem? Destination { get; set; }
+
+    private CancellationToken CancellationToken { get; set; }
     #endregion
 
     #region Constructors
@@ -27,19 +27,29 @@ public sealed record RouteCalculator : IRouteCalculator
     /// </summary>
     public RouteCalculator()
     {
-        this.Calculated = [];
-        this.WorkingSet = new PriorityQueue<Vertice<GridItem>, decimal>();
+        this.WorkingSet = [];
     }
     #endregion
 
     /// <inheritdoc/>
     /// <exception cref="ArgumentException"></exception>
     /// <exception cref="NotImplementedException"></exception>
-    public async Task<IOrderedEnumerable<GridItem>> Calculate(Grid grid, Position start, Position destination)
+    public async Task<IOrderedEnumerable<GridItem>> CalculateAsync(
+        Grid grid,
+        Position start,
+        Position destination,
+        CancellationToken cancellationToken = default)
     {
         Guard.IsNotNull(grid);
         Guard.IsNotNull(start);
         Guard.IsNotNull(destination);
+
+        this.CancellationToken = cancellationToken;
+
+        if (grid.IsEmpty())
+        {
+            throw new ArgumentException("Cannot be empty", nameof(grid));
+        }
 
         if (grid.FindItem(start) is null)
         {
@@ -51,14 +61,17 @@ public sealed record RouteCalculator : IRouteCalculator
             throw new ArgumentException("Position not found at grid", nameof(destination));
         }
 
-        this.Start = start;
         this.CurrentGrid = grid;
-        this.Destination = destination;
+
+        this.Start = this.CurrentGrid.FindItem(start)!;
+        this.Destination = this.CurrentGrid.FindItem(destination)!;
+
+        this.CancellationToken.ThrowIfCancellationRequested();
 
         await this.PrepareVertices();
-        await this.CalculateDistances();
+        var finalVertex = await this.CalculateDistances();
 
-        return this.BuildPathToDestination();
+        return this.BuildPathToDestination(finalVertex);
     }
 
     #region Preparation
@@ -66,100 +79,118 @@ public sealed record RouteCalculator : IRouteCalculator
     {
         return Task.Run(() =>
         {
-            var items = this.CurrentGrid.AsEnumerable();
-            var itemCount = items.Count();
+            var items = this.CurrentGrid!.AsEnumerable();
+            var itemCount = this.CurrentGrid!.Count();
 
             this.WorkingSet.Clear();
-            this.WorkingSet = new PriorityQueue<Vertice<GridItem>, decimal>(itemCount);
-
-            this.Calculated.Clear();
-            this.Calculated = new HashSet<Vertice<GridItem>>(itemCount);
+            this.WorkingSet = new List<Vertice<GridItem>>(itemCount)
+            {
+                new() {
+                    Value = this.Start!,
+                    Weight = 0,
+                    Distance = 0,
+                },
+            };
 
             foreach (var item in items)
             {
                 var added = this.AddToWorkingSet(item);
 
-                if (added is null)
-                {
-                    continue;
-                }
-
                 foreach (var neighbor in item.AllNeighbors())
                 {
                     var neighborVertice = this.AddToWorkingSet(neighbor);
-
-                    if (neighborVertice is not null)
-                    {
-                        added.Neighbors.Add(neighborVertice);
-                    }
+                    added.Neighbors.Add(neighborVertice);
                 }
             }
-        });
+        }, this.CancellationToken);
     }
 
-    private Vertice<GridItem>? AddToWorkingSet(GridItem gridItem)
+    private Vertice<GridItem> AddToWorkingSet(GridItem gridItem)
     {
         var vertice = new Vertice<GridItem>
         {
             Value = gridItem,
         };
 
-        if (this.WorkingSet.UnorderedItems.Contains((vertice, vertice.Distance)))
+        return this.AddToWorkingSet(vertice);
+    }
+
+    private Vertice<GridItem> AddToWorkingSet(GridDistance gridDistance)
+    {
+        var vertice = new Vertice<GridItem>
         {
-            return null;
+            Value = gridDistance.Other,
+            Weight = gridDistance.Value,
+        };
+
+        return this.AddToWorkingSet(vertice);
+    }
+
+    private Vertice<GridItem> AddToWorkingSet(Vertice<GridItem> vertice)
+    {
+        var existing = this.WorkingSet.Find(item => item.Equals(vertice));
+
+        if (existing is not null)
+        {
+            return existing;
         }
 
-        if (gridItem.Position.Equals(this.Start))
-        {
-            vertice.Distance = 0;
-        }
-
-        this.WorkingSet.Enqueue(vertice, vertice.Distance);
+        this.WorkingSet.Add(vertice);
         return vertice;
     }
     #endregion
 
-    private Task CalculateDistances()
+    private Task<Vertice<GridItem>> CalculateDistances()
     {
         return Task.Run(() =>
         {
+            Vertice<GridItem>? result = null;
+
             while (this.WorkingSet.Count > 0)
             {
-                var item = this.WorkingSet.Dequeue();
-                _ = this.Calculated.Add(item);
+                var item = this.WorkingSet.OrderBy(i => i.Distance).First();
 
-                foreach (var neighbor in item.Neighbors)
+                if (item.Value.Equals(this.Destination))
                 {
-                    var calculatedDistance = item.Distance + (neighbor.Distance - item.Distance);
+                    result = item;
+                    break;
+                }
+
+                foreach (var neighbor in item.Neighbors.OrderBy(x => x.Distance))
+                {
+                    var calculatedDistance = item.Distance + neighbor.Weight;
                     if (calculatedDistance < neighbor.Distance)
                     {
                         neighbor.Distance = calculatedDistance;
+                        neighbor.Previous = item;
 
-                        if (!this.Calculated.Contains(neighbor))
-                        {
-                            this.WorkingSet.Enqueue(neighbor, neighbor.Distance);
-                        }
+                        _ = this.WorkingSet.Remove(neighbor);
+                        this.WorkingSet.Add(neighbor);
                     }
                 }
+
+                _ = this.WorkingSet.Remove(item);
             }
-        });
+
+            return result!;
+        }, this.CancellationToken);
     }
 
-    private IOrderedEnumerable<GridItem> BuildPathToDestination()
+    private IOrderedEnumerable<GridItem> BuildPathToDestination(Vertice<GridItem> vertex)
     {
-        var items = this.Calculated.OrderBy(i => i.Distance).ToArray();
-        var finalPath = new List<GridItem>(items.Length);
+        this.CancellationToken.ThrowIfCancellationRequested();
+        var path = new List<Vertice<GridItem>>(this.CurrentGrid!.Count());
 
-        foreach (var item in items)
+        if (vertex is not null)
         {
-            finalPath.Add(item.Value);
-
-            if (item.Value.Equals(this.Destination))
+            while (vertex is not null)
             {
-                break;
+                path.Add(vertex);
+                vertex = vertex.Previous;
             }
         }
 
-        return finalPath.OrderBy(key => 0);
+        path.Reverse();
+        return path.Select(i => i.Value).OrderBy(_ => 0);
     }
 }

@@ -7,9 +7,11 @@ internal sealed class Vertice<TValue>
     #region Properties
     public required TValue Value { get; set; }
 
-    public bool IsVisited { get; set; }
+    public Vertice<TValue>? Previous { get; set; }
 
     public decimal Distance { get; set; } = decimal.MaxValue;
+
+    public decimal Weight { get; set; } = decimal.MaxValue;
 
     public List<Vertice<TValue>> Neighbors { get; } = [];
     #endregion
@@ -24,7 +26,7 @@ internal sealed class Vertice<TValue>
     /// <inheritdoc/>
     public bool Equals(Vertice<TValue>? other)
     {
-        return object.Equals(this.Value, other?.Value);
+        return Equals(this.Value, other?.Value);
     }
 
     /// <inheritdoc/>
@@ -41,4 +43,10 @@ internal sealed class Vertice<TValue>
         return Comparer<TValue>.Default.Compare(this.Value, other?.Value);
     }
     #endregion
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        return $"V({this.Value})";
+    }
 }

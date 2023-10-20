@@ -14,6 +14,7 @@ public interface IRouteCalculator
     /// <param name="grid"><see cref="Grid"/> containing the points</param>
     /// <param name="start"><see cref="Position"/> in which to start the path tracing</param>
     /// <param name="destination"><see cref="Position"/> in which to end the path tracing</param>
+    /// <param name="cancellationToken">Allows cancellation of the execution</param>
     /// <returns>Sorted <see cref="GridItem"/> enumeration with the shortest route</returns>
-    Task<IOrderedEnumerable<GridItem>> Calculate(Grid grid, Position start, Position destination);
+    Task<IOrderedEnumerable<GridItem>> CalculateAsync(Grid grid, Position start, Position destination, CancellationToken cancellationToken=default);
 }
