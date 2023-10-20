@@ -1,5 +1,6 @@
 ﻿using Amazonia.DeliveryRoute.Commons.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Amazonia.DeliveryRoute.Api.Models;
 
@@ -28,6 +29,7 @@ public class PointOfInterest
 
     #region Equality
     /// <inheritdoc/>
+    [SuppressMessage("Style", "IDE0046:Convert to conditional expression", Justification = "Ternary makes it harder to read")]
     public override bool Equals(object? other)
     {
         if (other is PointOfInterest)
