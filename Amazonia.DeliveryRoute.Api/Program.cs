@@ -1,6 +1,7 @@
 using Amazonia.DeliveryRoute.Commons.Models;
 using Amazonia.DeliveryRoute.GridMap;
 using Amazonia.DeliveryRoute.GridMap.Models;
+using Amazonia.DeliveryRoute.RouteCalculation;
 using Microsoft.Extensions.Options;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
@@ -15,15 +16,24 @@ builder.Services.AddHttpClient<IGridService, GridService>((services, client) =>
     client.BaseAddress = new Uri(options.Value.GridSourceBaseUri);
 });
 
+builder.Services.AddTransient<IRouteCalculator, RouteCalculator>();
+
 var app = builder.Build();
 
 app.MapGet("/", async context =>
 {
     using var scope = context.RequestServices.CreateScope();
-    var service = scope.ServiceProvider.GetRequiredService<IGridService>();
+    var gridService = scope.ServiceProvider.GetRequiredService<IGridService>();
+    var routeService = scope.ServiceProvider.GetRequiredService<IRouteCalculator>();
 
-    var grid = await service.BuildGridAsync(context.RequestAborted);
-    await context.Response.WriteAsJsonAsync(grid.AsEnumerable(), GridItemContext.Default.IEnumerableGridItem, cancellationToken: context.RequestAborted);
+    var grid = await gridService.BuildGridAsync(context.RequestAborted);
+
+    var start = new Position { X = "A", Y = 1 };
+    var destination = new Position { X = "G", Y = 4 };
+
+    var route = await routeService.CalculateAsync(grid, start, destination, context.RequestAborted);
+
+    await context.Response.WriteAsJsonAsync(route, GridItemContext.Default.IEnumerableGridItem, cancellationToken: context.RequestAborted);
 });
 
 app.Run();
