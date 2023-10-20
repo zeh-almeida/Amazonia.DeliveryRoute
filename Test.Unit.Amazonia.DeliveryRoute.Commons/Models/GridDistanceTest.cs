@@ -23,11 +23,6 @@ public sealed record GridDistanceTest
         Y = ValidY + 1,
     };
 
-    private static GridItem ItemA { get; } = new GridItem
-    {
-        Position = ValidPositionA,
-    };
-
     private static GridItem ItemB { get; } = new GridItem
     {
         Position = ValidPositionB,

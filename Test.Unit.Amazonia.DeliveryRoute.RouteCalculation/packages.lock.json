@@ -29,21 +29,21 @@
       },
       "Roslynator.Analyzers": {
         "type": "Direct",
-        "requested": "[4.5.0, )",
-        "resolved": "4.5.0",
-        "contentHash": "C0ks0LQ/5S8zEEcb16Ntqm9DaFyOVTIGnvwTNs4asKIozoiyiHiVivpJH2zRmpN0/N0HEW/qdi9sp0bjHTQxRw=="
+        "requested": "[4.6.0, )",
+        "resolved": "4.6.0",
+        "contentHash": "pIRnhOybcaH57SPBYV+37FUk1RuNslfb95tEKdwHhYKAzXePqD8QXpzm+KDN/KOpdXV42Da+UhfjWzFyeKSHHQ=="
       },
       "Roslynator.CodeAnalysis.Analyzers": {
         "type": "Direct",
-        "requested": "[4.5.0, )",
-        "resolved": "4.5.0",
-        "contentHash": "adLK7IzErdrweLT/Avv+xlC1JEpoxX+kyUshNCKQf0qxNug9xQzrLQg2NsN1SoSg3kn5O5WQXG2pp+TGESmx0g=="
+        "requested": "[4.6.0, )",
+        "resolved": "4.6.0",
+        "contentHash": "zPk7zNbWISlara4vDN7NAdY0bK9poPI5OXBWIPXxpm9dEcyYJrgohqPmTJVeC0zxBnPlTeRJuKaFfH+8I54k1A=="
       },
       "Roslynator.Formatting.Analyzers": {
         "type": "Direct",
-        "requested": "[4.5.0, )",
-        "resolved": "4.5.0",
-        "contentHash": "VkcKBoxTWSv5u3NqQKTOCBqZUAumGVzE/HbMqPt7hloosJvN0WBWVlK2Z2sKbGqSj5v0FWidzS5lPM/CvrwFhQ=="
+        "requested": "[4.6.0, )",
+        "resolved": "4.6.0",
+        "contentHash": "vPiQPydfUBbYbljMEqIUiqnLXjrRidOhW+sYZENSRQmL7PyPlqToav1itmQCSv5Xi4mX8Ix0EBgnXlhzJqzCcA=="
       },
       "SecurityCodeScan.VS2019": {
         "type": "Direct",
@@ -53,13 +53,13 @@
       },
       "xunit": {
         "type": "Direct",
-        "requested": "[2.5.2, )",
-        "resolved": "2.5.2",
-        "contentHash": "cClLEtMhn9H85jdZILz564FkBHOUP1/KmpColguzWpzXDY8cFRRZ2gW58ahdWBznz8UzRabAUqY+5vZKia+AmQ==",
+        "requested": "[2.5.3, )",
+        "resolved": "2.5.3",
+        "contentHash": "VxYDiWSwrLxOJ3UEN+ZPrBybB0SFShQ1E6PjT65VdoKCJhorgerFznThjSwawRH/WAip73YnucDVsE8WRj/8KQ==",
         "dependencies": {
           "xunit.analyzers": "1.4.0",
-          "xunit.assert": "2.5.2",
-          "xunit.core": "[2.5.2]"
+          "xunit.assert": "2.5.3",
+          "xunit.core": "[2.5.3]"
         }
       },
       "xunit.runner.visualstudio": {
@@ -1018,25 +1018,25 @@
       },
       "xunit.assert": {
         "type": "Transitive",
-        "resolved": "2.5.2",
-        "contentHash": "dZNLJWG5HfMAvWBub7eDZwOkP4xuXJj1TSC2AP3bjzIFVGb8rD8xWTvgXlRBXtgPgH+I4Y5hz2MBQrGqUxjDDg==",
+        "resolved": "2.5.3",
+        "contentHash": "MK3HiBckO3vdxEdUxXZyyRPsBNPsC/nz6y1gj/UZIZkjMnsVQyZPU8yxS/3cjTchYcqskt/nqUOS5wmD8JezdQ==",
         "dependencies": {
           "NETStandard.Library": "1.6.1"
         }
       },
       "xunit.core": {
         "type": "Transitive",
-        "resolved": "2.5.2",
-        "contentHash": "q1PBUBD1Zxbu5WvRfdpzjUHDzs9vr65gNptEGTQmXISXMXeMG9YPX29Z7oZB0wXSccUCtwQ9uQBd5bkaCMS7hQ==",
+        "resolved": "2.5.3",
+        "contentHash": "FE8yEEUkoMLd6kOHDXm/QYfX/dYzwc0c+Q4MQon6VGRwFuy6UVGwK/CFA5LEea+ZBEmcco7AEl2q78VjsA0j/w==",
         "dependencies": {
-          "xunit.extensibility.core": "[2.5.2]",
-          "xunit.extensibility.execution": "[2.5.2]"
+          "xunit.extensibility.core": "[2.5.3]",
+          "xunit.extensibility.execution": "[2.5.3]"
         }
       },
       "xunit.extensibility.core": {
         "type": "Transitive",
-        "resolved": "2.5.2",
-        "contentHash": "peV3Y8Pt3wNoIdHeeGClI4qKUeiEX0LuihAYqbAU0g99sidiPItMsUAURjkAoo3JqX5Lrsg+jiVukXp4Tijmfw==",
+        "resolved": "2.5.3",
+        "contentHash": "IjAQlPeZWXP89pl1EuOG9991GH1qgAL0rQfkmX2UV+PDenbYb7oBnQopL9ujE6YaXxgaQazp7lFjsDyyxD6Mtw==",
         "dependencies": {
           "NETStandard.Library": "1.6.1",
           "xunit.abstractions": "2.0.3"
@@ -1044,11 +1044,11 @@
       },
       "xunit.extensibility.execution": {
         "type": "Transitive",
-        "resolved": "2.5.2",
-        "contentHash": "w3Q45Rvva0z1KPtXN5j2DjY9VgBCdWT0mkkr+dZKVyzBtIxnIywzvbEFLJix/dzHdE3XYDXbzh5GfLJHGCDTUg==",
+        "resolved": "2.5.3",
+        "contentHash": "w9eGCHl+gJj1GzZSf0VTzYPp/gv4fiUDkr+yR7/Wv9/ucO2CHltGg2TnyySLFjzekkjuxVJZUE+tZyDNzryJFw==",
         "dependencies": {
           "NETStandard.Library": "1.6.1",
-          "xunit.extensibility.core": "[2.5.2]"
+          "xunit.extensibility.core": "[2.5.3]"
         }
       },
       "amazonia.deliveryroute.commons": {

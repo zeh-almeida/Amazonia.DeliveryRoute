@@ -22,21 +22,21 @@
       },
       "Roslynator.Analyzers": {
         "type": "Direct",
-        "requested": "[4.5.0, )",
-        "resolved": "4.5.0",
-        "contentHash": "C0ks0LQ/5S8zEEcb16Ntqm9DaFyOVTIGnvwTNs4asKIozoiyiHiVivpJH2zRmpN0/N0HEW/qdi9sp0bjHTQxRw=="
+        "requested": "[4.6.0, )",
+        "resolved": "4.6.0",
+        "contentHash": "pIRnhOybcaH57SPBYV+37FUk1RuNslfb95tEKdwHhYKAzXePqD8QXpzm+KDN/KOpdXV42Da+UhfjWzFyeKSHHQ=="
       },
       "Roslynator.CodeAnalysis.Analyzers": {
         "type": "Direct",
-        "requested": "[4.5.0, )",
-        "resolved": "4.5.0",
-        "contentHash": "adLK7IzErdrweLT/Avv+xlC1JEpoxX+kyUshNCKQf0qxNug9xQzrLQg2NsN1SoSg3kn5O5WQXG2pp+TGESmx0g=="
+        "requested": "[4.6.0, )",
+        "resolved": "4.6.0",
+        "contentHash": "zPk7zNbWISlara4vDN7NAdY0bK9poPI5OXBWIPXxpm9dEcyYJrgohqPmTJVeC0zxBnPlTeRJuKaFfH+8I54k1A=="
       },
       "Roslynator.Formatting.Analyzers": {
         "type": "Direct",
-        "requested": "[4.5.0, )",
-        "resolved": "4.5.0",
-        "contentHash": "VkcKBoxTWSv5u3NqQKTOCBqZUAumGVzE/HbMqPt7hloosJvN0WBWVlK2Z2sKbGqSj5v0FWidzS5lPM/CvrwFhQ=="
+        "requested": "[4.6.0, )",
+        "resolved": "4.6.0",
+        "contentHash": "vPiQPydfUBbYbljMEqIUiqnLXjrRidOhW+sYZENSRQmL7PyPlqToav1itmQCSv5Xi4mX8Ix0EBgnXlhzJqzCcA=="
       },
       "SecurityCodeScan.VS2019": {
         "type": "Direct",

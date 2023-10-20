@@ -1,5 +1,6 @@
 ﻿using Amazonia.DeliveryRoute.Commons.Extensions;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Amazonia.DeliveryRoute.Commons.Models;
 
@@ -44,6 +45,7 @@ public sealed record Position
 
     #region Comparable
     /// <inheritdoc/>
+    [SuppressMessage("Style", "IDE0046:Convert to conditional expression", Justification = "Ternary makes it harder to read")]
     public int CompareTo(Position? other)
     {
         if (other is null)

@@ -186,7 +186,7 @@ public sealed record RouteCalculator : IRouteCalculator
             while (vertex is not null)
             {
                 path.Add(vertex);
-                vertex = vertex.Previous;
+                vertex = vertex!.Previous!;
             }
         }
 
