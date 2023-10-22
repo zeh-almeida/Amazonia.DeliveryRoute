@@ -22,7 +22,7 @@ public sealed record GridItemTest
     [Fact]
     public void Equals_NullGridItem_False()
     {
-        var itemA = new GridItem<Position>
+        var itemA = new Vertex<Position>
         {
             Value = ValidPosition,
         };
@@ -33,7 +33,7 @@ public sealed record GridItemTest
     [Fact]
     public void Equals_UnknownType_False()
     {
-        var itemA = new GridItem<Position>
+        var itemA = new Vertex<Position>
         {
             Value = ValidPosition,
         };
@@ -44,7 +44,7 @@ public sealed record GridItemTest
     [Fact]
     public void Equals_NullUnknownType_False()
     {
-        var itemA = new GridItem<Position>
+        var itemA = new Vertex<Position>
         {
             Value = ValidPosition,
         };
@@ -56,12 +56,12 @@ public sealed record GridItemTest
     [Fact]
     public void Equals_SamePosition_True()
     {
-        var itemA = new GridItem<Position>
+        var itemA = new Vertex<Position>
         {
             Value = ValidPosition,
         };
 
-        var itemB = new GridItem<Position>
+        var itemB = new Vertex<Position>
         {
             Value = ValidPosition,
         };
@@ -72,7 +72,7 @@ public sealed record GridItemTest
     [Fact]
     public void HashCode_Calculates()
     {
-        var itemA = new GridItem<Position>
+        var itemA = new Vertex<Position>
         {
             Value = ValidPosition,
         };
@@ -94,7 +94,7 @@ public sealed record GridItemTest
         string xItemB, int yItemB,
         int expected)
     {
-        var itemA = new GridItem<Position>
+        var itemA = new Vertex<Position>
         {
             Value = new Position
             {
@@ -103,7 +103,7 @@ public sealed record GridItemTest
             },
         };
 
-        var itemB = new GridItem<Position>
+        var itemB = new Vertex<Position>
         {
             Value = new Position
             {
@@ -118,12 +118,12 @@ public sealed record GridItemTest
     [Fact]
     public void CompareTo_NullGridItem_Executes()
     {
-        var itemA = new GridItem<Position>
+        var itemA = new Vertex<Position>
         {
             Value = ValidPosition,
         };
 
-        GridItem<Position>? itemB = null;
+        Vertex<Position>? itemB = null;
         Assert.True(itemA.CompareTo(itemB) > 0);
     }
     #endregion
@@ -133,7 +133,7 @@ public sealed record GridItemTest
     {
         const string expected = "(A1: [])";
 
-        var item = new GridItem<Position>
+        var item = new Vertex<Position>
         {
             Value = ValidPosition,
         };
@@ -145,12 +145,12 @@ public sealed record GridItemTest
     [Fact]
     public void AddNeighbor_Succeeds()
     {
-        var itemA = new GridItem<Position>
+        var itemA = new Vertex<Position>
         {
             Value = ValidPosition,
         };
 
-        var itemB = new GridItem<Position>
+        var itemB = new Vertex<Position>
         {
             Value = new Position
             {
@@ -168,12 +168,12 @@ public sealed record GridItemTest
     [Fact]
     public void AddNeighbor_Duplicate_KeepsOldDistance()
     {
-        var itemA = new GridItem<Position>
+        var itemA = new Vertex<Position>
         {
             Value = ValidPosition,
         };
 
-        var itemB = new GridItem<Position>
+        var itemB = new Vertex<Position>
         {
             Value = new Position
             {
@@ -195,72 +195,6 @@ public sealed record GridItemTest
 
         Assert.Equal(oldDistance.Value, currentDistance.Value);
         Assert.NotEqual(newDistance, currentDistance.Value);
-    }
-
-    [Fact]
-    public void FindNeighbor_ValidNeighbor_Returns()
-    {
-        var otherPosition = new Position
-        {
-            X = ValidX,
-            Y = ValidY + 1
-        };
-
-        var itemA = new GridItem<Position>
-        {
-            Value = ValidPosition,
-        };
-
-        var itemB = new GridItem<Position>
-        {
-            Value = otherPosition,
-        };
-
-        itemA.AddNeighbor(itemB, ValidDistance);
-
-        Assert.NotNull(itemA.FindNeighbor(otherPosition));
-    }
-
-    [Fact]
-    public void FindNeighbor_NoNeighbor_IsNull()
-    {
-        var itemA = new GridItem<Position>
-        {
-            Value = ValidPosition,
-        };
-
-        Assert.Null(itemA.FindNeighbor(ValidPosition));
-    }
-
-    [Fact]
-    public void FindNeighbor_NoMatchingNeighbor_IsNull()
-    {
-        var otherPosition = new Position
-        {
-            X = ValidX,
-            Y = ValidY + 1
-        };
-
-        var unknownPosition = new Position
-        {
-            X = ValidX,
-            Y = ValidY + 2
-        };
-
-        var itemA = new GridItem<Position>
-        {
-            Value = ValidPosition,
-        };
-
-        var itemB = new GridItem<Position>
-        {
-            Value = otherPosition,
-        };
-
-        itemA.AddNeighbor(itemB, ValidDistance);
-
-        Assert.Null(itemA.FindNeighbor(unknownPosition));
-        Assert.Null(itemB.FindNeighbor(unknownPosition));
     }
     #endregion
 }

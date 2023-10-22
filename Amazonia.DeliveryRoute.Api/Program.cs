@@ -33,12 +33,12 @@ app.MapGet("/", async context =>
 
     var route = await routeService.CalculateAsync(grid, start, destination, context.RequestAborted);
 
-    await context.Response.WriteAsJsonAsync(route, GridItemContext.Default.IEnumerableGridItemPosition, cancellationToken: context.RequestAborted);
+    await context.Response.WriteAsJsonAsync(route, VertexContext.Default.IEnumerableVertexPosition, cancellationToken: context.RequestAborted);
 });
 
 app.Run();
 
 [ExcludeFromCodeCoverage]
-[JsonSerializable(typeof(IEnumerable<GridItem<Position>>))]
-public partial class GridItemContext : JsonSerializerContext
+[JsonSerializable(typeof(IEnumerable<Vertex<Position>>))]
+public partial class VertexContext : JsonSerializerContext
 { }

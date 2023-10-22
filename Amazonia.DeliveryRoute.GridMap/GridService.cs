@@ -139,9 +139,9 @@ public sealed partial record GridService
         return grid;
     }
 
-    private static GridItem<Position> ParseDataItem(string value)
+    private static Vertex<Position> ParseDataItem(string value)
     {
-        var gridItem = new GridItem<Position>
+        var gridItem = new Vertex<Position>
         {
             Value = ParsePosition(value),
         };

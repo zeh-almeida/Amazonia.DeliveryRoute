@@ -11,13 +11,13 @@ public sealed record RouteCalculator
     : IRouteCalculator<Position>
 {
     #region Properties
-    private List<Vertice<GridItem<Position>>> WorkingSet { get; set; }
+    private List<Vertice<Vertex<Position>>> WorkingSet { get; set; }
 
     private Grid<Position>? CurrentGrid { get; set; }
 
-    private GridItem<Position>? Start { get; set; }
+    private Vertex<Position>? Start { get; set; }
 
-    private GridItem<Position>? Destination { get; set; }
+    private Vertex<Position>? Destination { get; set; }
 
     private CancellationToken CancellationToken { get; set; }
     #endregion
@@ -39,7 +39,7 @@ public sealed record RouteCalculator
     ///  - neither start nor destination are found in the grid
     ///  - start and destination are equal to eachother
     /// </exception>
-    public async Task<IOrderedEnumerable<GridItem<Position>>> CalculateAsync(
+    public async Task<IOrderedEnumerable<Vertex<Position>>> CalculateAsync(
         Grid<Position> grid,
         Position start,
         Position destination,
@@ -92,7 +92,7 @@ public sealed record RouteCalculator
             var itemCount = this.CurrentGrid!.Count();
 
             this.WorkingSet.Clear();
-            this.WorkingSet = new List<Vertice<GridItem<Position>>>(itemCount)
+            this.WorkingSet = new List<Vertice<Vertex<Position>>>(itemCount)
             {
                 new() {
                     Value = this.Start!,
@@ -114,9 +114,9 @@ public sealed record RouteCalculator
         }, this.CancellationToken);
     }
 
-    private Vertice<GridItem<Position>> AddToWorkingSet(GridItem<Position> gridItem)
+    private Vertice<Vertex<Position>> AddToWorkingSet(Vertex<Position> gridItem)
     {
-        var vertice = new Vertice<GridItem<Position>>
+        var vertice = new Vertice<Vertex<Position>>
         {
             Value = gridItem,
         };
@@ -124,9 +124,9 @@ public sealed record RouteCalculator
         return this.AddToWorkingSet(vertice);
     }
 
-    private Vertice<GridItem<Position>> AddToWorkingSet(GridDistance<Position> gridDistance)
+    private Vertice<Vertex<Position>> AddToWorkingSet(GridDistance<Position> gridDistance)
     {
-        var vertice = new Vertice<GridItem<Position>>
+        var vertice = new Vertice<Vertex<Position>>
         {
             Value = gridDistance.Other,
             Weight = gridDistance.Value,
@@ -135,7 +135,7 @@ public sealed record RouteCalculator
         return this.AddToWorkingSet(vertice);
     }
 
-    private Vertice<GridItem<Position>> AddToWorkingSet(Vertice<GridItem<Position>> vertice)
+    private Vertice<Vertex<Position>> AddToWorkingSet(Vertice<Vertex<Position>> vertice)
     {
         var existing = this.WorkingSet.Find(item => item.Equals(vertice));
 
@@ -149,11 +149,11 @@ public sealed record RouteCalculator
     }
     #endregion
 
-    private Task<Vertice<GridItem<Position>>> CalculateDistances()
+    private Task<Vertice<Vertex<Position>>> CalculateDistances()
     {
         return Task.Run(() =>
         {
-            Vertice<GridItem<Position>>? result = null;
+            Vertice<Vertex<Position>>? result = null;
 
             while (this.WorkingSet.Count > 0)
             {
@@ -185,10 +185,10 @@ public sealed record RouteCalculator
         }, this.CancellationToken);
     }
 
-    private IOrderedEnumerable<GridItem<Position>> BuildPathToDestination(Vertice<GridItem<Position>> vertex)
+    private IOrderedEnumerable<Vertex<Position>> BuildPathToDestination(Vertice<Vertex<Position>> vertex)
     {
         this.CancellationToken.ThrowIfCancellationRequested();
-        var path = new List<Vertice<GridItem<Position>>>(this.CurrentGrid!.Count());
+        var path = new List<Vertice<Vertex<Position>>>(this.CurrentGrid!.Count());
 
         if (vertex is not null)
         {

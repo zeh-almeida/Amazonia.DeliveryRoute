@@ -23,7 +23,7 @@ public sealed class GridDistance<TValue>
     /// Right neighbor
     /// </summary>
     [Required]
-    public required GridItem<TValue> Other { get; set; }
+    public required Vertex<TValue> Other { get; set; }
 
     /// <summary>
     /// Distance between the neighbors
@@ -79,7 +79,7 @@ public sealed class GridDistance<TValue>
     /// </summary>
     /// <param name="item">Item to check for</param>
     /// <returns>True if the Item is related, false otherwise</returns>
-    public bool RelatedTo(GridItem<TValue> item)
+    public bool RelatedTo(Vertex<TValue> item)
     {
         Guard.IsNotNull(item);
         return Equals(this.Other, item);
@@ -91,7 +91,7 @@ public sealed class GridDistance<TValue>
     /// </summary>
     /// <param name="position">Position to check for</param>
     /// <returns>GridItem at the position for this relationship, null otherwise</returns>
-    public GridItem<TValue>? CoversPosition(TValue position)
+    public Vertex<TValue>? CoversPosition(TValue position)
     {
         Guard.IsNotNull(position);
         return this.Other.Value.Equals(position) ? this.Other : null;

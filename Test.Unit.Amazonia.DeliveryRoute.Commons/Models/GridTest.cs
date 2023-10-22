@@ -20,7 +20,7 @@ public sealed record GridTest
     [Fact]
     public void AddItem_New_Succeeds()
     {
-        var itemA = new GridItem<Position>
+        var itemA = new Vertex<Position>
         {
             Value = ValidPosition,
         };
@@ -34,7 +34,7 @@ public sealed record GridTest
     [Fact]
     public void AddItem_Duplicate_Fails()
     {
-        var itemA = new GridItem<Position>
+        var itemA = new Vertex<Position>
         {
             Value = ValidPosition,
         };
@@ -53,7 +53,7 @@ public sealed record GridTest
     [Fact]
     public void RemoveItem_Existing_Succeeds()
     {
-        var itemA = new GridItem<Position>
+        var itemA = new Vertex<Position>
         {
             Value = ValidPosition,
         };
@@ -70,7 +70,7 @@ public sealed record GridTest
     [Fact]
     public void RemoveItem_Unknown_Fails()
     {
-        var itemA = new GridItem<Position>
+        var itemA = new Vertex<Position>
         {
             Value = ValidPosition,
         };
@@ -86,7 +86,7 @@ public sealed record GridTest
     [Fact]
     public void FindItem_Existing_Succeeds()
     {
-        var itemA = new GridItem<Position>
+        var itemA = new Vertex<Position>
         {
             Value = ValidPosition,
         };
@@ -115,7 +115,7 @@ public sealed record GridTest
     [Fact]
     public void AsEnumerable_ReturnsItems()
     {
-        var itemA = new GridItem<Position>
+        var itemA = new Vertex<Position>
         {
             Value = ValidPosition,
         };
@@ -133,7 +133,7 @@ public sealed record GridTest
     [Fact]
     public void Count_NoItems_ReturnsZero()
     {
-        var itemA = new GridItem<Position>
+        var itemA = new Vertex<Position>
         {
             Value = ValidPosition,
         };
@@ -150,7 +150,7 @@ public sealed record GridTest
     [Fact]
     public void Count_WithItems_ReturnsCount()
     {
-        var itemA = new GridItem<Position>
+        var itemA = new Vertex<Position>
         {
             Value = ValidPosition,
         };
@@ -172,7 +172,7 @@ public sealed record GridTest
     [Fact]
     public void IsEmpty_WithItems_ReturnsFalse()
     {
-        var itemA = new GridItem<Position>
+        var itemA = new Vertex<Position>
         {
             Value = ValidPosition,
         };
@@ -190,12 +190,12 @@ public sealed record GridTest
     {
         const string expected = "[A1, A2]";
 
-        var itemA = new GridItem<Position>
+        var itemA = new Vertex<Position>
         {
             Value = ValidPosition,
         };
 
-        var itemB = new GridItem<Position>
+        var itemB = new Vertex<Position>
         {
             Value = new Position
             {

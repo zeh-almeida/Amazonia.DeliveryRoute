@@ -24,7 +24,7 @@ public sealed record GridDistanceTest
         Y = ValidY + 1,
     };
 
-    private static GridItem<Position> ItemB { get; } = new GridItem<Position>
+    private static Vertex<Position> ItemB { get; } = new Vertex<Position>
     {
         Value = ValidPositionB,
     };
@@ -71,7 +71,7 @@ public sealed record GridDistanceTest
     [Fact]
     public void Equals_DifferentItem_IsFalse()
     {
-        var differentGridItem = new GridItem<Position>
+        var differentGridItem = new Vertex<Position>
         {
             Value = new Position
             {
@@ -164,7 +164,7 @@ public sealed record GridDistanceTest
             Value = ValidDistance,
         };
 
-        var itemC = new GridItem<Position>
+        var itemC = new Vertex<Position>
         {
             Value = new Position
             {

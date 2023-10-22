@@ -71,7 +71,7 @@ public sealed record PointOfInterestTest
             Position = ValidPosition,
         };
 
-        Assert.False(itemA.Equals(null as GridItem<Position>));
+        Assert.False(itemA.Equals(null as Vertex<Position>));
     }
 
     [Fact]
@@ -108,7 +108,7 @@ public sealed record PointOfInterestTest
             Position = ValidPosition,
         };
 
-        var item = new GridItem<Position>
+        var item = new Vertex<Position>
         {
             Value = ValidPosition
         };
@@ -217,7 +217,7 @@ public sealed record PointOfInterestTest
             },
         };
 
-        var itemB = new GridItem<Position>
+        var itemB = new Vertex<Position>
         {
             Value = new Position
             {
@@ -238,7 +238,7 @@ public sealed record PointOfInterestTest
             Position = ValidPosition,
         };
 
-        GridItem<Position>? itemB = null;
+        Vertex<Position>? itemB = null;
         Assert.True(itemA.CompareTo(itemB) > 0);
     }
     #endregion

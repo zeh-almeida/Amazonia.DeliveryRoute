@@ -9,7 +9,7 @@ public sealed record Grid<TValue>
     where TValue : class
 {
     #region Properties
-    private HashSet<GridItem<TValue>> Items { get; set; }
+    private HashSet<Vertex<TValue>> Items { get; set; }
     #endregion
 
     #region Constructors
@@ -33,7 +33,7 @@ public sealed record Grid<TValue>
     /// </summary>
     /// <param name="item">Item to add</param>
     /// <returns>True if added, false if already known</returns>
-    public bool AddItem(GridItem<TValue> item)
+    public bool AddItem(Vertex<TValue> item)
     {
         Guard.IsNotNull(item);
         return this.Items.Add(item);
@@ -44,7 +44,7 @@ public sealed record Grid<TValue>
     /// </summary>
     /// <param name="item">Item to remove</param>
     /// <returns>True if removed, false if not found</returns>
-    public bool RemoveItem(GridItem<TValue> item)
+    public bool RemoveItem(Vertex<TValue> item)
     {
         Guard.IsNotNull(item);
         return this.Items.Remove(item);
@@ -55,7 +55,7 @@ public sealed record Grid<TValue>
     /// </summary>
     /// <param name="position">Position to search for</param>
     /// <returns>Item at the desired position or null if it doesn't exist</returns>
-    public GridItem<TValue>? FindItem(TValue position)
+    public Vertex<TValue>? FindItem(TValue position)
     {
         Guard.IsNotNull(position);
         return this.Items.FirstOrDefault(item => item.Value.Equals(position));
@@ -65,7 +65,7 @@ public sealed record Grid<TValue>
     /// Enumerates all current items
     /// </summary>
     /// <returns>All current items</returns>
-    public IEnumerable<GridItem<TValue>> AsEnumerable()
+    public IEnumerable<Vertex<TValue>> AsEnumerable()
     {
         return this.Items;
     }

@@ -53,7 +53,7 @@ public sealed record RouteCalculatorTest
             Y = ValidY + 1
         };
 
-        _ = grid.AddItem(new GridItem<Position>
+        _ = grid.AddItem(new Vertex<Position>
         {
             Value =endPosition
         });
@@ -82,7 +82,7 @@ public sealed record RouteCalculatorTest
             Y = ValidY + 1
         };
 
-        _ = grid.AddItem(new GridItem<Position>
+        _ = grid.AddItem(new Vertex<Position>
         {
             Value =startPosition
         });
@@ -105,7 +105,7 @@ public sealed record RouteCalculatorTest
             Y = ValidY
         };
 
-        _ = grid.AddItem(new GridItem<Position>
+        _ = grid.AddItem(new Vertex<Position>
         {
             Value =startPosition
         });
@@ -136,12 +136,12 @@ public sealed record RouteCalculatorTest
             Y = ValidY + 1
         };
 
-        var startItem = new GridItem<Position>
+        var startItem = new Vertex<Position>
         {
             Value =startPosition
         };
 
-        var endItem = new GridItem<Position>
+        var endItem = new Vertex<Position>
         {
             Value =endPosition
         };
