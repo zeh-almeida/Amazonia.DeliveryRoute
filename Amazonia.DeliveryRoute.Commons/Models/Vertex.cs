@@ -22,6 +22,16 @@ public sealed class Vertex<TValue>
     /// Relation to other Vertices and the distance between them
     /// </summary>
     private SortedSet<GridDistance<TValue>> Neighbors { get; }
+
+    /// <summary>
+    /// Calculated distance from the source to this Vertex
+    /// </summary>
+    public decimal TotalDistance { get; set; } = decimal.MaxValue;
+
+    /// <summary>
+    /// Pervious vertex used to navigate to the current one
+    /// </summary>
+    public Vertex<TValue>? Previous { get; set; }
     #endregion
 
     #region Constructors

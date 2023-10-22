@@ -23,15 +23,15 @@ var app = builder.Build();
 app.MapGet("/", async context =>
 {
     using var scope = context.RequestServices.CreateScope();
-    var gridService = scope.ServiceProvider.GetRequiredService<IGridService<string>>();
-    var routeService = scope.ServiceProvider.GetRequiredService<IRouteCalculator<string>>();
+    var gridService = scope.ServiceProvider.GetRequiredService<IGridService<Position>>();
+    var routeService = scope.ServiceProvider.GetRequiredService<IRouteCalculator<Position>>();
 
     var grid = await gridService.BuildGridAsync(context.RequestAborted);
 
-    var start = new Position { X = "A", Y = 1 };
-    var destination = new Position { X = "G", Y = 4 };
+    var start = grid.FindItem(new Position { X = "A", Y = 1 })!;
+    var destination = grid.FindItem(new Position { X = "G", Y = 4 })!;
 
-    var route = await routeService.CalculateAsync(grid, start, destination, context.RequestAborted);
+    var route = await routeService.CalculateAsync(start, destination, context.RequestAborted);
 
     await context.Response.WriteAsJsonAsync(route, VertexContext.Default.IEnumerableVertexPosition, cancellationToken: context.RequestAborted);
 });

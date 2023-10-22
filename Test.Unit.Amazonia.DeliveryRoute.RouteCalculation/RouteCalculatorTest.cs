@@ -13,105 +13,19 @@ public sealed record RouteCalculatorTest
 
     #region Parameter Validation
     [Fact]
-    public async Task Grid_IsEmpty_Throws()
-    {
-        var grid = new Grid<Position>();
-
-        var startPosition = new Position
-        {
-            X = ValidX,
-            Y = ValidY
-        };
-
-        var endPosition = new Position
-        {
-            X = ValidX,
-            Y = ValidY + 1
-        };
-
-        var subject = new RouteCalculator();
-        var exp = await Assert.ThrowsAsync<ArgumentException>(() => subject.CalculateAsync(grid, startPosition, endPosition));
-
-        Assert.NotNull(exp);
-        Assert.Equal("grid", exp.ParamName);
-    }
-
-    [Fact]
-    public async Task Start_NotInGrid_Throws()
-    {
-        var grid = new Grid<Position>();
-
-        var startPosition = new Position
-        {
-            X = ValidX,
-            Y = ValidY
-        };
-
-        var endPosition = new Position
-        {
-            X = ValidX,
-            Y = ValidY + 1
-        };
-
-        _ = grid.AddItem(new Vertex<Position>
-        {
-            Value =endPosition
-        });
-
-        var subject = new RouteCalculator();
-        var exp = await Assert.ThrowsAsync<ArgumentException>(() => subject.CalculateAsync(grid, startPosition, endPosition));
-
-        Assert.NotNull(exp);
-        Assert.Equal("start", exp.ParamName);
-    }
-
-    [Fact]
-    public async Task Destination_NotInGrid_Throws()
-    {
-        var grid = new Grid<Position>();
-
-        var startPosition = new Position
-        {
-            X = ValidX,
-            Y = ValidY
-        };
-
-        var endPosition = new Position
-        {
-            X = ValidX,
-            Y = ValidY + 1
-        };
-
-        _ = grid.AddItem(new Vertex<Position>
-        {
-            Value =startPosition
-        });
-
-        var subject = new RouteCalculator();
-        var exp = await Assert.ThrowsAsync<ArgumentException>(() => subject.CalculateAsync(grid, startPosition, endPosition));
-
-        Assert.NotNull(exp);
-        Assert.Equal("destination", exp.ParamName);
-    }
-
-    [Fact]
     public async Task Start_EqualsDestination_Throws()
     {
-        var grid = new Grid<Position>();
-
-        var startPosition = new Position
+        var position = new Position
         {
             X = ValidX,
             Y = ValidY
         };
 
-        _ = grid.AddItem(new Vertex<Position>
-        {
-            Value =startPosition
-        });
+        var startVertex = new Vertex<Position> { Value = position };
+        var destinationVertex = new Vertex<Position> { Value = position };
 
         var subject = new RouteCalculator();
-        var exp = await Assert.ThrowsAsync<ArgumentException>(() => subject.CalculateAsync(grid, startPosition, startPosition));
+        var exp = await Assert.ThrowsAsync<ArgumentException>(() => subject.CalculateAsync(startVertex, destinationVertex));
 
         Assert.NotNull(exp);
         Assert.Equal("destination", exp.ParamName);
@@ -122,7 +36,6 @@ public sealed record RouteCalculatorTest
     public async Task CalculateAsync_Executes()
     {
         const decimal distance = 1;
-        var grid = new Grid<Position>();
 
         var startPosition = new Position
         {
@@ -138,21 +51,18 @@ public sealed record RouteCalculatorTest
 
         var startItem = new Vertex<Position>
         {
-            Value =startPosition
+            Value = startPosition
         };
 
         var endItem = new Vertex<Position>
         {
-            Value =endPosition
+            Value = endPosition
         };
 
         startItem.AddNeighbor(endItem, distance);
 
-        _ = grid.AddItem(startItem);
-        _ = grid.AddItem(endItem);
-
         var subject = new RouteCalculator();
-        var result = await subject.CalculateAsync(grid, startPosition, endPosition);
+        var result = await subject.CalculateAsync(startItem, endItem);
 
         Assert.NotNull(result);
         Assert.True(result.Any());
