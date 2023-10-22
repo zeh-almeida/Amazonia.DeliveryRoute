@@ -20,7 +20,7 @@ public sealed class GridItem
     /// <summary>
     /// Relation to other GridItems and the distance between them
     /// </summary>
-    private HashSet<GridDistance> Neighbors { get; }
+    private SortedSet<GridDistance> Neighbors { get; }
     #endregion
 
     #region Constructors

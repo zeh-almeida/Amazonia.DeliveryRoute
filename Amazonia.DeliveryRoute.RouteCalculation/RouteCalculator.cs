@@ -36,6 +36,7 @@ public sealed record RouteCalculator : IRouteCalculator
     /// Thrown if:
     ///  - grid is empty
     ///  - neither start nor destination are found in the grid
+    ///  - start and destination are equal to eachother
     /// </exception>
     public async Task<IOrderedEnumerable<GridItem>> CalculateAsync(
         Grid grid,
@@ -163,7 +164,7 @@ public sealed record RouteCalculator : IRouteCalculator
                     break;
                 }
 
-                foreach (var neighbor in item.Neighbors.OrderBy(x => x.Distance))
+                foreach (var neighbor in item.Neighbors)
                 {
                     var calculatedDistance = item.Distance + neighbor.Weight;
                     if (calculatedDistance < neighbor.Distance)

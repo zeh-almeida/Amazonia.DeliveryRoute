@@ -7,7 +7,8 @@ namespace Amazonia.DeliveryRoute.Commons.Models;
 /// Defines the distance between two <see cref="GridItem"/>
 /// </summary>
 public sealed class GridDistance
-    : IEquatable<GridDistance>
+    : IEquatable<GridDistance>,
+    IComparable<GridDistance>
 {
     #region Constants
     /// <summary>
@@ -48,6 +49,21 @@ public sealed class GridDistance
     public override int GetHashCode()
     {
         return HashCode.Combine(this.Other);
+    }
+    #endregion
+
+    #region Comparable
+    /// <inheritdoc/>
+    public int CompareTo(GridDistance? other)
+    {
+        var result = this.Value.CompareTo(other?.Value);
+
+        if (0.Equals(result))
+        {
+            result = this.Other.CompareTo(other?.Other);
+        }
+
+        return result;
     }
     #endregion
 
