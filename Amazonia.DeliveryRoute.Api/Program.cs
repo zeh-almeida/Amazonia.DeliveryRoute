@@ -1,4 +1,3 @@
-using Amazonia.DeliveryRoute.Api.Models;
 using Amazonia.DeliveryRoute.Commons.Models;
 using Amazonia.DeliveryRoute.GridMap;
 using Amazonia.DeliveryRoute.GridMap.Models;

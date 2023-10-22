@@ -1,7 +1,6 @@
-﻿using Amazonia.DeliveryRoute.Commons.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Amazonia.DeliveryRoute.Api.Models;
+namespace Amazonia.DeliveryRoute.Commons.Models;
 
 /// <summary>
 /// Denotes a request from the API to recover the distance between two points
