@@ -134,6 +134,63 @@ public sealed record VertexConnectionTest
         Assert.Equal(expected, itemDistance.ToString());
     }
 
+    #region Comparisons
+    [Theory]
+    [InlineData("A", "A", 0, 0, 0)]
+    [InlineData("A", "A", 0, 1, -1)]
+    [InlineData("A", "A", 1, 0, 1)]
+    [InlineData("B", "A", 0, 0, 1)]
+    [InlineData("A", "B", 0, 0, -1)]
+    public void CompareTo_Executes(
+        string itemA,
+        string itemB,
+        int distanceA,
+        int distanceB,
+        int expected)
+    {
+        var vertexA = new Vertex<string>
+        {
+            Value = itemA,
+        };
+
+        var vertexB = new Vertex<string>
+        {
+            Value = itemB,
+        };
+
+        var connectionA = new VertexConnection<string>
+        {
+            Other = vertexA,
+            Value = distanceA,
+        };
+
+        var connectionB = new VertexConnection<string>
+        {
+            Other = vertexB,
+            Value = distanceB,
+        };
+
+        Assert.Equal(expected, connectionA.CompareTo(connectionB));
+    }
+
+    [Fact]
+    public void CompareTo_Null_AlwaysPositive()
+    {
+        var vertex = new Vertex<string>
+        {
+            Value = ValidX,
+        };
+
+        var connection = new VertexConnection<string>
+        {
+            Other = vertex,
+            Value = ValidDistance,
+        };
+
+        Assert.True(connection.CompareTo(null) > 0);
+    }
+    #endregion
+
     #region RelatedTo
     [Fact]
     public void RelatedTo_Item_IsTrue()
