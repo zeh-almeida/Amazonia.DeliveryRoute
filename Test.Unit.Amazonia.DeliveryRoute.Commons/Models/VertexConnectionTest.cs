@@ -11,21 +11,15 @@ public sealed record VertexConnectionTest
 
     private const decimal ValidDistance = 1;
 
-    private static Position ValidPositionA { get; } = new Position
+    private static Position ValidPosition { get; } = new Position
     {
         X = ValidX,
         Y = ValidY,
     };
 
-    private static Position ValidPositionB { get; } = new Position
+    private static Vertex<Position> ValidVertex { get; } = new Vertex<Position>
     {
-        X = ValidX,
-        Y = ValidY + 1,
-    };
-
-    private static Vertex<Position> ItemB { get; } = new Vertex<Position>
-    {
-        Value = ValidPositionB,
+        Value = ValidPosition,
     };
     #endregion
 
@@ -35,7 +29,7 @@ public sealed record VertexConnectionTest
     {
         var itemDistance = new VertexConnection<Position>
         {
-            Other = ItemB,
+            Other = ValidVertex,
             Value = ValidDistance,
         };
 
@@ -47,7 +41,7 @@ public sealed record VertexConnectionTest
     {
         var itemDistance = new VertexConnection<Position>
         {
-            Other = ItemB,
+            Other = ValidVertex,
             Value = ValidDistance,
         };
 
@@ -59,7 +53,7 @@ public sealed record VertexConnectionTest
     {
         var itemDistanceA = new VertexConnection<Position>
         {
-            Other = ItemB,
+            Other = ValidVertex,
             Value = ValidDistance,
         };
 
@@ -81,7 +75,7 @@ public sealed record VertexConnectionTest
 
         var itemDistanceA = new VertexConnection<Position>
         {
-            Other = ItemB,
+            Other = ValidVertex,
             Value = ValidDistance,
         };
 
@@ -99,13 +93,13 @@ public sealed record VertexConnectionTest
     {
         var itemDistanceA = new VertexConnection<Position>
         {
-            Other = ItemB,
+            Other = ValidVertex,
             Value = ValidDistance,
         };
 
         var itemDistanceB = new VertexConnection<Position>
         {
-            Other = ItemB,
+            Other = ValidVertex,
             Value = ValidDistance + 1,
         };
 
@@ -117,11 +111,11 @@ public sealed record VertexConnectionTest
     {
         var itemDistance = new VertexConnection<Position>
         {
-            Other = ItemB,
+            Other = ValidVertex,
             Value = ValidDistance,
         };
 
-        var expected = HashCode.Combine(ItemB);
+        var expected = HashCode.Combine(ValidVertex);
         Assert.Equal(expected, itemDistance.GetHashCode());
     }
     #endregion
@@ -133,7 +127,7 @@ public sealed record VertexConnectionTest
 
         var itemDistance = new VertexConnection<Position>
         {
-            Other = ItemB,
+            Other = ValidVertex,
             Value = ValidDistance,
         };
 
@@ -146,11 +140,11 @@ public sealed record VertexConnectionTest
     {
         var itemDistance = new VertexConnection<Position>
         {
-            Other = ItemB,
+            Other = ValidVertex,
             Value = ValidDistance,
         };
 
-        Assert.Equal(ItemB, itemDistance.Other);
+        Assert.Equal(ValidVertex, itemDistance.Other);
     }
 
     [Fact]
@@ -158,7 +152,7 @@ public sealed record VertexConnectionTest
     {
         var itemDistance = new VertexConnection<Position>
         {
-            Other = ItemB,
+            Other = ValidVertex,
             Value = ValidDistance,
         };
 

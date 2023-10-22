@@ -186,7 +186,7 @@ public sealed record VertexTest
         Assert.NotEmpty(itemA.Connections);
 
         var oldDistance = itemA.Connections.First();
-        var newDistance = ValidDistance + 1;
+        const decimal newDistance = ValidDistance + 1;
 
         itemA.ConnectTo(itemB, newDistance);
         var currentDistance = itemA.Connections.First();

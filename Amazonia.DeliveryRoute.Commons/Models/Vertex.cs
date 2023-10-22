@@ -88,13 +88,13 @@ public sealed class Vertex<TValue>
     /// Connects this Vertex to another.
     /// If the connection already exists, it is not updated.
     /// </summary>
-    /// <remarks>The distance must be greater than <see cref="VertexConnection{TValue}.MinimalDistance"/></remarks>
+    /// <remarks>The distance must be greater than <see cref="Constants.MinimalDistance"/></remarks>
     /// <param name="other">Vertex to connect to</param>
     /// <param name="distance">Distance between the vertices</param>
     public void ConnectTo(Vertex<TValue> other, decimal distance)
     {
         Guard.IsNotNull(other);
-        Guard.IsGreaterThan(distance, VertexConnection<TValue>.MinimalDistance);
+        Guard.IsGreaterThan(distance, Constants.MinimalDistance);
 
         if (this.Neighbors.Any(x => x.Other.Equals(other)))
         {

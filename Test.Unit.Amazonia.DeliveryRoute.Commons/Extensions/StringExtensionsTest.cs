@@ -26,8 +26,10 @@ public sealed record StringExtensionsTest
     [Fact]
     public void AsColumnIndex_Null_ThrowsArgumentNullException()
     {
-        string? value = null;
+#pragma warning disable CS8604 // Possible null reference argument.
+        const string? value = null;
         _ = Assert.Throws<ArgumentNullException>(() => value.AsColumnIndex());
+#pragma warning restore CS8604 // Possible null reference argument.
     }
 
     [Theory]

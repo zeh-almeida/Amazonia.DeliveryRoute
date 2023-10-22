@@ -1,8 +1,11 @@
-﻿namespace Amazonia.DeliveryRoute.GridMap.Models;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Amazonia.DeliveryRoute.GridMap.Models;
 
 /// <summary>
-/// Options for the <see cref="IGridService"/> to execute
+/// Options for the <see cref="IGridService{TValue}"/> to execute
 /// </summary>
+[ExcludeFromCodeCoverage]
 public sealed record GridMapOptions
 {
     #region Constants

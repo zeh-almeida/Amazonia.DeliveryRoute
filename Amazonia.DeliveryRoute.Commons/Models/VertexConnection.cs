@@ -10,13 +10,6 @@ public sealed class VertexConnection<TValue>
     IComparable<VertexConnection<TValue>>
     where TValue : class
 {
-    #region Constants
-    /// <summary>
-    /// Minimal distance: all values should be greater than this.
-    /// </summary>
-    public const decimal MinimalDistance = 0;
-    #endregion
-
     #region Properties
     /// <summary>
     /// Right neighbor
