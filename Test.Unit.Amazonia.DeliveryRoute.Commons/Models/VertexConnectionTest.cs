@@ -1,5 +1,4 @@
 ﻿using Amazonia.DeliveryRoute.Commons.Models;
-using Xunit.Abstractions;
 
 namespace Test.Unit.Amazonia.DeliveryRoute.Commons.Models;
 
@@ -142,7 +141,6 @@ public sealed record VertexConnectionTest
     }
 
     #region RelatedTo
-
     [Fact]
     public void RelatedTo_Item_IsTrue()
     {
