@@ -1,4 +1,5 @@
 ﻿using Amazonia.DeliveryRoute.Commons.Models;
+using Amazonia.DeliveryRoute.RouteCalculation.Models;
 using CommunityToolkit.Diagnostics;
 
 namespace Amazonia.DeliveryRoute.RouteCalculation;
@@ -40,7 +41,7 @@ public sealed record RouteCalculator
     ///  - neither start nor destination are found in the grid
     ///  - start and destination are equal to eachother
     /// </exception>
-    public async Task<IOrderedEnumerable<Position>> CalculateAsync(
+    public async Task<RoutingResult<Position>> CalculateAsync(
         Grid<Position> grid,
         Position start,
         Position destination,
@@ -144,21 +145,29 @@ public sealed record RouteCalculator
         }, this.CancellationToken);
     }
 
-    private IOrderedEnumerable<Position> BuildPathToDestination(Vertex<Position>? vertex)
+    private RoutingResult<Position> BuildPathToDestination(Vertex<Position>? vertex)
     {
         this.CancellationToken.ThrowIfCancellationRequested();
         var path = new List<Position>(VerticeBuffer);
+        decimal totalDistance = 0;
 
         if (vertex is not null)
         {
             while (vertex is not null)
             {
+                totalDistance += vertex!.TotalDistance;
                 path.Add(vertex.Value);
+
                 vertex = vertex.Previous;
             }
         }
 
         path.Reverse();
-        return path.OrderBy(_ => 0);
+
+        return new RoutingResult<Position>
+        {
+            Path = path.OrderBy(_ => 0),
+            TotalDistance = totalDistance,
+        };
     }
 }

@@ -69,6 +69,7 @@ public sealed record RouteCalculatorTest
         var result = await subject.CalculateAsync(grid, startPosition, endPosition);
 
         Assert.NotNull(result);
-        Assert.True(result.Any());
+        Assert.True(result.TotalDistance > 0);
+        Assert.True(result.Path.Any());
     }
 }

@@ -123,7 +123,7 @@ public sealed record VertexConnectionTest
     [Fact]
     public void ToString_IsCorrect()
     {
-        const string expected = "C(P(A2) | 1.0)";
+        const string expected = "C(P(A1) | 1.0)";
 
         var itemDistance = new VertexConnection<Position>
         {

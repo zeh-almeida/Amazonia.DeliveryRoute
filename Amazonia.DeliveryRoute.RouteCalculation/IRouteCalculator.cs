@@ -1,4 +1,5 @@
 ﻿using Amazonia.DeliveryRoute.Commons.Models;
+using Amazonia.DeliveryRoute.RouteCalculation.Models;
 
 namespace Amazonia.DeliveryRoute.RouteCalculation;
 
@@ -17,7 +18,7 @@ public interface IRouteCalculator<TValue>
     /// <param name="destination">Value in grid in which to end the path tracing</param>
     /// <param name="cancellationToken">Allows cancellation of the execution</param>
     /// <returns>Sorted value enumeration with the shortest route</returns>
-    Task<IOrderedEnumerable<TValue>> CalculateAsync(
+    Task<RoutingResult<TValue>> CalculateAsync(
         Grid<TValue> grid,
         TValue start,
         TValue destination,

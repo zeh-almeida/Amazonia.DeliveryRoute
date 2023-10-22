@@ -2,6 +2,7 @@ using Amazonia.DeliveryRoute.Commons.Models;
 using Amazonia.DeliveryRoute.GridMap;
 using Amazonia.DeliveryRoute.GridMap.Models;
 using Amazonia.DeliveryRoute.RouteCalculation;
+using Amazonia.DeliveryRoute.RouteCalculation.Models;
 using Microsoft.Extensions.Options;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
@@ -38,12 +39,12 @@ app.MapGet("/", async context =>
         destination,
         context.RequestAborted);
 
-    await context.Response.WriteAsJsonAsync(route, PathContext.Default.IEnumerablePosition, cancellationToken: context.RequestAborted);
+    await context.Response.WriteAsJsonAsync(route, PathContext.Default.RoutingResultPosition, cancellationToken: context.RequestAborted);
 });
 
 app.Run();
 
 [ExcludeFromCodeCoverage]
-[JsonSerializable(typeof(IEnumerable<Position>))]
+[JsonSerializable(typeof(RoutingResult<Position>))]
 public partial class PathContext : JsonSerializerContext
 { }
