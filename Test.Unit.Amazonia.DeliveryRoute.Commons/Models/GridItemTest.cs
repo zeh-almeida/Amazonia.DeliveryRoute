@@ -22,7 +22,7 @@ public sealed record GridItemTest
     [Fact]
     public void Equals_NullGridItem_False()
     {
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = ValidPosition,
         };
@@ -33,7 +33,7 @@ public sealed record GridItemTest
     [Fact]
     public void Equals_UnknownType_False()
     {
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = ValidPosition,
         };
@@ -44,7 +44,7 @@ public sealed record GridItemTest
     [Fact]
     public void Equals_NullUnknownType_False()
     {
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = ValidPosition,
         };
@@ -56,12 +56,12 @@ public sealed record GridItemTest
     [Fact]
     public void Equals_SamePosition_True()
     {
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = ValidPosition,
         };
 
-        var itemB = new GridItem
+        var itemB = new GridItem<string>
         {
             Position = ValidPosition,
         };
@@ -72,7 +72,7 @@ public sealed record GridItemTest
     [Fact]
     public void HashCode_Calculates()
     {
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = ValidPosition,
         };
@@ -94,7 +94,7 @@ public sealed record GridItemTest
         string xItemB, int yItemB,
         int expected)
     {
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = new Position
             {
@@ -103,7 +103,7 @@ public sealed record GridItemTest
             },
         };
 
-        var itemB = new GridItem
+        var itemB = new GridItem<string>
         {
             Position = new Position
             {
@@ -118,12 +118,12 @@ public sealed record GridItemTest
     [Fact]
     public void CompareTo_NullGridItem_Executes()
     {
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = ValidPosition,
         };
 
-        GridItem? itemB = null;
+        GridItem<string>? itemB = null;
         Assert.True(itemA.CompareTo(itemB) > 0);
     }
     #endregion
@@ -133,7 +133,7 @@ public sealed record GridItemTest
     {
         const string expected = "(A1: [])";
 
-        var item = new GridItem
+        var item = new GridItem<string>
         {
             Position = ValidPosition,
         };
@@ -145,12 +145,12 @@ public sealed record GridItemTest
     [Fact]
     public void AddNeighbor_Succeeds()
     {
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = ValidPosition,
         };
 
-        var itemB = new GridItem
+        var itemB = new GridItem<string>
         {
             Position = new Position
             {
@@ -168,12 +168,12 @@ public sealed record GridItemTest
     [Fact]
     public void AddNeighbor_Duplicate_KeepsOldDistance()
     {
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = ValidPosition,
         };
 
-        var itemB = new GridItem
+        var itemB = new GridItem<string>
         {
             Position = new Position
             {
@@ -206,12 +206,12 @@ public sealed record GridItemTest
             Y = ValidY + 1
         };
 
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = ValidPosition,
         };
 
-        var itemB = new GridItem
+        var itemB = new GridItem<string>
         {
             Position = otherPosition,
         };
@@ -224,7 +224,7 @@ public sealed record GridItemTest
     [Fact]
     public void FindNeighbor_NoNeighbor_IsNull()
     {
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = ValidPosition,
         };
@@ -247,12 +247,12 @@ public sealed record GridItemTest
             Y = ValidY + 2
         };
 
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = ValidPosition,
         };
 
-        var itemB = new GridItem
+        var itemB = new GridItem<string>
         {
             Position = otherPosition,
         };

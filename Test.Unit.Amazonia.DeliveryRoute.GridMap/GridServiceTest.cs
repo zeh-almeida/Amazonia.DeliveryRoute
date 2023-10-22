@@ -24,14 +24,14 @@ public sealed record GridServiceTest
     #region Properties
     private Mock<IOptions<GridMapOptions>> OptionsMock { get; }
 
-    private Mock<ILogger<IGridService>> LogMock { get; }
+    private Mock<ILogger<IGridService<string>>> LogMock { get; }
     #endregion
 
     #region Constructors
     public GridServiceTest()
     {
         this.OptionsMock = new Mock<IOptions<GridMapOptions>>();
-        this.LogMock = new Mock<ILogger<IGridService>>();
+        this.LogMock = new Mock<ILogger<IGridService<string>>>();
 
         var optionValues = new GridMapOptions
         {
@@ -55,7 +55,7 @@ public sealed record GridServiceTest
         var handlerMock = HttpClientHelper.MockResults(result);
         using var clientMock = MockClient(handlerMock);
 
-        var subject = new GridService(
+        var subject = new GridService<string>(
             this.OptionsMock.Object,
             this.LogMock.Object,
             clientMock);
@@ -82,7 +82,7 @@ public sealed record GridServiceTest
         var handlerMock = HttpClientHelper.MockException();
         using var clientMock = MockClient(handlerMock);
 
-        var subject = new GridService(
+        var subject = new GridService<string>(
             this.OptionsMock.Object,
             this.LogMock.Object,
             clientMock);
@@ -130,7 +130,7 @@ public sealed record GridServiceTest
         var handlerMock = HttpClientHelper.MockResults(result);
         using var clientMock = MockClient(handlerMock);
 
-        var subject = new GridService(
+        var subject = new GridService<string>(
             this.OptionsMock.Object,
             this.LogMock.Object,
             clientMock);

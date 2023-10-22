@@ -6,9 +6,10 @@ namespace Amazonia.DeliveryRoute.Commons.Models;
 /// <summary>
 /// Defines a placement in the delivery grid
 /// </summary>
-public sealed class GridItem
-    : IEquatable<GridItem>,
-    IComparable<GridItem>
+public sealed class GridItem<TValue>
+    : IEquatable<GridItem<TValue>>,
+    IComparable<GridItem<TValue>>
+    where TValue : class
 {
     #region Properties
     /// <summary>
@@ -20,7 +21,7 @@ public sealed class GridItem
     /// <summary>
     /// Relation to other GridItems and the distance between them
     /// </summary>
-    private SortedSet<GridDistance> Neighbors { get; }
+    private SortedSet<GridDistance<TValue>> Neighbors { get; }
     #endregion
 
     #region Constructors
@@ -37,11 +38,11 @@ public sealed class GridItem
     /// <inheritdoc/>
     public override bool Equals(object? other)
     {
-        return this.Equals(other as GridItem);
+        return this.Equals(other as GridItem<TValue>);
     }
 
     /// <inheritdoc/>
-    public bool Equals(GridItem? other)
+    public bool Equals(GridItem<TValue>? other)
     {
         return this.Position.Equals(other?.Position);
     }
@@ -55,7 +56,7 @@ public sealed class GridItem
 
     #region Comparable
     /// <inheritdoc/>
-    public int CompareTo(GridItem? other)
+    public int CompareTo(GridItem<TValue>? other)
     {
         return this.Position.CompareTo(other?.Position);
     }
@@ -75,17 +76,17 @@ public sealed class GridItem
     /// <remarks>The distance must be greater than <see cref="GridDistance.MinimalDistance"/></remarks>
     /// <param name="other">Item to make as neighbor</param>
     /// <param name="distance">Distance between the items</param>
-    public void AddNeighbor(GridItem other, decimal distance)
+    public void AddNeighbor(GridItem<TValue> other, decimal distance)
     {
         Guard.IsNotNull(other);
-        Guard.IsGreaterThan(distance, GridDistance.MinimalDistance);
+        Guard.IsGreaterThan(distance, GridDistance<TValue>.MinimalDistance);
 
         if (this.Neighbors.Any(x => x.Other.Equals(other)))
         {
             return;
         }
 
-        var value = new GridDistance
+        var value = new GridDistance<TValue>
         {
             Other = other,
             Value = distance,
@@ -99,7 +100,7 @@ public sealed class GridItem
     /// </summary>
     /// <param name="other">Item to check for</param>
     /// <returns>True if already neighbor, false otherwise</returns>
-    public bool IsNeighbor(GridItem other)
+    public bool IsNeighbor(GridItem<TValue> other)
     {
         Guard.IsNotNull(other);
         return this.Neighbors.Any(n => n.RelatedTo(other));
@@ -110,7 +111,7 @@ public sealed class GridItem
     /// </summary>
     /// <param name="position">position of the desired neighbor</param>
     /// <returns>Neighbor at the desired position or null if not found</returns>
-    public GridItem? FindNeighbor(Position position)
+    public GridItem<TValue>? FindNeighbor(Position position)
     {
         Guard.IsNotNull(position);
 
@@ -130,7 +131,7 @@ public sealed class GridItem
     /// Returns a copy of all neighbors for this Item
     /// </summary>
     /// <returns>All neighbors for this Item</returns>
-    public IEnumerable<GridDistance> AllNeighbors()
+    public IEnumerable<GridDistance<TValue>> AllNeighbors()
     {
         return this.Neighbors.AsEnumerable();
     }

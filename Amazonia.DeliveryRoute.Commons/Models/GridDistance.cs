@@ -6,9 +6,10 @@ namespace Amazonia.DeliveryRoute.Commons.Models;
 /// <summary>
 /// Defines the distance between two <see cref="GridItem"/>
 /// </summary>
-public sealed class GridDistance
-    : IEquatable<GridDistance>,
-    IComparable<GridDistance>
+public sealed class GridDistance<TValue>
+    : IEquatable<GridDistance<TValue>>,
+    IComparable<GridDistance<TValue>>
+    where TValue : class
 {
     #region Constants
     /// <summary>
@@ -22,7 +23,7 @@ public sealed class GridDistance
     /// Right neighbor
     /// </summary>
     [Required]
-    public required GridItem Other { get; set; }
+    public required GridItem<TValue> Other { get; set; }
 
     /// <summary>
     /// Distance between the neighbors
@@ -36,11 +37,11 @@ public sealed class GridDistance
     /// <inheritdoc/>
     public override bool Equals(object? other)
     {
-        return this.Equals(other as GridDistance);
+        return this.Equals(other as GridDistance<TValue>);
     }
 
     /// <inheritdoc/>
-    public bool Equals(GridDistance? other)
+    public bool Equals(GridDistance<TValue>? other)
     {
         return Equals(this.Other, other?.Other);
     }
@@ -54,7 +55,7 @@ public sealed class GridDistance
 
     #region Comparable
     /// <inheritdoc/>
-    public int CompareTo(GridDistance? other)
+    public int CompareTo(GridDistance<TValue>? other)
     {
         var result = this.Value.CompareTo(other?.Value);
 
@@ -78,7 +79,7 @@ public sealed class GridDistance
     /// </summary>
     /// <param name="item">Item to check for</param>
     /// <returns>True if the Item is related, false otherwise</returns>
-    public bool RelatedTo(GridItem item)
+    public bool RelatedTo(GridItem<TValue> item)
     {
         Guard.IsNotNull(item);
         return Equals(this.Other, item);
@@ -90,7 +91,7 @@ public sealed class GridDistance
     /// </summary>
     /// <param name="position">Position to check for</param>
     /// <returns>GridItem at the position for this relationship, null otherwise</returns>
-    public GridItem? CoversPosition(Position position)
+    public GridItem<TValue>? CoversPosition(Position position)
     {
         Guard.IsNotNull(position);
         return this.Other.Position.Equals(position) ? this.Other : null;

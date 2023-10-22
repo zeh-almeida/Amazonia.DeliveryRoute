@@ -9,9 +9,9 @@ namespace Amazonia.DeliveryRoute.Api.Models;
 /// </summary>
 public class PointOfInterest
     : IEquatable<PointOfInterest>,
-    IEquatable<GridItem>,
+    IEquatable<GridItem<string>>,
     IComparable<PointOfInterest>,
-    IComparable<GridItem>
+    IComparable<GridItem<string>>
 {
     #region Properties
     /// <summary>
@@ -37,9 +37,9 @@ public class PointOfInterest
             return this.Equals(other as PointOfInterest);
         }
 
-        if (other is GridItem)
+        if (other is GridItem<string>)
         {
-            return this.Equals(other as GridItem);
+            return this.Equals(other as GridItem<string>);
         }
 
         return false;
@@ -52,7 +52,7 @@ public class PointOfInterest
     }
 
     /// <inheritdoc/>
-    public bool Equals(GridItem? other)
+    public bool Equals(GridItem<string>? other)
     {
         return object.Equals(this.Position, other?.Position);
     }
@@ -72,7 +72,7 @@ public class PointOfInterest
     }
 
     /// <inheritdoc/>
-    public int CompareTo(GridItem? other)
+    public int CompareTo(GridItem<string>? other)
     {
         return this.Position.CompareTo(other?.Position);
     }

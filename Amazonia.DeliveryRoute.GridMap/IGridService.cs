@@ -5,11 +5,12 @@ namespace Amazonia.DeliveryRoute.GridMap;
 /// <summary>
 /// Allows for Grid manipulations
 /// </summary>
-public interface IGridService
+public interface IGridService<TValue>
+    where TValue : class
 {
     /// <summary>
     /// Builds a new Grid asynchonously
     /// </summary>
     /// <returns>Built Grid task</returns>
-    Task<Grid> BuildGridAsync(CancellationToken cancellationToken = default);
+    Task<Grid<TValue>> BuildGridAsync(CancellationToken cancellationToken = default);
 }

@@ -20,12 +20,12 @@ public sealed record GridTest
     [Fact]
     public void AddItem_New_Succeeds()
     {
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = ValidPosition,
         };
 
-        var subject = new Grid();
+        var subject = new Grid<string>();
 
         var result = subject.AddItem(itemA);
         Assert.True(result);
@@ -34,12 +34,12 @@ public sealed record GridTest
     [Fact]
     public void AddItem_Duplicate_Fails()
     {
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = ValidPosition,
         };
 
-        var subject = new Grid();
+        var subject = new Grid<string>();
 
         var firstAttempt = subject.AddItem(itemA);
         Assert.True(firstAttempt);
@@ -53,12 +53,12 @@ public sealed record GridTest
     [Fact]
     public void RemoveItem_Existing_Succeeds()
     {
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = ValidPosition,
         };
 
-        var subject = new Grid();
+        var subject = new Grid<string>();
 
         var added = subject.AddItem(itemA);
         Assert.True(added);
@@ -70,12 +70,12 @@ public sealed record GridTest
     [Fact]
     public void RemoveItem_Unknown_Fails()
     {
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = ValidPosition,
         };
 
-        var subject = new Grid();
+        var subject = new Grid<string>();
 
         var removed = subject.RemoveItem(itemA);
         Assert.False(removed);
@@ -86,12 +86,12 @@ public sealed record GridTest
     [Fact]
     public void FindItem_Existing_Succeeds()
     {
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = ValidPosition,
         };
 
-        var subject = new Grid();
+        var subject = new Grid<string>();
 
         var added = subject.AddItem(itemA);
         Assert.True(added);
@@ -104,7 +104,7 @@ public sealed record GridTest
     [Fact]
     public void FindItem_Unknown_Fails()
     {
-        var subject = new Grid();
+        var subject = new Grid<string>();
 
         var found = subject.FindItem(ValidPosition);
         Assert.Null(found);
@@ -115,12 +115,12 @@ public sealed record GridTest
     [Fact]
     public void AsEnumerable_ReturnsItems()
     {
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = ValidPosition,
         };
 
-        var subject = new Grid();
+        var subject = new Grid<string>();
 
         var added = subject.AddItem(itemA);
         Assert.True(added);
@@ -133,12 +133,12 @@ public sealed record GridTest
     [Fact]
     public void Count_NoItems_ReturnsZero()
     {
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = ValidPosition,
         };
 
-        var subject = new Grid();
+        var subject = new Grid<string>();
         Assert.Equal(0, subject.Count());
 
         var added = subject.AddItem(itemA);
@@ -150,12 +150,12 @@ public sealed record GridTest
     [Fact]
     public void Count_WithItems_ReturnsCount()
     {
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = ValidPosition,
         };
 
-        var subject = new Grid();
+        var subject = new Grid<string>();
         var added = subject.AddItem(itemA);
 
         Assert.True(added);
@@ -165,19 +165,19 @@ public sealed record GridTest
     [Fact]
     public void IsEmpty_NoItems_ReturnsTrue()
     {
-        var subject = new Grid();
+        var subject = new Grid<string>();
         Assert.True(subject.IsEmpty());
     }
 
     [Fact]
     public void IsEmpty_WithItems_ReturnsFalse()
     {
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = ValidPosition,
         };
 
-        var subject = new Grid();
+        var subject = new Grid<string>();
         var added = subject.AddItem(itemA);
 
         Assert.True(added);
@@ -190,12 +190,12 @@ public sealed record GridTest
     {
         const string expected = "[A1, A2]";
 
-        var itemA = new GridItem
+        var itemA = new GridItem<string>
         {
             Position = ValidPosition,
         };
 
-        var itemB = new GridItem
+        var itemB = new GridItem<string>
         {
             Position = new Position
             {
@@ -204,7 +204,7 @@ public sealed record GridTest
             },
         };
 
-        var subject = new Grid();
+        var subject = new Grid<string>();
 
         var addedA = subject.AddItem(itemA);
         Assert.True(addedA);

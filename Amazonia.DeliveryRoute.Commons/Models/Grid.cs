@@ -5,10 +5,11 @@ namespace Amazonia.DeliveryRoute.Commons.Models;
 /// <summary>
 /// Maintains all known <see cref="GridItem"/>s
 /// </summary>
-public sealed record Grid
+public sealed record Grid<TValue>
+    where TValue : class
 {
     #region Properties
-    private HashSet<GridItem> Items { get; set; }
+    private HashSet<GridItem<TValue>> Items { get; set; }
     #endregion
 
     #region Constructors
@@ -32,7 +33,7 @@ public sealed record Grid
     /// </summary>
     /// <param name="item">Item to add</param>
     /// <returns>True if added, false if already known</returns>
-    public bool AddItem(GridItem item)
+    public bool AddItem(GridItem<TValue> item)
     {
         Guard.IsNotNull(item);
         return this.Items.Add(item);
@@ -43,7 +44,7 @@ public sealed record Grid
     /// </summary>
     /// <param name="item">Item to remove</param>
     /// <returns>True if removed, false if not found</returns>
-    public bool RemoveItem(GridItem item)
+    public bool RemoveItem(GridItem<TValue> item)
     {
         Guard.IsNotNull(item);
         return this.Items.Remove(item);
@@ -54,7 +55,7 @@ public sealed record Grid
     /// </summary>
     /// <param name="position">Position to search for</param>
     /// <returns>Item at the desired position or null if it doesn't exist</returns>
-    public GridItem? FindItem(Position position)
+    public GridItem<TValue>? FindItem(Position position)
     {
         Guard.IsNotNull(position);
         return this.Items.FirstOrDefault(item => item.Position.Equals(position));
@@ -64,7 +65,7 @@ public sealed record Grid
     /// Enumerates all current items
     /// </summary>
     /// <returns>All current items</returns>
-    public IEnumerable<GridItem> AsEnumerable()
+    public IEnumerable<GridItem<TValue>> AsEnumerable()
     {
         return this.Items;
     }
@@ -84,6 +85,6 @@ public sealed record Grid
     /// <returns>True if grid has no items, false otherwise</returns>
     public bool IsEmpty()
     {
-        return !this.Items.Any();
+        return 0.Equals(this.Items.Count);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Amazonia.DeliveryRoute.Commons.Models;
+using Newtonsoft.Json.Linq;
 
 namespace Test.Unit.Amazonia.DeliveryRoute.Commons.Models;
 
@@ -23,7 +24,7 @@ public sealed record GridDistanceTest
         Y = ValidY + 1,
     };
 
-    private static GridItem ItemB { get; } = new GridItem
+    private static GridItem<string> ItemB { get; } = new GridItem<string>
     {
         Position = ValidPositionB,
     };
@@ -33,7 +34,7 @@ public sealed record GridDistanceTest
     [Fact]
     public void Equals_NullGridItem_IsFalse()
     {
-        var itemDistance = new GridDistance
+        var itemDistance = new GridDistance<string>
         {
             Other = ItemB,
             Value = ValidDistance,
@@ -45,7 +46,7 @@ public sealed record GridDistanceTest
     [Fact]
     public void Equals_UnknownType_IsFalse()
     {
-        var itemDistance = new GridDistance
+        var itemDistance = new GridDistance<string>
         {
             Other = ItemB,
             Value = ValidDistance,
@@ -57,7 +58,7 @@ public sealed record GridDistanceTest
     [Fact]
     public void Equals_NullUnknownType_IsFalse()
     {
-        var itemDistanceA = new GridDistance
+        var itemDistanceA = new GridDistance<string>
         {
             Other = ItemB,
             Value = ValidDistance,
@@ -70,7 +71,7 @@ public sealed record GridDistanceTest
     [Fact]
     public void Equals_DifferentItem_IsFalse()
     {
-        var differentGridItem = new GridItem
+        var differentGridItem = new GridItem<string>
         {
             Position = new Position
             {
@@ -79,13 +80,13 @@ public sealed record GridDistanceTest
             },
         };
 
-        var itemDistanceA = new GridDistance
+        var itemDistanceA = new GridDistance<string>
         {
             Other = ItemB,
             Value = ValidDistance,
         };
 
-        var itemDistanceB = new GridDistance
+        var itemDistanceB = new GridDistance<string>
         {
             Other = differentGridItem,
             Value = ValidDistance,
@@ -97,13 +98,13 @@ public sealed record GridDistanceTest
     [Fact]
     public void Equals_SamePosition_IsTrue()
     {
-        var itemDistanceA = new GridDistance
+        var itemDistanceA = new GridDistance<string>
         {
             Other = ItemB,
             Value = ValidDistance,
         };
 
-        var itemDistanceB = new GridDistance
+        var itemDistanceB = new GridDistance<string>
         {
             Other = ItemB,
             Value = ValidDistance + 1,
@@ -115,7 +116,7 @@ public sealed record GridDistanceTest
     [Fact]
     public void HashCode_Calculates()
     {
-        var itemDistance = new GridDistance
+        var itemDistance = new GridDistance<string>
         {
             Other = ItemB,
             Value = ValidDistance,
@@ -131,7 +132,7 @@ public sealed record GridDistanceTest
     {
         const string expected = "(A2 | 1.0)";
 
-        var itemDistance = new GridDistance
+        var itemDistance = new GridDistance<string>
         {
             Other = ItemB,
             Value = ValidDistance,
@@ -145,7 +146,7 @@ public sealed record GridDistanceTest
     [Fact]
     public void RelatedTo_Item_IsTrue()
     {
-        var itemDistance = new GridDistance
+        var itemDistance = new GridDistance<string>
         {
             Other = ItemB,
             Value = ValidDistance,
@@ -157,13 +158,13 @@ public sealed record GridDistanceTest
     [Fact]
     public void RelatedTo_UnknownItem_IsFalse()
     {
-        var itemDistance = new GridDistance
+        var itemDistance = new GridDistance<string>
         {
             Other = ItemB,
             Value = ValidDistance,
         };
 
-        var itemC = new GridItem
+        var itemC = new GridItem<string>
         {
             Position = new Position
             {
@@ -180,7 +181,7 @@ public sealed record GridDistanceTest
     [Fact]
     public void CoversPosition_Item_IsTrue()
     {
-        var itemDistance = new GridDistance
+        var itemDistance = new GridDistance<string>
         {
             Other = ItemB,
             Value = ValidDistance,
@@ -195,7 +196,7 @@ public sealed record GridDistanceTest
     [Fact]
     public void CoversPosition_UnknownItem_IsNull()
     {
-        var itemDistance = new GridDistance
+        var itemDistance = new GridDistance<string>
         {
             Other = ItemB,
             Value = ValidDistance,
