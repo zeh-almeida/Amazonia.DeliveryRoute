@@ -32,8 +32,11 @@ public sealed record RouteCalculator : IRouteCalculator
     #endregion
 
     /// <inheritdoc/>
-    /// <exception cref="ArgumentException"></exception>
-    /// <exception cref="NotImplementedException"></exception>
+    /// <exception cref="ArgumentException">
+    /// Thrown if:
+    ///  - grid is empty
+    ///  - neither start nor destination are found in the grid
+    /// </exception>
     public async Task<IOrderedEnumerable<GridItem>> CalculateAsync(
         Grid grid,
         Position start,
@@ -51,20 +54,24 @@ public sealed record RouteCalculator : IRouteCalculator
             throw new ArgumentException("Cannot be empty", nameof(grid));
         }
 
-        if (grid.FindItem(start) is null)
+        this.CurrentGrid = grid;
+
+        this.Start = this.CurrentGrid.FindItem(start);
+        if (this.Start is null)
         {
             throw new ArgumentException("Position not found at grid", nameof(start));
         }
 
-        if (grid.FindItem(destination) is null)
+        this.Destination = this.CurrentGrid.FindItem(destination);
+        if (this.Destination is null)
         {
             throw new ArgumentException("Position not found at grid", nameof(destination));
         }
 
-        this.CurrentGrid = grid;
-
-        this.Start = this.CurrentGrid.FindItem(start)!;
-        this.Destination = this.CurrentGrid.FindItem(destination)!;
+        if (start.Equals(destination))
+        {
+            throw new ArgumentException("Start position must be different", nameof(destination));
+        }
 
         this.CancellationToken.ThrowIfCancellationRequested();
 
