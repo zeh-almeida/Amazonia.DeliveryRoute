@@ -1,11 +1,26 @@
 @Amazonia.DeliveryRoute.Api_HostAddress = http://localhost:5057
 
-GET {{Amazonia.DeliveryRoute.Api_HostAddress}}/todos/
+###
+# Sends a test request to calculate hard coded positions in the grid
+GET {{Amazonia.DeliveryRoute.Api_HostAddress}}/api/test
 Accept: application/json
 
 ###
-
-GET {{Amazonia.DeliveryRoute.Api_HostAddress}}/todos/1
+# Sends a request to calcualte the positions set up in the body
+POST {{Amazonia.DeliveryRoute.Api_HostAddress}}/api
 Accept: application/json
+Content-Type: application/json
+
+{
+    "startPoint": {
+      "X": "A",
+      "Y": 1
+    },
+
+    "destinationPoint": {
+      "X": "G",
+      "Y": 4
+    }
+}
 
 ###

@@ -1,3 +1,4 @@
+using Amazonia.DeliveryRoute.Api.Models;
 using Amazonia.DeliveryRoute.Commons.Models;
 using Amazonia.DeliveryRoute.GridMap;
 using Amazonia.DeliveryRoute.GridMap.Models;
@@ -21,7 +22,30 @@ builder.Services.AddTransient<IRouteCalculator<Position>, RouteCalculator>();
 
 var app = builder.Build();
 
-app.MapGet("/", async context =>
+app.MapGet("/api/test", async context =>
+{
+    var start = new Position { X = "A", Y = 1 };
+    var destination = new Position { X = "G", Y = 4 };
+
+    await CalculateRoute(context, start, destination);
+});
+
+app.MapPost("/api", async context =>
+{
+    var positions = await context.Request.ReadFromJsonAsync<DistanceRequest>(cancellationToken: context.RequestAborted);
+
+    if (positions is null)
+    {
+        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+        return;
+    }
+
+    await CalculateRoute(context, positions.StartPoint, positions.DestinationPoint);
+});
+
+app.Run();
+
+static async Task CalculateRoute(HttpContext context, Position start, Position destination)
 {
     using var scope = context.RequestServices.CreateScope();
 
@@ -30,9 +54,6 @@ app.MapGet("/", async context =>
 
     var grid = await gridService.BuildGridAsync(context.RequestAborted);
 
-    var start = new Position { X = "A", Y = 1 };
-    var destination = new Position { X = "G", Y = 4 };
-
     var route = await routeService.CalculateAsync(
         grid,
         start,
@@ -40,9 +61,8 @@ app.MapGet("/", async context =>
         context.RequestAborted);
 
     await context.Response.WriteAsJsonAsync(route, PathContext.Default.RoutingResultPosition, cancellationToken: context.RequestAborted);
-});
+}
 
-app.Run();
 
 [ExcludeFromCodeCoverage]
 [JsonSerializable(typeof(RoutingResult<Position>))]
