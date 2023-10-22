@@ -71,7 +71,7 @@ public sealed class GridDistance<TValue>
     /// <inheritdoc/>
     public override string ToString()
     {
-        return $"({this.Other.Position} | {this.Value:0.0####})";
+        return $"({this.Other.Value} | {this.Value:0.0####})";
     }
 
     /// <summary>
@@ -91,9 +91,9 @@ public sealed class GridDistance<TValue>
     /// </summary>
     /// <param name="position">Position to check for</param>
     /// <returns>GridItem at the position for this relationship, null otherwise</returns>
-    public GridItem<TValue>? CoversPosition(Position position)
+    public GridItem<TValue>? CoversPosition(TValue position)
     {
         Guard.IsNotNull(position);
-        return this.Other.Position.Equals(position) ? this.Other : null;
+        return this.Other.Value.Equals(position) ? this.Other : null;
     }
 }

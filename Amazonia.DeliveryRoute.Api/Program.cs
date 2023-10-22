@@ -10,13 +10,13 @@ var builder = WebApplication.CreateSlimBuilder(args);
 
 builder.Services.Configure<GridMapOptions>(builder.Configuration.GetSection(GridMapOptions.Section));
 
-builder.Services.AddHttpClient<IGridService<string>, GridService<string>>((services, client) =>
+builder.Services.AddHttpClient<IGridService<Position>, GridService>((services, client) =>
 {
     var options = services.GetRequiredService<IOptions<GridMapOptions>>();
     client.BaseAddress = new Uri(options.Value.GridSourceBaseUri);
 });
 
-builder.Services.AddTransient<IRouteCalculator<string>, RouteCalculator<string>>();
+builder.Services.AddTransient<IRouteCalculator<Position>, RouteCalculator>();
 
 var app = builder.Build();
 
@@ -33,12 +33,12 @@ app.MapGet("/", async context =>
 
     var route = await routeService.CalculateAsync(grid, start, destination, context.RequestAborted);
 
-    await context.Response.WriteAsJsonAsync(route, GridItemContext.Default.IEnumerableGridItemString, cancellationToken: context.RequestAborted);
+    await context.Response.WriteAsJsonAsync(route, GridItemContext.Default.IEnumerableGridItemPosition, cancellationToken: context.RequestAborted);
 });
 
 app.Run();
 
 [ExcludeFromCodeCoverage]
-[JsonSerializable(typeof(IEnumerable<GridItem<string>>))]
+[JsonSerializable(typeof(IEnumerable<GridItem<Position>>))]
 public partial class GridItemContext : JsonSerializerContext
 { }

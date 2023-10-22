@@ -16,7 +16,7 @@ public sealed class GridItem<TValue>
     /// Locates the item in the grid
     /// </summary>
     [Required]
-    public required Position Position { get; set; }
+    public required TValue Value { get; set; }
 
     /// <summary>
     /// Relation to other GridItems and the distance between them
@@ -44,13 +44,13 @@ public sealed class GridItem<TValue>
     /// <inheritdoc/>
     public bool Equals(GridItem<TValue>? other)
     {
-        return this.Position.Equals(other?.Position);
+        return this.Value.Equals(other?.Value);
     }
 
     /// <inheritdoc/>
     public override int GetHashCode()
     {
-        return HashCode.Combine(this.Position);
+        return HashCode.Combine(this.Value);
     }
     #endregion
 
@@ -58,22 +58,22 @@ public sealed class GridItem<TValue>
     /// <inheritdoc/>
     public int CompareTo(GridItem<TValue>? other)
     {
-        return this.Position.CompareTo(other?.Position);
+        return Comparer<TValue>.Default.Compare(this.Value, other?.Value);
     }
     #endregion
 
     /// <inheritdoc/>
     public override string ToString()
     {
-        var neighbors = this.Neighbors.Select(x => x.Other.Position);
-        return $"({this.Position}: [{string.Join(", ", neighbors)}])";
+        var neighbors = this.Neighbors.Select(x => x.Other.Value);
+        return $"({this.Value}: [{string.Join(", ", neighbors)}])";
     }
 
     /// <summary>
     /// Adds a new neighbor to this Item.
     /// If the neighbor already exists, it is not updated.
     /// </summary>
-    /// <remarks>The distance must be greater than <see cref="GridDistance.MinimalDistance"/></remarks>
+    /// <remarks>The distance must be greater than <see cref="GridDistance{TValue}.MinimalDistance"/></remarks>
     /// <param name="other">Item to make as neighbor</param>
     /// <param name="distance">Distance between the items</param>
     public void AddNeighbor(GridItem<TValue> other, decimal distance)
@@ -111,7 +111,7 @@ public sealed class GridItem<TValue>
     /// </summary>
     /// <param name="position">position of the desired neighbor</param>
     /// <returns>Neighbor at the desired position or null if not found</returns>
-    public GridItem<TValue>? FindNeighbor(Position position)
+    public GridItem<TValue>? FindNeighbor(TValue position)
     {
         Guard.IsNotNull(position);
 

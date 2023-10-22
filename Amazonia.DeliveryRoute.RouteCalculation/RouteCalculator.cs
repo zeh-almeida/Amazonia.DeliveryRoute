@@ -7,18 +7,17 @@ namespace Amazonia.DeliveryRoute.RouteCalculation;
 /// <summary>
 /// Implements IRouteCalculator as a service
 /// </summary>
-public sealed record RouteCalculator<TValue>
-    : IRouteCalculator<TValue>
-    where TValue : class
+public sealed record RouteCalculator
+    : IRouteCalculator<Position>
 {
     #region Properties
-    private List<Vertice<GridItem<TValue>>> WorkingSet { get; set; }
+    private List<Vertice<GridItem<Position>>> WorkingSet { get; set; }
 
-    private Grid<TValue>? CurrentGrid { get; set; }
+    private Grid<Position>? CurrentGrid { get; set; }
 
-    private GridItem<TValue>? Start { get; set; }
+    private GridItem<Position>? Start { get; set; }
 
-    private GridItem<TValue>? Destination { get; set; }
+    private GridItem<Position>? Destination { get; set; }
 
     private CancellationToken CancellationToken { get; set; }
     #endregion
@@ -40,8 +39,8 @@ public sealed record RouteCalculator<TValue>
     ///  - neither start nor destination are found in the grid
     ///  - start and destination are equal to eachother
     /// </exception>
-    public async Task<IOrderedEnumerable<GridItem<TValue>>> CalculateAsync(
-        Grid<TValue> grid,
+    public async Task<IOrderedEnumerable<GridItem<Position>>> CalculateAsync(
+        Grid<Position> grid,
         Position start,
         Position destination,
         CancellationToken cancellationToken = default)
@@ -93,7 +92,7 @@ public sealed record RouteCalculator<TValue>
             var itemCount = this.CurrentGrid!.Count();
 
             this.WorkingSet.Clear();
-            this.WorkingSet = new List<Vertice<GridItem<TValue>>>(itemCount)
+            this.WorkingSet = new List<Vertice<GridItem<Position>>>(itemCount)
             {
                 new() {
                     Value = this.Start!,
@@ -115,9 +114,9 @@ public sealed record RouteCalculator<TValue>
         }, this.CancellationToken);
     }
 
-    private Vertice<GridItem<TValue>> AddToWorkingSet(GridItem<TValue> gridItem)
+    private Vertice<GridItem<Position>> AddToWorkingSet(GridItem<Position> gridItem)
     {
-        var vertice = new Vertice<GridItem<TValue>>
+        var vertice = new Vertice<GridItem<Position>>
         {
             Value = gridItem,
         };
@@ -125,9 +124,9 @@ public sealed record RouteCalculator<TValue>
         return this.AddToWorkingSet(vertice);
     }
 
-    private Vertice<GridItem<TValue>> AddToWorkingSet(GridDistance<TValue> gridDistance)
+    private Vertice<GridItem<Position>> AddToWorkingSet(GridDistance<Position> gridDistance)
     {
-        var vertice = new Vertice<GridItem<TValue>>
+        var vertice = new Vertice<GridItem<Position>>
         {
             Value = gridDistance.Other,
             Weight = gridDistance.Value,
@@ -136,7 +135,7 @@ public sealed record RouteCalculator<TValue>
         return this.AddToWorkingSet(vertice);
     }
 
-    private Vertice<GridItem<TValue>> AddToWorkingSet(Vertice<GridItem<TValue>> vertice)
+    private Vertice<GridItem<Position>> AddToWorkingSet(Vertice<GridItem<Position>> vertice)
     {
         var existing = this.WorkingSet.Find(item => item.Equals(vertice));
 
@@ -150,11 +149,11 @@ public sealed record RouteCalculator<TValue>
     }
     #endregion
 
-    private Task<Vertice<GridItem<TValue>>> CalculateDistances()
+    private Task<Vertice<GridItem<Position>>> CalculateDistances()
     {
         return Task.Run(() =>
         {
-            Vertice<GridItem<TValue>>? result = null;
+            Vertice<GridItem<Position>>? result = null;
 
             while (this.WorkingSet.Count > 0)
             {
@@ -186,10 +185,10 @@ public sealed record RouteCalculator<TValue>
         }, this.CancellationToken);
     }
 
-    private IOrderedEnumerable<GridItem<TValue>> BuildPathToDestination(Vertice<GridItem<TValue>> vertex)
+    private IOrderedEnumerable<GridItem<Position>> BuildPathToDestination(Vertice<GridItem<Position>> vertex)
     {
         this.CancellationToken.ThrowIfCancellationRequested();
-        var path = new List<Vertice<GridItem<TValue>>>(this.CurrentGrid!.Count());
+        var path = new List<Vertice<GridItem<Position>>>(this.CurrentGrid!.Count());
 
         if (vertex is not null)
         {

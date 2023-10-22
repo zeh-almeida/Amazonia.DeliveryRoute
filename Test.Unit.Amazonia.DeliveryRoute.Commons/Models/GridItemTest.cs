@@ -22,9 +22,9 @@ public sealed record GridItemTest
     [Fact]
     public void Equals_NullGridItem_False()
     {
-        var itemA = new GridItem<string>
+        var itemA = new GridItem<Position>
         {
-            Position = ValidPosition,
+            Value = ValidPosition,
         };
 
         Assert.False(itemA.Equals(null));
@@ -33,9 +33,9 @@ public sealed record GridItemTest
     [Fact]
     public void Equals_UnknownType_False()
     {
-        var itemA = new GridItem<string>
+        var itemA = new GridItem<Position>
         {
-            Position = ValidPosition,
+            Value = ValidPosition,
         };
 
         Assert.False(object.Equals(itemA, 0));
@@ -44,9 +44,9 @@ public sealed record GridItemTest
     [Fact]
     public void Equals_NullUnknownType_False()
     {
-        var itemA = new GridItem<string>
+        var itemA = new GridItem<Position>
         {
-            Position = ValidPosition,
+            Value = ValidPosition,
         };
 
         object? itemB = null;
@@ -56,14 +56,14 @@ public sealed record GridItemTest
     [Fact]
     public void Equals_SamePosition_True()
     {
-        var itemA = new GridItem<string>
+        var itemA = new GridItem<Position>
         {
-            Position = ValidPosition,
+            Value = ValidPosition,
         };
 
-        var itemB = new GridItem<string>
+        var itemB = new GridItem<Position>
         {
-            Position = ValidPosition,
+            Value = ValidPosition,
         };
 
         Assert.True(object.Equals(itemA, itemB));
@@ -72,9 +72,9 @@ public sealed record GridItemTest
     [Fact]
     public void HashCode_Calculates()
     {
-        var itemA = new GridItem<string>
+        var itemA = new GridItem<Position>
         {
-            Position = ValidPosition,
+            Value = ValidPosition,
         };
 
         var expected = HashCode.Combine(ValidPosition);
@@ -94,18 +94,18 @@ public sealed record GridItemTest
         string xItemB, int yItemB,
         int expected)
     {
-        var itemA = new GridItem<string>
+        var itemA = new GridItem<Position>
         {
-            Position = new Position
+            Value = new Position
             {
                 X = xItemA,
                 Y = yItemA
             },
         };
 
-        var itemB = new GridItem<string>
+        var itemB = new GridItem<Position>
         {
-            Position = new Position
+            Value = new Position
             {
                 X = xItemB,
                 Y = yItemB
@@ -118,12 +118,12 @@ public sealed record GridItemTest
     [Fact]
     public void CompareTo_NullGridItem_Executes()
     {
-        var itemA = new GridItem<string>
+        var itemA = new GridItem<Position>
         {
-            Position = ValidPosition,
+            Value = ValidPosition,
         };
 
-        GridItem<string>? itemB = null;
+        GridItem<Position>? itemB = null;
         Assert.True(itemA.CompareTo(itemB) > 0);
     }
     #endregion
@@ -133,9 +133,9 @@ public sealed record GridItemTest
     {
         const string expected = "(A1: [])";
 
-        var item = new GridItem<string>
+        var item = new GridItem<Position>
         {
-            Position = ValidPosition,
+            Value = ValidPosition,
         };
 
         Assert.Equal(expected, item.ToString());
@@ -145,14 +145,14 @@ public sealed record GridItemTest
     [Fact]
     public void AddNeighbor_Succeeds()
     {
-        var itemA = new GridItem<string>
+        var itemA = new GridItem<Position>
         {
-            Position = ValidPosition,
+            Value = ValidPosition,
         };
 
-        var itemB = new GridItem<string>
+        var itemB = new GridItem<Position>
         {
-            Position = new Position
+            Value = new Position
             {
                 X = ValidX,
                 Y = ValidY + 1
@@ -168,14 +168,14 @@ public sealed record GridItemTest
     [Fact]
     public void AddNeighbor_Duplicate_KeepsOldDistance()
     {
-        var itemA = new GridItem<string>
+        var itemA = new GridItem<Position>
         {
-            Position = ValidPosition,
+            Value = ValidPosition,
         };
 
-        var itemB = new GridItem<string>
+        var itemB = new GridItem<Position>
         {
-            Position = new Position
+            Value = new Position
             {
                 X = ValidX,
                 Y = ValidY + 1
@@ -206,14 +206,14 @@ public sealed record GridItemTest
             Y = ValidY + 1
         };
 
-        var itemA = new GridItem<string>
+        var itemA = new GridItem<Position>
         {
-            Position = ValidPosition,
+            Value = ValidPosition,
         };
 
-        var itemB = new GridItem<string>
+        var itemB = new GridItem<Position>
         {
-            Position = otherPosition,
+            Value = otherPosition,
         };
 
         itemA.AddNeighbor(itemB, ValidDistance);
@@ -224,9 +224,9 @@ public sealed record GridItemTest
     [Fact]
     public void FindNeighbor_NoNeighbor_IsNull()
     {
-        var itemA = new GridItem<string>
+        var itemA = new GridItem<Position>
         {
-            Position = ValidPosition,
+            Value = ValidPosition,
         };
 
         Assert.Null(itemA.FindNeighbor(ValidPosition));
@@ -247,14 +247,14 @@ public sealed record GridItemTest
             Y = ValidY + 2
         };
 
-        var itemA = new GridItem<string>
+        var itemA = new GridItem<Position>
         {
-            Position = ValidPosition,
+            Value = ValidPosition,
         };
 
-        var itemB = new GridItem<string>
+        var itemB = new GridItem<Position>
         {
-            Position = otherPosition,
+            Value = otherPosition,
         };
 
         itemA.AddNeighbor(itemB, ValidDistance);

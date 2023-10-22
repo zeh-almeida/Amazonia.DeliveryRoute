@@ -25,7 +25,7 @@ public sealed record Grid<TValue>
     /// <inheritdoc/>
     public override string ToString()
     {
-        return $"[{string.Join(", ", this.Items.Select(i => i.Position).Order())}]";
+        return $"[{string.Join(", ", this.Items.Select(i => i.Value).Order())}]";
     }
 
     /// <summary>
@@ -55,10 +55,10 @@ public sealed record Grid<TValue>
     /// </summary>
     /// <param name="position">Position to search for</param>
     /// <returns>Item at the desired position or null if it doesn't exist</returns>
-    public GridItem<TValue>? FindItem(Position position)
+    public GridItem<TValue>? FindItem(TValue position)
     {
         Guard.IsNotNull(position);
-        return this.Items.FirstOrDefault(item => item.Position.Equals(position));
+        return this.Items.FirstOrDefault(item => item.Value.Equals(position));
     }
 
     /// <summary>

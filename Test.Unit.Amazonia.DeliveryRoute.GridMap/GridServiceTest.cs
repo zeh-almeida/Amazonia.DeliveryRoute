@@ -1,3 +1,4 @@
+using Amazonia.DeliveryRoute.Commons.Models;
 using Amazonia.DeliveryRoute.GridMap;
 using Amazonia.DeliveryRoute.GridMap.Models;
 using Microsoft.Extensions.Logging;
@@ -24,14 +25,14 @@ public sealed record GridServiceTest
     #region Properties
     private Mock<IOptions<GridMapOptions>> OptionsMock { get; }
 
-    private Mock<ILogger<IGridService<string>>> LogMock { get; }
+    private Mock<ILogger<IGridService<Position>>> LogMock { get; }
     #endregion
 
     #region Constructors
     public GridServiceTest()
     {
         this.OptionsMock = new Mock<IOptions<GridMapOptions>>();
-        this.LogMock = new Mock<ILogger<IGridService<string>>>();
+        this.LogMock = new Mock<ILogger<IGridService<Position>>>();
 
         var optionValues = new GridMapOptions
         {
@@ -55,7 +56,7 @@ public sealed record GridServiceTest
         var handlerMock = HttpClientHelper.MockResults(result);
         using var clientMock = MockClient(handlerMock);
 
-        var subject = new GridService<string>(
+        var subject = new GridService(
             this.OptionsMock.Object,
             this.LogMock.Object,
             clientMock);
@@ -82,7 +83,7 @@ public sealed record GridServiceTest
         var handlerMock = HttpClientHelper.MockException();
         using var clientMock = MockClient(handlerMock);
 
-        var subject = new GridService<string>(
+        var subject = new GridService(
             this.OptionsMock.Object,
             this.LogMock.Object,
             clientMock);
@@ -130,7 +131,7 @@ public sealed record GridServiceTest
         var handlerMock = HttpClientHelper.MockResults(result);
         using var clientMock = MockClient(handlerMock);
 
-        var subject = new GridService<string>(
+        var subject = new GridService(
             this.OptionsMock.Object,
             this.LogMock.Object,
             clientMock);

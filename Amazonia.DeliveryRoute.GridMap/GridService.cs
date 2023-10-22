@@ -14,17 +14,16 @@ namespace Amazonia.DeliveryRoute.GridMap;
 /// <summary>
 /// Implements <see cref="IGridService{TValue}"/> in order to build the Grid
 /// </summary>
-public sealed partial record GridService<TValue>
+public sealed partial record GridService
     : IDisposable,
-    IGridService<TValue>
-    where TValue : class
+    IGridService<Position>
 {
     #region Properties
     private HttpClient HttpClient { get; }
 
     private GridMapOptions Options { get; }
 
-    private ILogger<IGridService<TValue>> Logger { get; }
+    private ILogger<IGridService<Position>> Logger { get; }
 
     private bool IsDisposed { get; set; }
 
@@ -40,7 +39,7 @@ public sealed partial record GridService<TValue>
     /// <param name="httpClient">Client to make API calls</param>
     public GridService(
         IOptions<GridMapOptions> options,
-        ILogger<IGridService<TValue>> logger,
+        ILogger<IGridService<Position>> logger,
         HttpClient httpClient)
     {
         Guard.IsNotNull(logger);
@@ -79,7 +78,7 @@ public sealed partial record GridService<TValue>
 
     /// <inheritdoc/>
     /// <remarks>calls an external HTTP API in order to build the Grid</remarks>
-    public Task<Grid<TValue>> BuildGridAsync(CancellationToken cancellationToken = default)
+    public Task<Grid<Position>> BuildGridAsync(CancellationToken cancellationToken = default)
     {
         this.CurrentToken = cancellationToken;
         this.CurrentToken.ThrowIfCancellationRequested();
@@ -87,7 +86,7 @@ public sealed partial record GridService<TValue>
         return this.AcquireData();
     }
 
-    private async Task<Grid<TValue>> AcquireData()
+    private async Task<Grid<Position>> AcquireData()
     {
         var data = await this.CallApi();
         return this.ParseJsonIntoGrid(data);
@@ -115,9 +114,9 @@ public sealed partial record GridService<TValue>
         return result!;
     }
 
-    private Grid<TValue> ParseJsonIntoGrid(JsonObject data)
+    private Grid<Position> ParseJsonIntoGrid(JsonObject data)
     {
-        var grid = new Grid<TValue>();
+        var grid = new Grid<Position>();
 
         if (0.Equals(data.Count))
         {
@@ -140,11 +139,11 @@ public sealed partial record GridService<TValue>
         return grid;
     }
 
-    private static GridItem<TValue> ParseDataItem(string value)
+    private static GridItem<Position> ParseDataItem(string value)
     {
-        var gridItem = new GridItem<TValue>
+        var gridItem = new GridItem<Position>
         {
-            Position = ParsePosition(value),
+            Value = ParsePosition(value),
         };
 
         return gridItem;
