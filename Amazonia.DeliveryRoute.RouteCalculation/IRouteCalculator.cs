@@ -12,9 +12,14 @@ public interface IRouteCalculator<TValue>
     /// Calculates the route between the start vertex and the destination
     /// in the desired grid
     /// </summary>
-    /// <param name="start"><see cref="Vertex{TValue}"/> in which to start the path tracing</param>
-    /// <param name="destination"><see cref="Vertex{TValue}"/> in which to end the path tracing</param>
+    /// <param name="grid"><see cref="Grid{TValue}"/> where all vertice reside</param>
+    /// <param name="start">Value in grid in which to start the path tracing</param>
+    /// <param name="destination">Value in grid in which to end the path tracing</param>
     /// <param name="cancellationToken">Allows cancellation of the execution</param>
-    /// <returns>Sorted <see cref="Vertex{TValue}"/> enumeration with the shortest route</returns>
-    Task<IOrderedEnumerable<Vertex<TValue>>> CalculateAsync(Vertex<TValue> start, Vertex<TValue> destination, CancellationToken cancellationToken = default);
+    /// <returns>Sorted value enumeration with the shortest route</returns>
+    Task<IOrderedEnumerable<TValue>> CalculateAsync(
+        Grid<TValue> grid,
+        TValue start,
+        TValue destination,
+        CancellationToken cancellationToken = default);
 }

@@ -1,9 +1,9 @@
 ﻿using Amazonia.DeliveryRoute.Commons.Models;
-using Newtonsoft.Json.Linq;
+using Xunit.Abstractions;
 
 namespace Test.Unit.Amazonia.DeliveryRoute.Commons.Models;
 
-public sealed record GridDistanceTest
+public sealed record VertexConnectionTest
 {
     #region Constants
     private const string ValidX = "A";
@@ -34,7 +34,7 @@ public sealed record GridDistanceTest
     [Fact]
     public void Equals_NullGridItem_IsFalse()
     {
-        var itemDistance = new GridDistance<Position>
+        var itemDistance = new VertexConnection<Position>
         {
             Other = ItemB,
             Value = ValidDistance,
@@ -46,7 +46,7 @@ public sealed record GridDistanceTest
     [Fact]
     public void Equals_UnknownType_IsFalse()
     {
-        var itemDistance = new GridDistance<Position>
+        var itemDistance = new VertexConnection<Position>
         {
             Other = ItemB,
             Value = ValidDistance,
@@ -58,7 +58,7 @@ public sealed record GridDistanceTest
     [Fact]
     public void Equals_NullUnknownType_IsFalse()
     {
-        var itemDistanceA = new GridDistance<Position>
+        var itemDistanceA = new VertexConnection<Position>
         {
             Other = ItemB,
             Value = ValidDistance,
@@ -80,13 +80,13 @@ public sealed record GridDistanceTest
             },
         };
 
-        var itemDistanceA = new GridDistance<Position>
+        var itemDistanceA = new VertexConnection<Position>
         {
             Other = ItemB,
             Value = ValidDistance,
         };
 
-        var itemDistanceB = new GridDistance<Position>
+        var itemDistanceB = new VertexConnection<Position>
         {
             Other = differentGridItem,
             Value = ValidDistance,
@@ -98,13 +98,13 @@ public sealed record GridDistanceTest
     [Fact]
     public void Equals_SamePosition_IsTrue()
     {
-        var itemDistanceA = new GridDistance<Position>
+        var itemDistanceA = new VertexConnection<Position>
         {
             Other = ItemB,
             Value = ValidDistance,
         };
 
-        var itemDistanceB = new GridDistance<Position>
+        var itemDistanceB = new VertexConnection<Position>
         {
             Other = ItemB,
             Value = ValidDistance + 1,
@@ -116,7 +116,7 @@ public sealed record GridDistanceTest
     [Fact]
     public void HashCode_Calculates()
     {
-        var itemDistance = new GridDistance<Position>
+        var itemDistance = new VertexConnection<Position>
         {
             Other = ItemB,
             Value = ValidDistance,
@@ -130,9 +130,9 @@ public sealed record GridDistanceTest
     [Fact]
     public void ToString_IsCorrect()
     {
-        const string expected = "(A2 | 1.0)";
+        const string expected = "C(P(A2) | 1.0)";
 
-        var itemDistance = new GridDistance<Position>
+        var itemDistance = new VertexConnection<Position>
         {
             Other = ItemB,
             Value = ValidDistance,
@@ -146,19 +146,19 @@ public sealed record GridDistanceTest
     [Fact]
     public void RelatedTo_Item_IsTrue()
     {
-        var itemDistance = new GridDistance<Position>
+        var itemDistance = new VertexConnection<Position>
         {
             Other = ItemB,
             Value = ValidDistance,
         };
 
-        Assert.True(itemDistance.RelatedTo(ItemB));
+        Assert.Equal(ItemB, itemDistance.Other);
     }
 
     [Fact]
     public void RelatedTo_UnknownItem_IsFalse()
     {
-        var itemDistance = new GridDistance<Position>
+        var itemDistance = new VertexConnection<Position>
         {
             Other = ItemB,
             Value = ValidDistance,
@@ -173,42 +173,7 @@ public sealed record GridDistanceTest
             },
         };
 
-        Assert.False(itemDistance.RelatedTo(itemC));
-    }
-    #endregion
-
-    #region CoversPosition
-    [Fact]
-    public void CoversPosition_Item_IsTrue()
-    {
-        var itemDistance = new GridDistance<Position>
-        {
-            Other = ItemB,
-            Value = ValidDistance,
-        };
-
-        var result = itemDistance.CoversPosition(ValidPositionB);
-
-        Assert.NotNull(result);
-        Assert.Equal(ItemB, result);
-    }
-
-    [Fact]
-    public void CoversPosition_UnknownItem_IsNull()
-    {
-        var itemDistance = new GridDistance<Position>
-        {
-            Other = ItemB,
-            Value = ValidDistance,
-        };
-
-        var positionC = new Position
-        {
-            X = ValidX,
-            Y = ValidY + 2,
-        };
-
-        Assert.Null(itemDistance.CoversPosition(positionC));
+        Assert.NotEqual(itemC, itemDistance.Other);
     }
     #endregion
 }

@@ -23,22 +23,27 @@ var app = builder.Build();
 app.MapGet("/", async context =>
 {
     using var scope = context.RequestServices.CreateScope();
+
     var gridService = scope.ServiceProvider.GetRequiredService<IGridService<Position>>();
     var routeService = scope.ServiceProvider.GetRequiredService<IRouteCalculator<Position>>();
 
     var grid = await gridService.BuildGridAsync(context.RequestAborted);
 
-    var start = grid.FindItem(new Position { X = "A", Y = 1 })!;
-    var destination = grid.FindItem(new Position { X = "G", Y = 4 })!;
+    var start = new Position { X = "A", Y = 1 };
+    var destination = new Position { X = "G", Y = 4 };
 
-    var route = await routeService.CalculateAsync(start, destination, context.RequestAborted);
+    var route = await routeService.CalculateAsync(
+        grid,
+        start,
+        destination,
+        context.RequestAborted);
 
-    await context.Response.WriteAsJsonAsync(route, VertexContext.Default.IEnumerableVertexPosition, cancellationToken: context.RequestAborted);
+    await context.Response.WriteAsJsonAsync(route, PathContext.Default.IEnumerablePosition, cancellationToken: context.RequestAborted);
 });
 
 app.Run();
 
 [ExcludeFromCodeCoverage]
-[JsonSerializable(typeof(IEnumerable<Vertex<Position>>))]
-public partial class VertexContext : JsonSerializerContext
+[JsonSerializable(typeof(IEnumerable<Position>))]
+public partial class PathContext : JsonSerializerContext
 { }

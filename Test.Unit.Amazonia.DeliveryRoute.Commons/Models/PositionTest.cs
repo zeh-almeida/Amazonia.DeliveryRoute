@@ -132,7 +132,7 @@ public sealed record PositionTest
     [Fact]
     public void ToString_IsCorrect()
     {
-        const string expected = "A1";
+        const string expected = "P(A1)";
 
         var item = new Position
         {

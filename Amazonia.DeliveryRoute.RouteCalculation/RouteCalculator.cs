@@ -40,11 +40,13 @@ public sealed record RouteCalculator
     ///  - neither start nor destination are found in the grid
     ///  - start and destination are equal to eachother
     /// </exception>
-    public async Task<IOrderedEnumerable<Vertex<Position>>> CalculateAsync(
-        Vertex<Position> start,
-        Vertex<Position> destination,
+    public async Task<IOrderedEnumerable<Position>> CalculateAsync(
+        Grid<Position> grid,
+        Position start,
+        Position destination,
         CancellationToken cancellationToken = default)
     {
+        Guard.IsNotNull(grid);
         Guard.IsNotNull(start);
         Guard.IsNotNull(destination);
 
@@ -55,8 +57,18 @@ public sealed record RouteCalculator
             throw new ArgumentException("Start position must be different", nameof(destination));
         }
 
-        this.Start = start;
-        this.Destination = destination;
+        this.Start = grid.FindItem(start);
+        this.Destination = grid.FindItem(destination);
+
+        if (this.Start is null)
+        {
+            throw new ArgumentException("Position not found at grid", nameof(start));
+        }
+
+        if (this.Destination is null)
+        {
+            throw new ArgumentException("Position not found at grid", nameof(destination));
+        }
 
         this.CancellationToken.ThrowIfCancellationRequested();
 
@@ -89,7 +101,7 @@ public sealed record RouteCalculator
 
         this.WorkingSet.Add(vertex);
 
-        foreach (var neighbor in vertex.AllNeighbors())
+        foreach (var neighbor in vertex.Connections)
         {
             this.IterateNeighbors(neighbor.Other);
         }
@@ -112,7 +124,7 @@ public sealed record RouteCalculator
                     break;
                 }
 
-                foreach (var neighbor in item.AllNeighbors())
+                foreach (var neighbor in item.Connections)
                 {
                     var calculatedDistance = item.TotalDistance + neighbor.Value;
                     if (calculatedDistance < neighbor.Other.TotalDistance)
@@ -132,17 +144,17 @@ public sealed record RouteCalculator
         }, this.CancellationToken);
     }
 
-    private IOrderedEnumerable<Vertex<Position>> BuildPathToDestination(Vertex<Position> vertex)
+    private IOrderedEnumerable<Position> BuildPathToDestination(Vertex<Position>? vertex)
     {
         this.CancellationToken.ThrowIfCancellationRequested();
-        var path = new List<Vertex<Position>>(VerticeBuffer);
+        var path = new List<Position>(VerticeBuffer);
 
         if (vertex is not null)
         {
             while (vertex is not null)
             {
-                path.Add(vertex);
-                vertex = vertex!.Previous!;
+                path.Add(vertex.Value);
+                vertex = vertex.Previous;
             }
         }
 

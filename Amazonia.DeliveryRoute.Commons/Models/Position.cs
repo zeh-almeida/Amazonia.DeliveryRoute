@@ -71,6 +71,6 @@ public sealed record Position
     /// <inheritdoc/>
     public override string ToString()
     {
-        return $"{this.X}{this.Y}";
+        return $"P({this.X}{this.Y})";
     }
 }

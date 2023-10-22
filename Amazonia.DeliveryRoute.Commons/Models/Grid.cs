@@ -3,7 +3,7 @@
 namespace Amazonia.DeliveryRoute.Commons.Models;
 
 /// <summary>
-/// Maintains all known <see cref="GridItem"/>s
+/// Maintains all known <see cref="Vertex{TValue}"/>s
 /// </summary>
 public sealed record Grid<TValue>
     where TValue : class
@@ -25,7 +25,7 @@ public sealed record Grid<TValue>
     /// <inheritdoc/>
     public override string ToString()
     {
-        return $"[{string.Join(", ", this.Items.Select(i => i.Value).Order())}]";
+        return $"G([{string.Join(", ", this.Items)}])";
     }
 
     /// <summary>
@@ -51,14 +51,13 @@ public sealed record Grid<TValue>
     }
 
     /// <summary>
-    /// Finds an item at the grid based on its position
+    /// Finds an item at the grid based on its value
     /// </summary>
-    /// <param name="position">Position to search for</param>
-    /// <returns>Item at the desired position or null if it doesn't exist</returns>
-    public Vertex<TValue>? FindItem(TValue position)
+    /// <param name="value">Value to search for</param>
+    /// <returns>Item with the desired value or null if it doesn't exist</returns>
+    public Vertex<TValue>? FindItem(TValue value)
     {
-        Guard.IsNotNull(position);
-        return this.Items.FirstOrDefault(item => item.Value.Equals(position));
+        return this.Items.FirstOrDefault(item => item.Value.Equals(value));
     }
 
     /// <summary>
@@ -68,23 +67,5 @@ public sealed record Grid<TValue>
     public IEnumerable<Vertex<TValue>> AsEnumerable()
     {
         return this.Items;
-    }
-
-    /// <summary>
-    /// Amount of items in the grid
-    /// </summary>
-    /// <returns>Amount of items in the grid</returns>
-    public int Count()
-    {
-        return this.Items.Count;
-    }
-
-    /// <summary>
-    /// Checks if the grid has any items
-    /// </summary>
-    /// <returns>True if grid has no items, false otherwise</returns>
-    public bool IsEmpty()
-    {
-        return 0.Equals(this.Items.Count);
     }
 }

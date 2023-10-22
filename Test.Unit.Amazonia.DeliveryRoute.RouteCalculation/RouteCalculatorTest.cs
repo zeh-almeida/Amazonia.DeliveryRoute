@@ -21,11 +21,11 @@ public sealed record RouteCalculatorTest
             Y = ValidY
         };
 
-        var startVertex = new Vertex<Position> { Value = position };
-        var destinationVertex = new Vertex<Position> { Value = position };
+        var grid = new Grid<Position>();
+        _ = grid.AddItem(new Vertex<Position> { Value = position });
 
         var subject = new RouteCalculator();
-        var exp = await Assert.ThrowsAsync<ArgumentException>(() => subject.CalculateAsync(startVertex, destinationVertex));
+        var exp = await Assert.ThrowsAsync<ArgumentException>(() => subject.CalculateAsync(grid, position, position));
 
         Assert.NotNull(exp);
         Assert.Equal("destination", exp.ParamName);
@@ -59,10 +59,14 @@ public sealed record RouteCalculatorTest
             Value = endPosition
         };
 
-        startItem.AddNeighbor(endItem, distance);
+        startItem.ConnectTo(endItem, distance);
+
+        var grid = new Grid<Position>();
+        _ = grid.AddItem(startItem);
+        _ = grid.AddItem(endItem);
 
         var subject = new RouteCalculator();
-        var result = await subject.CalculateAsync(startItem, endItem);
+        var result = await subject.CalculateAsync(grid, startPosition, endPosition);
 
         Assert.NotNull(result);
         Assert.True(result.Any());

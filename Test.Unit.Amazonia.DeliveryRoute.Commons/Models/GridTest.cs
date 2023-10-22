@@ -139,12 +139,12 @@ public sealed record GridTest
         };
 
         var subject = new Grid<Position>();
-        Assert.Equal(0, subject.Count());
+        Assert.Empty(subject.AsEnumerable());
 
         var added = subject.AddItem(itemA);
 
         Assert.True(added);
-        Assert.Equal(1, subject.Count());
+        _ = Assert.Single(subject.AsEnumerable());
     }
 
     [Fact]
@@ -159,36 +159,14 @@ public sealed record GridTest
         var added = subject.AddItem(itemA);
 
         Assert.True(added);
-        Assert.Equal(1, subject.Count());
-    }
-
-    [Fact]
-    public void IsEmpty_NoItems_ReturnsTrue()
-    {
-        var subject = new Grid<Position>();
-        Assert.True(subject.IsEmpty());
-    }
-
-    [Fact]
-    public void IsEmpty_WithItems_ReturnsFalse()
-    {
-        var itemA = new Vertex<Position>
-        {
-            Value = ValidPosition,
-        };
-
-        var subject = new Grid<Position>();
-        var added = subject.AddItem(itemA);
-
-        Assert.True(added);
-        Assert.False(subject.IsEmpty());
+        _ = Assert.Single(subject.AsEnumerable());
     }
     #endregion
 
     [Fact]
     public void ToString_IsCorrect()
     {
-        const string expected = "[A1, A2]";
+        const string expected = "G([V(P(A1)), V(P(A2))])";
 
         var itemA = new Vertex<Position>
         {

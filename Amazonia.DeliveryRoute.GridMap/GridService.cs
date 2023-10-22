@@ -125,12 +125,14 @@ public sealed partial record GridService
 
         foreach (var item in data)
         {
-            var gridItem = ParseDataItem(item.Key);
+            var gridItem = ParseDataItem(grid, item.Key);
 
             foreach (var neighbor in item.Value!.AsObject())
             {
-                var neighborItem = ParseDataItem(neighbor.Key);
-                gridItem.AddNeighbor(neighborItem, neighbor.Value!.GetValue<decimal>());
+                var neighborItem = ParseDataItem(grid, neighbor.Key);
+                gridItem.ConnectTo(neighborItem, neighbor.Value!.GetValue<decimal>());
+
+                _ = grid.AddItem(neighborItem);
             }
 
             _ = grid.AddItem(gridItem);
@@ -139,14 +141,15 @@ public sealed partial record GridService
         return grid;
     }
 
-    private static Vertex<Position> ParseDataItem(string value)
+    private static Vertex<Position> ParseDataItem(Grid<Position> grid, string value)
     {
-        var gridItem = new Vertex<Position>
-        {
-            Value = ParsePosition(value),
-        };
+        var position = ParsePosition(value);
 
-        return gridItem;
+        return grid.FindItem(position)
+            ?? new Vertex<Position>
+            {
+                Value = position,
+            };
     }
 
     /// <summary>

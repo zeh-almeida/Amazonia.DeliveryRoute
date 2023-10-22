@@ -2,7 +2,7 @@
 
 namespace Test.Unit.Amazonia.DeliveryRoute.Commons.Models;
 
-public sealed record GridItemTest
+public sealed record VertexTest
 {
     #region Constants
     private const string ValidX = "A";
@@ -131,7 +131,7 @@ public sealed record GridItemTest
     [Fact]
     public void ToString_IsCorrect()
     {
-        const string expected = "(A1: [])";
+        const string expected = "V(P(A1))";
 
         var item = new Vertex<Position>
         {
@@ -159,10 +159,9 @@ public sealed record GridItemTest
             },
         };
 
-        itemA.AddNeighbor(itemB, ValidDistance);
+        itemA.ConnectTo(itemB, ValidDistance);
 
-        Assert.NotEmpty(itemA.AllNeighbors());
-        Assert.True(itemA.IsNeighbor(itemB));
+        Assert.NotEmpty(itemA.Connections);
     }
 
     [Fact]
@@ -182,16 +181,15 @@ public sealed record GridItemTest
             },
         };
 
-        itemA.AddNeighbor(itemB, ValidDistance);
+        itemA.ConnectTo(itemB, ValidDistance);
 
-        Assert.NotEmpty(itemA.AllNeighbors());
-        Assert.True(itemA.IsNeighbor(itemB));
+        Assert.NotEmpty(itemA.Connections);
 
-        var oldDistance = itemA.AllNeighbors().First();
+        var oldDistance = itemA.Connections.First();
         var newDistance = ValidDistance + 1;
 
-        itemA.AddNeighbor(itemB, newDistance);
-        var currentDistance = itemA.AllNeighbors().First();
+        itemA.ConnectTo(itemB, newDistance);
+        var currentDistance = itemA.Connections.First();
 
         Assert.Equal(oldDistance.Value, currentDistance.Value);
         Assert.NotEqual(newDistance, currentDistance.Value);
