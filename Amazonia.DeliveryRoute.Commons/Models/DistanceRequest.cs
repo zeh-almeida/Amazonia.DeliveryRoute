@@ -12,12 +12,12 @@ public sealed record DistanceRequest
     /// Start <see cref="Position"/>
     /// </summary>
     [Required]
-    public required Position StartPoint { get; set; }
+    public Position StartPoint { get; set; }
 
     /// <summary>
     /// Destination <see cref="Position"/>
     /// </summary>
     [Required]
-    public required Position DestinationPoint { get; set; }
+    public Position DestinationPoint { get; set; }
     #endregion
 }

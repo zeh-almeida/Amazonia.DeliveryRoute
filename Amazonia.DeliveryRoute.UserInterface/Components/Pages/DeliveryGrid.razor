@@ -1,6 +1,7 @@
 ﻿@page "/"
 
 @using Amazonia.DeliveryRoute.Commons.Extensions
+@using Amazonia.DeliveryRoute.Commons.Models
 @using Amazonia.DeliveryRoute.UserInterface.Models
 @using Microsoft.Extensions.Options
 @using System.Text
@@ -14,7 +15,41 @@
 
 <div class="container overflow-hidden text-center">
     <div class="chess-board">
-        @GridContent
+        <div class="row align-items-center">
+            @for (int column = 0; column < this.GridWidth; column++)
+            {
+                @if (0.Equals(column))
+                {
+                    <div class="col"></div>
+                }
+
+                <div class="col align-self-center">@(column.AsColumnName())</div>
+            }
+
+            @{
+                bool colorToggle = true;
+            }
+
+            @for (int column = 0; column < this.GridWidth; column++)
+            {
+                <div class="row align-items-center">
+
+                    @for (int row = 0; row < this.GridHeight; row++)
+                    {
+                        @if (0.Equals(row))
+                        {
+                            <div class="col align-self-center">@(column + 1)</div>
+                        }
+
+                        var color = colorToggle ? "light" : "dark";
+                        var itemId = $"{column.AsColumnName()}{row}";
+
+                        <div class="col @color" id="@(itemId)"@onclick="args => SelectInterest(args, itemId)"></div>
+                    }
+
+                </div>
+            }
+        </div>
     </div>
 </div>
 
@@ -23,73 +58,22 @@
 
     private int GridHeight { get; set; }
 
-    private MarkupString GridContent { get; set; }
+    public DistanceRequest? Model { get; set; }
 
     protected override void OnInitialized()
     {
+        this.Model ??= new();
+
         this.GridHeight = Options.Value.GridHeight;
         this.GridWidth = Options.Value.GridWidth;
     }
 
     protected override void OnParametersSet()
     {
-        var builder = new StringBuilder();
-
-        builder = this.BuildHeader(builder);
-        builder = this.BuildCells(builder);
-
-        this.GridContent = (MarkupString)builder.ToString();
     }
 
-    private StringBuilder BuildHeader(StringBuilder builder)
+    private void SelectInterest(EventArgs args, string itemId)
     {
-        builder.Append("<div class=\"row align-items-center\">");
-
-        for (var column = 0; column < this.GridWidth; column++)
-        {
-            if (0.Equals(column))
-            {
-                builder.Append("<div class=\"col\"></div>");
-            }
-
-            builder.AppendFormat("<div class=\"col align-self-center\">{0}</div>", (column).AsColumnName());
-        }
-
-        builder.Append("</div>");
-        return builder;
-    }
-
-    private StringBuilder BuildCells(StringBuilder builder)
-    {
-        var colorToggle = true;
-        var lineNumber = 1;
-
-        for (var column = 0; column < this.GridWidth; column++)
-        {
-            builder.Append("<div class=\"row align-items-center\">");
-
-            for (var row = 0; row < this.GridHeight; row++)
-            {
-                if (0.Equals(row))
-                {
-                    builder.AppendFormat("<div class=\"col align-self-center\">{0}</div>", lineNumber);
-                }
-
-                var color = colorToggle ? "light" : "dark";
-
-                builder.AppendFormat(
-                    "<div class=\"col {0}\" id=\"{1}{2}\"></div>",
-                    color,
-                    column.AsColumnName(),
-                    row);
-
-                colorToggle = !colorToggle;
-            }
-
-            builder.Append("</div>");
-            lineNumber++;
-        }
-
-        return builder;
+        Console.WriteLine(itemId);
     }
 }
