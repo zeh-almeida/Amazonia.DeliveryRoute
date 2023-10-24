@@ -62,7 +62,9 @@ static async Task CalculateRoute(HttpContext context, Position start, Position d
     await context.Response.WriteAsJsonAsync(route, PathContext.Default.RoutingResultPosition, cancellationToken: context.RequestAborted);
 }
 
-
+/// <summary>
+/// Allows serialization of the Position Type on trimmed environments
+/// </summary>
 [ExcludeFromCodeCoverage]
 [JsonSerializable(typeof(RoutingResult<Position>))]
 public partial class PathContext : JsonSerializerContext

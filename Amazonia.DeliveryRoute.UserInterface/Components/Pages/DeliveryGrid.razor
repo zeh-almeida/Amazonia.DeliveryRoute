@@ -1,0 +1,95 @@
+﻿@page "/"
+
+@using Amazonia.DeliveryRoute.Commons.Extensions
+@using Amazonia.DeliveryRoute.UserInterface.Models
+@using Microsoft.Extensions.Options
+@using System.Text
+
+@rendermode RenderMode.InteractiveServer
+
+@inject IOptions<DeliveryRouteOptions> Options
+
+<PageTitle>Delivery Grid</PageTitle>
+<h3>Delivery Grid</h3>
+
+<div class="container overflow-hidden text-center">
+    <div class="chess-board">
+        @GridContent
+    </div>
+</div>
+
+@code {
+    private int GridWidth { get; set; }
+
+    private int GridHeight { get; set; }
+
+    private MarkupString GridContent { get; set; }
+
+    protected override void OnInitialized()
+    {
+        this.GridHeight = Options.Value.GridHeight;
+        this.GridWidth = Options.Value.GridWidth;
+    }
+
+    protected override void OnParametersSet()
+    {
+        var builder = new StringBuilder();
+
+        builder = this.BuildHeader(builder);
+        builder = this.BuildCells(builder);
+
+        this.GridContent = (MarkupString)builder.ToString();
+    }
+
+    private StringBuilder BuildHeader(StringBuilder builder)
+    {
+        builder.Append("<div class=\"row align-items-center\">");
+
+        for (var column = 0; column < this.GridWidth; column++)
+        {
+            if (0.Equals(column))
+            {
+                builder.Append("<div class=\"col\"></div>");
+            }
+
+            builder.AppendFormat("<div class=\"col align-self-center\">{0}</div>", (column).AsColumnName());
+        }
+
+        builder.Append("</div>");
+        return builder;
+    }
+
+    private StringBuilder BuildCells(StringBuilder builder)
+    {
+        var colorToggle = true;
+        var lineNumber = 1;
+
+        for (var column = 0; column < this.GridWidth; column++)
+        {
+            builder.Append("<div class=\"row align-items-center\">");
+
+            for (var row = 0; row < this.GridHeight; row++)
+            {
+                if (0.Equals(row))
+                {
+                    builder.AppendFormat("<div class=\"col align-self-center\">{0}</div>", lineNumber);
+                }
+
+                var color = colorToggle ? "light" : "dark";
+
+                builder.AppendFormat(
+                    "<div class=\"col {0}\" id=\"{1}{2}\"></div>",
+                    color,
+                    column.AsColumnName(),
+                    row);
+
+                colorToggle = !colorToggle;
+            }
+
+            builder.Append("</div>");
+            lineNumber++;
+        }
+
+        return builder;
+    }
+}

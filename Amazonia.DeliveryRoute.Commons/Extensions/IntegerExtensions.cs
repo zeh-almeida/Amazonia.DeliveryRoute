@@ -9,11 +9,6 @@ public static class IntegerExtensions
 {
     #region Constants
     /// <summary>
-    /// Number of letters, from A - Z
-    /// </summary>
-    private const int AlphabetLength = 26;
-
-    /// <summary>
     /// Minimum acceptable value for <see cref="AsColumnName(int)"/> extension
     /// </summary>
     private const int MinimumValue = 0;

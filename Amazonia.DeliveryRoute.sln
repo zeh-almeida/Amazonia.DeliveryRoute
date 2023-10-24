@@ -28,9 +28,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{6A973DE9-C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Unit.Amazonia.DeliveryRoute.GridMap", "Test.Unit.Amazonia.DeliveryRoute.GridMap\Test.Unit.Amazonia.DeliveryRoute.GridMap.csproj", "{2AC26B71-FCCE-435A-878C-625796BA8279}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Amazonia.DeliveryRoute.RouteCalculation", "Amazonia.DeliveryRoute.RouteCalculation\Amazonia.DeliveryRoute.RouteCalculation.csproj", "{0C745A65-42F4-4246-88BE-2FAAB87D37EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amazonia.DeliveryRoute.RouteCalculation", "Amazonia.DeliveryRoute.RouteCalculation\Amazonia.DeliveryRoute.RouteCalculation.csproj", "{0C745A65-42F4-4246-88BE-2FAAB87D37EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Unit.Amazonia.DeliveryRoute.RouteCalculation", "Test.Unit.Amazonia.DeliveryRoute.RouteCalculation\Test.Unit.Amazonia.DeliveryRoute.RouteCalculation.csproj", "{828F58D5-B6B6-4FD6-AC38-5924A2A12669}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Unit.Amazonia.DeliveryRoute.RouteCalculation", "Test.Unit.Amazonia.DeliveryRoute.RouteCalculation\Test.Unit.Amazonia.DeliveryRoute.RouteCalculation.csproj", "{828F58D5-B6B6-4FD6-AC38-5924A2A12669}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amazonia.DeliveryRoute.UserInterface", "Amazonia.DeliveryRoute.UserInterface\Amazonia.DeliveryRoute.UserInterface.csproj", "{9052EC01-2F4E-4720-B183-4787ACFEC241}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,6 +72,10 @@ Global
 		{828F58D5-B6B6-4FD6-AC38-5924A2A12669}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{828F58D5-B6B6-4FD6-AC38-5924A2A12669}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{828F58D5-B6B6-4FD6-AC38-5924A2A12669}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9052EC01-2F4E-4720-B183-4787ACFEC241}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9052EC01-2F4E-4720-B183-4787ACFEC241}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9052EC01-2F4E-4720-B183-4787ACFEC241}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9052EC01-2F4E-4720-B183-4787ACFEC241}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +89,7 @@ Global
 		{2AC26B71-FCCE-435A-878C-625796BA8279} = {6A973DE9-CBE4-48B3-99A0-ECEEC64479B9}
 		{0C745A65-42F4-4246-88BE-2FAAB87D37EE} = {78B24C14-AE98-4092-80A2-799DFCE629DB}
 		{828F58D5-B6B6-4FD6-AC38-5924A2A12669} = {6A973DE9-CBE4-48B3-99A0-ECEEC64479B9}
+		{9052EC01-2F4E-4720-B183-4787ACFEC241} = {78B24C14-AE98-4092-80A2-799DFCE629DB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {98A94929-5B2C-4803-B7C0-217A060B0AD9}
