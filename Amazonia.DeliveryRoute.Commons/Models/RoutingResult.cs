@@ -14,7 +14,7 @@ public sealed record RoutingResult<TValue>
     /// Path calculated to be the shortest
     /// </summary>
     [Required]
-    public IOrderedEnumerable<TValue> Path { get; init; }
+    public IEnumerable<TValue> Path { get; init; }
 
     /// <summary>
     /// Total distance between start and finish for the calculated route

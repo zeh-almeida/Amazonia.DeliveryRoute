@@ -1,4 +1,5 @@
-﻿using Amazonia.DeliveryRoute.Commons.Models;
+﻿using Amazonia.DeliveryRoute.Commons.Extensions;
+using Amazonia.DeliveryRoute.Commons.Models;
 using Amazonia.DeliveryRoute.GridMap.Models;
 using CommunityToolkit.Diagnostics;
 using Microsoft.Extensions.Logging;
@@ -159,7 +160,7 @@ public sealed partial record GridService
     /// <returns>parsed position</returns>
     private static Position ParsePosition(string value)
     {
-        var parts = PositionRegex().Match(value);
+        var parts = StringExtensions.AlphaNumericRegex().Match(value);
 
         return new Position
         {
@@ -167,13 +168,6 @@ public sealed partial record GridService
             Y = Convert.ToInt32(parts.Groups["Numeric"].Value),
         };
     }
-
-    [GeneratedRegex(
-    "(?<Alpha>[A-Z]*)(?<Numeric>[0-9]*)",
-    RegexOptions.CultureInvariant
-    | RegexOptions.Compiled
-    | RegexOptions.Singleline)]
-    private static partial Regex PositionRegex();
 }
 
 /// <summary>

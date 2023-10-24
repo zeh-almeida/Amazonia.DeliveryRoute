@@ -51,10 +51,37 @@ public static partial class StringExtensions
         return index - 1;
     }
 
+    /// <summary>
+    /// Splits the string into its alpha and numeric parts.
+    /// </summary>
+    /// <param name="value">Value to split</param>
+    /// <returns>Alpha and numeric parts of the original string</returns>
+    /// <exception cref="ArgumentException">Thrown if value is null or whitespaced</exception>
+    public static (string, int) AsCoordinates(this string value)
+    {
+        Guard.IsNotNullOrWhiteSpace(value);
+        var parts = AlphaNumericRegex().Match(value);
+
+        return 2.Equals(parts.Length)
+             ? ((string, int))(parts.Groups["Alpha"].Value, Convert.ToInt32(parts.Groups["Numeric"].Value))
+             : throw new ArgumentException($"'{value}' must be a coordinate such as 'A2', 'ZZ99', etc", nameof(value));
+    }
+
     [GeneratedRegex(
     ValidationPattern,
     RegexOptions.CultureInvariant
     | RegexOptions.Compiled
     | RegexOptions.Singleline)]
     private static partial Regex InputRegex();
+
+    /// <summary>
+    /// Splits the string into its alpha and numeric parts.
+    /// </summary>
+    /// <returns>"Alpha" and "Numeric" capture groups</returns>
+    [GeneratedRegex(
+    "(?<Alpha>[A-Z]*)(?<Numeric>[0-9]*)",
+    RegexOptions.CultureInvariant
+    | RegexOptions.Compiled
+    | RegexOptions.Singleline)]
+    public static partial Regex AlphaNumericRegex();
 }

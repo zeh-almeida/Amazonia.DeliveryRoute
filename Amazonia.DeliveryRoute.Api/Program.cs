@@ -58,13 +58,21 @@ static async Task CalculateRoute(HttpContext context, Position start, Position d
         destination,
         context.RequestAborted);
 
-    await context.Response.WriteAsJsonAsync(route, PathContext.Default.RoutingResultPosition, cancellationToken: context.RequestAborted);
+    await context.Response.WriteAsJsonAsync(route, ResultContext.Default.RoutingResultPosition, cancellationToken: context.RequestAborted);
 }
 
 /// <summary>
-/// Allows serialization of the Position Type on trimmed environments
+/// Allows serialization of the Response Model on trimmed environments
 /// </summary>
 [ExcludeFromCodeCoverage]
 [JsonSerializable(typeof(RoutingResult<Position>))]
-public partial class PathContext : JsonSerializerContext
+public partial class ResultContext : JsonSerializerContext
+{ }
+
+/// <summary>
+/// Allows serialization of the Request Model on trimmed environments
+/// </summary>
+[ExcludeFromCodeCoverage]
+[JsonSerializable(typeof(RoutingRequest<Position>))]
+public partial class RequestContext : JsonSerializerContext
 { }

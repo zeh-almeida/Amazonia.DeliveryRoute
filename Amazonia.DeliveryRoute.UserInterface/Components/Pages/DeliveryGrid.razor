@@ -4,11 +4,14 @@
 @using Amazonia.DeliveryRoute.Commons.Models
 @using Amazonia.DeliveryRoute.UserInterface.Models
 @using Microsoft.Extensions.Options
+@using System.Linq
 @using System.Text
+@using System.Text.Json
 
 @rendermode RenderMode.InteractiveServer
 
 @inject IOptions<DeliveryRouteOptions> Options
+@inject IHttpClientFactory ClientFactory
 
 <PageTitle>Delivery Grid</PageTitle>
 
@@ -51,21 +54,27 @@
             <div class="row mb-3">
                 <div class="col">
                     <div class="mb-3">
+                        <i class="fa-solid fa-play fa-rotate-270 fa-2x text-success align-middle"></i>
                         <label for="startPosition" class="form-label">Starting Point</label>
+
                         <input type="text" class="form-control" id="startPosition" disabled placeholder="-" value="@(this.SelectedStart)">
                     </div>
                 </div>
 
                 <div class="col">
                     <div class="mb-3">
+                        <i class="fa-solid fa-square fa-2x text-warning align-middle"></i>
                         <label for="pickupPosition" class="form-label">Pickup</label>
+
                         <input type="text" class="form-control" id="pickupPosition" disabled placeholder="-" value="@(this.SelectedPickup)">
                     </div>
                 </div>
 
                 <div class="col">
                     <div class="mb-3">
+                        <i class="fa-solid fa-circle fa-2x text-danger align-middle"></i>
                         <label for="destinationPosition" class="form-label">Destination</label>
+
                         <input type="text" class="form-control" id="destinationPosition" disabled placeholder="-" value="@(this.SelectedDestination)">
                     </div>
                 </div>
@@ -115,22 +124,22 @@
                                 var color = colorToggle ? "light" : "dark";
                                 colorToggle = !colorToggle;
 
-                                var itemId = $"{column.AsColumnName()}{row + 1}";
+                                var itemId = $"{row.AsColumnName()}{column + 1}";
 
                                 <div class="col align-self-center @color" id="@(itemId)" @onclick="args => SelectInterest(args, itemId)">
                                     @if (itemId.Equals(this.SelectedStart))
                                     {
-                                        <i class="fa-solid fa-play fa-rotate-270 text-success"></i>
+                                        <i class="fa-solid fa-play fa-rotate-270 fa-2xl text-success align-text-bottom"></i>
                                     }
 
                                     @if (itemId.Equals(this.SelectedPickup))
                                     {
-                                        <i class="fa-solid fa-square text-warning"></i>
+                                        <i class="fa-solid fa-square fa-2xl text-warning align-text-bottom"></i>
                                     }
 
                                     @if (itemId.Equals(this.SelectedDestination))
                                     {
-                                        <i class="fa-solid fa-circle text-danger"></i>
+                                        <i class="fa-solid fa-circle fa-2xl text-danger align-text-bottom"></i>
                                     }
                                 </div>
                             }
@@ -143,14 +152,48 @@
             </div>
         </div>
     </div>
+
+    <div class="row mt-5">
+        <h4>Previous Calculations</h4>
+
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Route Taken</th>
+                    <th scope="col">Total Distance</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in this.RoutingResults)
+                {
+                    <tr>
+                        <td>
+                            @foreach (var position in item.Path)
+                            {
+                                @if (!item.Path.First().Equals(position))
+                                {
+                                    <span class="mx-1"><i class="fa-solid fa-arrow-right"></i></span>
+                                }
+
+                                <span>
+                                    @position
+                                </span>
+                            }
+                        </td>
+
+                        <td>@item.TotalDistance</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 
 @code {
     private int GridWidth { get; set; }
 
     private int GridHeight { get; set; }
-
-    public RoutingRequest<Position>? Model { get; set; }
 
     public bool SelectStartPoint { get; set; }
 
@@ -164,10 +207,10 @@
 
     public string SelectedDestination { get; set; } = string.Empty;
 
+    public List<RoutingResult<Position>> RoutingResults { get; private set; } = [];
+
     protected override void OnInitialized()
     {
-        this.Model ??= new();
-
         this.GridHeight = Options.Value.GridHeight;
         this.GridWidth = Options.Value.GridWidth;
 
@@ -215,8 +258,18 @@
             || string.IsNullOrWhiteSpace(this.SelectedDestination);
     }
 
-    private void CalculateDistance()
+    private async Task CalculateDistance()
     {
+        var pickupRoute = await this.CalculateStartPickup();
+        var destinationRoute = await this.CalculatePickupDestination();
+
+        var finalRoute = new RoutingResult<Position>
+            {
+                TotalDistance = pickupRoute!.TotalDistance + destinationRoute!.TotalDistance,
+                Path = pickupRoute.Path.Concat(destinationRoute.Path.Skip(1)),
+            };
+
+        this.RoutingResults.Add(finalRoute);
         this.Reset();
     }
 
@@ -229,5 +282,66 @@
         this.SelectedStart = string.Empty;
         this.SelectedPickup = string.Empty;
         this.SelectedDestination = string.Empty;
+    }
+
+    private Task<RoutingResult<Position>?> CalculateStartPickup()
+    {
+        var startCoordinates = this.SelectedStart.AsCoordinates();
+        var destinationCoordinates = this.SelectedPickup.AsCoordinates();
+
+        var request = new RoutingRequest<Position>
+            {
+                StartPoint = new Position
+                {
+                    X = startCoordinates.Item1,
+                    Y = startCoordinates.Item2,
+                },
+
+                DestinationPoint = new Position
+                {
+                    X = destinationCoordinates.Item1,
+                    Y = destinationCoordinates.Item2,
+                },
+            };
+
+        return this.ExecuteCalculation(request);
+    }
+
+    private Task<RoutingResult<Position>?> CalculatePickupDestination()
+    {
+        var startCoordinates = this.SelectedPickup.AsCoordinates();
+        var destinationCoordinates = this.SelectedDestination.AsCoordinates();
+
+        var request = new RoutingRequest<Position>
+            {
+                StartPoint = new Position
+                {
+                    X = startCoordinates.Item1,
+                    Y = startCoordinates.Item2,
+                },
+
+                DestinationPoint = new Position
+                {
+                    X = destinationCoordinates.Item1,
+                    Y = destinationCoordinates.Item2,
+                },
+            };
+
+        return this.ExecuteCalculation(request);
+    }
+
+    private async Task<RoutingResult<Position>?> ExecuteCalculation(RoutingRequest<Position> request)
+    {
+        RoutingResult<Position>? result = null;
+        var client = this.ClientFactory.CreateClient("DeliveryRoute.Api");
+        var response = await client.PostAsJsonAsync("/api", request);
+
+        if (response.IsSuccessStatusCode)
+        {
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            result = await JsonSerializer.DeserializeAsync<RoutingResult<Position>>(responseStream, ResultContext.Default.RoutingResultPosition);
+        }
+
+        return result;
     }
 }
