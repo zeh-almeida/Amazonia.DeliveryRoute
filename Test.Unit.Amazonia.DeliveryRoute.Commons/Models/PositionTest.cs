@@ -58,6 +58,7 @@ public sealed record PositionTest
     [InlineData(6)]
     [InlineData(7)]
     [InlineData(8)]
+    [InlineData(int.MaxValue)]
     public void Position_Y_IsValid(int yValue)
     {
         var model = new Position
@@ -73,7 +74,6 @@ public sealed record PositionTest
     [Theory]
     [InlineData(0)]
     [InlineData(-1)]
-    [InlineData(9)]
     public void Position_Y_IsNotValid(int yValue)
     {
         var model = new Position

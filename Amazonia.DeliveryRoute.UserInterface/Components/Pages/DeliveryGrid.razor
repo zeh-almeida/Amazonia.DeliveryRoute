@@ -11,44 +11,136 @@
 @inject IOptions<DeliveryRouteOptions> Options
 
 <PageTitle>Delivery Grid</PageTitle>
-<h3>Delivery Grid</h3>
 
-<div class="container overflow-hidden text-center">
-    <div class="chess-board">
-        <div class="row align-items-center">
-            @for (int column = 0; column < this.GridWidth; column++)
-            {
-                @if (0.Equals(column))
-                {
-                    <div class="col"></div>
-                }
+<div class="container text-center w-75 mw-100">
+    <h3>Delivery Grid</h3>
 
-                <div class="col align-self-center">@(column.AsColumnName())</div>
-            }
+    <div class="row">
+        <div class="col-4">
+            <div class="row mb-3">
+                <div class="btn-group" role="group">
+                    <input type="checkbox"
+                           class="btn-check"
+                           id="btncheck1"
+                           autocomplete="off"
+                           unchecked
+                           @bind="SelectStartPoint"
+                           @onclick="OnSelectStartPoint">
+                    <label class="btn btn-outline-success" for="btncheck1">Select Start Position</label>
 
-            @{
-                bool colorToggle = true;
-            }
+                    <input type="checkbox"
+                           class="btn-check"
+                           id="btncheck2"
+                           autocomplete="off"
+                           unchecked
+                           @bind="SelectPickupPoint"
+                           @onclick="OnSelectPickupPoint">
+                    <label class="btn btn-outline-warning" for="btncheck2">Select Pickup Point</label>
 
-            @for (int column = 0; column < this.GridWidth; column++)
-            {
+                    <input type="checkbox"
+                           class="btn-check"
+                           id="btncheck3"
+                           autocomplete="off"
+                           unchecked
+                           @bind="SelectDestinationPoint"
+                           @onclick="OnSelectDestinationPoint">
+                    <label class="btn btn-outline-danger" for="btncheck3">Select Destination</label>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col">
+                    <div class="mb-3">
+                        <label for="startPosition" class="form-label">Starting Point</label>
+                        <input type="text" class="form-control" id="startPosition" disabled placeholder="-" value="@(this.SelectedStart)">
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="mb-3">
+                        <label for="pickupPosition" class="form-label">Pickup</label>
+                        <input type="text" class="form-control" id="pickupPosition" disabled placeholder="-" value="@(this.SelectedPickup)">
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="mb-3">
+                        <label for="destinationPosition" class="form-label">Destination</label>
+                        <input type="text" class="form-control" id="destinationPosition" disabled placeholder="-" value="@(this.SelectedDestination)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <button type="button"
+                        class="btn btn-primary"
+                        disabled="@(this.PointsSelected())"
+                        @onclick="CalculateDistance">
+
+                    Calculate route
+                </button>
+            </div>
+        </div>
+
+        <div class="col-8">
+            <div class="col chess-board">
                 <div class="row align-items-center">
-
-                    @for (int row = 0; row < this.GridHeight; row++)
-                    {
-                        @if (0.Equals(row))
+                    <div class="row align-items-center">
+                        @for (int column = 0; column < this.GridWidth; column++)
                         {
-                            <div class="col align-self-center">@(column + 1)</div>
+                            @if (0.Equals(column))
+                            {
+                                <div class="col"></div>
+                            }
+
+                            <div class="col align-self-center">@(column.AsColumnName())</div>
                         }
+                    </div>
 
-                        var color = colorToggle ? "light" : "dark";
-                        var itemId = $"{column.AsColumnName()}{row}";
-
-                        <div class="col @color" id="@(itemId)"@onclick="args => SelectInterest(args, itemId)"></div>
+                    @{
+                        bool colorToggle = true;
                     }
 
+                    @for (int column = 0; column < this.GridWidth; column++)
+                    {
+                        <div class="row align-items-center">
+
+                            @for (int row = 0; row < this.GridHeight; row++)
+                            {
+                                @if (0.Equals(row))
+                                {
+                                    <div class="col align-self-center">@(column + 1)</div>
+                                }
+
+                                var color = colorToggle ? "light" : "dark";
+                                colorToggle = !colorToggle;
+
+                                var itemId = $"{column.AsColumnName()}{row + 1}";
+
+                                <div class="col align-self-center @color" id="@(itemId)" @onclick="args => SelectInterest(args, itemId)">
+                                    @if (itemId.Equals(this.SelectedStart))
+                                    {
+                                        <i class="fa-solid fa-play fa-rotate-270 text-success"></i>
+                                    }
+
+                                    @if (itemId.Equals(this.SelectedPickup))
+                                    {
+                                        <i class="fa-solid fa-square text-warning"></i>
+                                    }
+
+                                    @if (itemId.Equals(this.SelectedDestination))
+                                    {
+                                        <i class="fa-solid fa-circle text-danger"></i>
+                                    }
+                                </div>
+                            }
+                            @{
+                                colorToggle = !colorToggle;
+                            }
+                        </div>
+                    }
                 </div>
-            }
+            </div>
         </div>
     </div>
 </div>
@@ -60,20 +152,82 @@
 
     public DistanceRequest? Model { get; set; }
 
+    public bool SelectStartPoint { get; set; }
+
+    public bool SelectPickupPoint { get; set; }
+
+    public bool SelectDestinationPoint { get; set; }
+
+    public string SelectedStart { get; set; } = string.Empty;
+
+    public string SelectedPickup { get; set; } = string.Empty;
+
+    public string SelectedDestination { get; set; } = string.Empty;
+
     protected override void OnInitialized()
     {
         this.Model ??= new();
 
         this.GridHeight = Options.Value.GridHeight;
         this.GridWidth = Options.Value.GridWidth;
+
+        this.Reset();
     }
 
-    protected override void OnParametersSet()
+    private void OnSelectStartPoint()
     {
+        this.SelectPickupPoint = false;
+        this.SelectDestinationPoint = false;
+    }
+
+    private void OnSelectPickupPoint()
+    {
+        this.SelectStartPoint = false;
+        this.SelectDestinationPoint = false;
+    }
+
+    private void OnSelectDestinationPoint()
+    {
+        this.SelectStartPoint = false;
+        this.SelectPickupPoint = false;
     }
 
     private void SelectInterest(EventArgs args, string itemId)
     {
-        Console.WriteLine(itemId);
+        if (this.SelectStartPoint)
+        {
+            this.SelectedStart = itemId;
+        }
+        if (this.SelectPickupPoint)
+        {
+            this.SelectedPickup = itemId;
+        }
+        if (this.SelectDestinationPoint)
+        {
+            this.SelectedDestination = itemId;
+        }
+    }
+
+    private bool PointsSelected()
+    {
+        return string.IsNullOrWhiteSpace(this.SelectedStart)
+            || string.IsNullOrWhiteSpace(this.SelectedPickup)
+            || string.IsNullOrWhiteSpace(this.SelectedDestination);
+    }
+
+    private void CalculateDistance()
+    {
+        this.Reset();
+    }
+
+    private void Reset()
+    {
+        this.SelectStartPoint = false;
+        this.SelectPickupPoint = false;
+        this.SelectDestinationPoint = false;
+
+        this.SelectedStart = string.Empty;
+        this.SelectedPickup = string.Empty;
+        this.SelectedDestination = string.Empty;
     }
 }

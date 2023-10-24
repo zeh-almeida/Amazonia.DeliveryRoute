@@ -14,7 +14,7 @@ public sealed record Position
     /// <summary>
     /// Maximum value for <see cref="Position.Y"/>
     /// </summary>
-    public const int MaxY = 8;
+    public const int MaxY = int.MaxValue;
 
     /// <summary>
     /// Minimum value for <see cref="Position.Y"/>
