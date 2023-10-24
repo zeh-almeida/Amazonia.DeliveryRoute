@@ -5,19 +5,21 @@ namespace Amazonia.DeliveryRoute.Commons.Models;
 /// <summary>
 /// Denotes a request from the API to recover the distance between two points
 /// </summary>
-public sealed record DistanceRequest
+/// <typeparam name="TValue">Value reference of the request</typeparam>
+public sealed record RoutingRequest<TValue>
+    where TValue : class
 {
     #region Properties
     /// <summary>
-    /// Start <see cref="Position"/>
+    /// Start value
     /// </summary>
     [Required]
-    public Position StartPoint { get; set; }
+    public TValue StartPoint { get; set; }
 
     /// <summary>
-    /// Destination <see cref="Position"/>
+    /// Destination value
     /// </summary>
     [Required]
-    public Position DestinationPoint { get; set; }
+    public TValue DestinationPoint { get; set; }
     #endregion
 }

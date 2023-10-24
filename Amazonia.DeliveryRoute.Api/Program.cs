@@ -2,7 +2,6 @@ using Amazonia.DeliveryRoute.Commons.Models;
 using Amazonia.DeliveryRoute.GridMap;
 using Amazonia.DeliveryRoute.GridMap.Models;
 using Amazonia.DeliveryRoute.RouteCalculation;
-using Amazonia.DeliveryRoute.RouteCalculation.Models;
 using Microsoft.Extensions.Options;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
@@ -31,7 +30,7 @@ app.MapGet("/api/test", async context =>
 
 app.MapPost("/api", async context =>
 {
-    var positions = await context.Request.ReadFromJsonAsync<DistanceRequest>(cancellationToken: context.RequestAborted);
+    var positions = await context.Request.ReadFromJsonAsync<RoutingRequest<Position>>(cancellationToken: context.RequestAborted);
 
     if (positions is null)
     {

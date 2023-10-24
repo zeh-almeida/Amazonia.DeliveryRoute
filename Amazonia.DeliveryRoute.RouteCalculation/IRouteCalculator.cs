@@ -1,5 +1,4 @@
 ﻿using Amazonia.DeliveryRoute.Commons.Models;
-using Amazonia.DeliveryRoute.RouteCalculation.Models;
 
 namespace Amazonia.DeliveryRoute.RouteCalculation;
 

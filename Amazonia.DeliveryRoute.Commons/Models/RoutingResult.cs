@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Amazonia.DeliveryRoute.RouteCalculation.Models;
+namespace Amazonia.DeliveryRoute.Commons.Models;
 
 /// <summary>
-/// Result of the <see cref="IRouteCalculator{TValue}"/> service execution
+/// Result of the routing calculation between two points
 /// </summary>
 /// <typeparam name="TValue">Value reference of the result</typeparam>
 public sealed record RoutingResult<TValue>
