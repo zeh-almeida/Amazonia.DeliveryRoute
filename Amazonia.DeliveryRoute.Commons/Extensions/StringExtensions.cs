@@ -62,7 +62,7 @@ public static partial class StringExtensions
         Guard.IsNotNullOrWhiteSpace(value);
         var parts = AlphaNumericRegex().Match(value);
 
-        return 2.Equals(parts.Length)
+        return parts.Length >= 2
              ? ((string, int))(parts.Groups["Alpha"].Value, Convert.ToInt32(parts.Groups["Numeric"].Value))
              : throw new ArgumentException($"'{value}' must be a coordinate such as 'A2', 'ZZ99', etc", nameof(value));
     }
